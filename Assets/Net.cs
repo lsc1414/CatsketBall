@@ -11,7 +11,7 @@ public class Net : MonoBehaviour
 
 	private void OnTriggerExit2D(Collider2D other)
 	{
-		if (other.tag == "Player") gameManager.Score();
+		if (other.tag == "Player" && other.transform.position.y < transform.position.y) gameManager.Score();
 	}
 
 	private void Update()

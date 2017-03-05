@@ -8,11 +8,10 @@ public class GameManager : MonoBehaviour
 	public int score = 0;
 	public Text scoreText;
 	public Text timerText;
-	public Text menuText;
+	public Text highscoreText;
 
 	public GameObject menu;
 
-	public string endGameString = "Times up!";
 	public string startGameString = "Click To Begin";
 
 	public float startingTime = 60;
@@ -30,13 +29,12 @@ public class GameManager : MonoBehaviour
 			scoreText.text = "Score: " + score;
 			timerText.text = "" + timer;
 		}
-
-		menuText.text = !gameHasStarted ? startGameString : endGameString;
 	}
 
 	public void Score()
 	{
 		score++;
+		if (PlayerPrefs.GetInt("highscore") < score) PlayerPrefs.SetInt("highscore", score);
 	}
 
 	public void EndGame()
@@ -44,6 +42,8 @@ public class GameManager : MonoBehaviour
 		gameHasStarted = false;
 		timer = 0;
 		menu.SetActive(true);
+		int highscore = PlayerPrefs.GetInt("highscore");
+		if (highscore > 0) highscoreText.text = "Highscore: " + highscore;
 		//show the menu and restart everything
 	}
 
@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 		gameHasStarted=true;
 		timer = startingTime;
 		menu.SetActive(false);
+		score = 0;
 
 	}
 }
