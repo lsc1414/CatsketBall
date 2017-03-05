@@ -15,14 +15,12 @@ public class Ball : MonoBehaviour
 		touchpos.z=0;
 		
 		RB.AddForce((transform.position-touchpos)*power); // ensure everything is z=0
-		Debug.Log("Ball clicked");
-
 	}
 
 	private void Update()
 	{
 		RB.constraints = !GameManager.gameHasStarted ? RigidbodyConstraints2D.FreezeAll : RigidbodyConstraints2D.None;
-		transform.position=RB.transform.position;
+		transform.position=RB.transform.position - Vector3.forward; //ensuring onmousedown is called due to no z fightingalways
 		if (RB.velocity.magnitude > capSpeed) RB.velocity = RB.velocity.normalized*capSpeed;
 	}
 
