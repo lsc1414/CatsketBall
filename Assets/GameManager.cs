@@ -11,9 +11,6 @@ public class GameManager : MonoBehaviour
 	public Text highscoreText;
 
 	public GameObject menu;
-
-	public string startGameString = "Click To Begin";
-
 	public float startingTime = 60;
 
 	private float timer = 60;
@@ -27,7 +24,7 @@ public class GameManager : MonoBehaviour
 			if (timer <= 0f) EndGame();
 
 			scoreText.text = "Score: " + score;
-			timerText.text = "" + timer;
+			timerText.text = "" + (int) timer;
 		}
 	}
 

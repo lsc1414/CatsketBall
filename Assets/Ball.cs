@@ -19,6 +19,15 @@ public class Ball : MonoBehaviour
 		if (force.magnitude < minimumForce) force = force.normalized*minimumForce;
 		
 		RB.AddForce(force*forceMultiplier); // ensure everything is z=0
+		PlayHitSound();
+	}
+
+
+
+	public void PlayHitSound()
+	{
+		AudioSource AS = GetComponent<AudioSource>();
+		if(AS.enabled) AS.Play();
 	}
 
 	private void Update()
