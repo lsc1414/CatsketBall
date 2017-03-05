@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour 
 {
-	public float power =1f;
+	public float forceMultiplier =100f;
 	public Rigidbody2D RB;
 
 	public float capSpeed = 10f;
+	public float minimumForce = 1f;
 
 	private void OnMouseDown()
 	{
 		Vector3 touchpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		touchpos.z=0;
+
+		Vector3 force = transform.position-touchpos;
+		if (force.magnitude < minimumForce) force = force.normalized*minimumForce;
 		
-		RB.AddForce((transform.position-touchpos)*power); // ensure everything is z=0
+		RB.AddForce(force*forceMultiplier); // ensure everything is z=0
 	}
 
 	private void Update()
