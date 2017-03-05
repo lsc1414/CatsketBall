@@ -15,6 +15,7 @@ public class Ball : MonoBehaviour
 		touchpos.z=0;
 		
 		RB.AddForce((transform.position-touchpos)*power); // ensure everything is z=0
+		Debug.Log("Ball clicked");
 
 	}
 
