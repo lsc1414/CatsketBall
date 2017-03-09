@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 151412e4f2856824586175f7f8bf70df
+timeCreated: 1489098706
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Bauhaus
+  fontNames:
+  - Bauhaus
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

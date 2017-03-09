@@ -10,6 +10,15 @@ public class GameManager : MonoBehaviour
 	public Text timerText;
 	public Text highscoreText;
 
+	[System.Serializable]
+	public class TimeIncrement
+	{
+		public int scoreThreshold;
+		public float timeIncrement;
+	}
+
+	public TimeIncrement[] timeIncrements; // needs to be in order
+
 	public GameObject menu;
 	public float startingTime = 60;
 
@@ -31,7 +40,19 @@ public class GameManager : MonoBehaviour
 	public void Score()
 	{
 		score++;
+		timer+= GetTimeIncrement();
 		if (PlayerPrefs.GetInt("highscore") < score) PlayerPrefs.SetInt("highscore", score);
+	}
+
+	private float GetTimeIncrement()
+	{
+		for (int i =0; i< timeIncrements.Length-1; i++)
+			if (timeIncrements[i].scoreThreshold <= score && timeIncrements[i+1].scoreThreshold > score) return timeIncrements[i].timeIncrement;
+
+		if (timeIncrements.Length > 0)
+			return timeIncrements[timeIncrements.Length-1].timeIncrement;
+
+		else return 0f;
 	}
 
 	public void EndGame()
