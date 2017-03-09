@@ -16,6 +16,6 @@ public class Net : MonoBehaviour
 
 	private void Update()
 	{
-		netCollider.isTrigger = ballRigidbody.velocity.y < 0;
+		netCollider.isTrigger = ballRigidbody.velocity.y <= 0;
 	}
 }
