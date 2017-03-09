@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 151412e4f2856824586175f7f8bf70df
-timeCreated: 1489098706
+guid: b937358f9e6ce4007b7a3902b667b120
+timeCreated: 1489101422
 licenseType: Free
 TrueTypeFontImporter:
   serializedVersion: 4
@@ -9,9 +9,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Bauhaus
+  fontName: Bauhaus 93
   fontNames:
-  - Bauhaus
+  - Bauhaus 93
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
