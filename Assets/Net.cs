@@ -9,9 +9,22 @@ public class Net : MonoBehaviour
 
 	public Collider2D netCollider;
 
+	private bool isGoalPossible = false;
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.tag == "Player" && other.transform.position.y > transform.position.y)
+			isGoalPossible = true;
+	}
+
 	private void OnTriggerExit2D(Collider2D other)
 	{
-		if (other.tag == "Player" && other.transform.position.y < transform.position.y) gameManager.Score();
+		if (other.tag == "Player" && other.transform.position.y < transform.position.y) 
+		{
+			if (isGoalPossible) gameManager.Score();
+		}
+
+		isGoalPossible=false;
 	}
 
 	private void Update()
