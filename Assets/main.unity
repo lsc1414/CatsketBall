@@ -432,7 +432,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Score: 000'
+  m_Text: 'SCORE: 000'
 --- !u!1 &390095569
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +500,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Click To Play!
+  m_Text: TOUCH TO PLAY!
 --- !u!222 &390095572
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -541,7 +541,15 @@ MonoBehaviour:
   highscoreText: {fileID: 1567803822}
   timeIncrements:
   - scoreThreshold: 0
-    timeIncrement: 20
+    timeIncrement: 7
+  - scoreThreshold: 5
+    timeIncrement: 5
+  - scoreThreshold: 10
+    timeIncrement: 3
+  - scoreThreshold: 15
+    timeIncrement: 2
+  - scoreThreshold: 20
+    timeIncrement: 1
   menu: {fileID: 1484761346}
   startingTime: 30
 --- !u!4 &575229991
@@ -778,7 +786,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sound
+  m_Text: SOUND
 --- !u!222 &965941938
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1076,7 +1084,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1256693393}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.666, y: 1.045, z: 0}
+  m_LocalPosition: {x: 1, y: 0.5, z: 0}
   m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1095,7 +1103,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2.5599997
+  m_Radius: 1.99
 --- !u!50 &1256693397
 Rigidbody2D:
   serializedVersion: 4
