@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
 	public Text scoreText;
 	public Text timerText;
 	public Text highscoreText;
+	public Text muteText;
+
+	public delegate void StateChange();
+	public static event StateChange OnStart;
 
 	[System.Serializable]
 	public class TimeIncrement
@@ -32,9 +36,15 @@ public class GameManager : MonoBehaviour
 			timer-= Time.deltaTime;
 			if (timer <= 0f) EndGame();
 
-			scoreText.text = "Score: " + score;
+			scoreText.text = "SCORE: " + score;
 			timerText.text = "" + (int) timer;
 		}
+	}
+
+	public void Mute(bool b)
+	{
+		if (b) muteText.text = "MUTE" ;
+		else muteText.text = "UNMUTE";
 	}
 
 	public void Score()
@@ -72,5 +82,6 @@ public class GameManager : MonoBehaviour
 		menu.SetActive(false);
 		score = 0;
 
+		OnStart();
 	}
 }

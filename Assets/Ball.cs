@@ -10,6 +10,8 @@ public class Ball : MonoBehaviour
 	public float capSpeed = 10f;
 	public float minimumForce = 1f;
 
+	private Vector3 startPosition;
+
 	private void OnMouseDown()
 	{
 		Vector3 touchpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -22,7 +24,16 @@ public class Ball : MonoBehaviour
 		PlayHitSound();
 	}
 
+	public void Reset()
+	{
+		RB.transform.position = startPosition;
+	}
 
+	private void Start()
+	{
+		startPosition = RB.transform.position;
+		GameManager.OnStart+=Reset;
+	}
 
 	public void PlayHitSound()
 	{
