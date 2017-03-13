@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
 		timer = 0;
 		menu.SetActive(true);
 		int highscore = PlayerPrefs.GetInt("highscore");
-		if (highscore > 0) highscoreText.text = "Highscore: " + highscore;
+		if (highscore > 0) highscoreText.text = "HIGHSCORE: " + highscore;
 		//show the menu and restart everything
 	}
 
