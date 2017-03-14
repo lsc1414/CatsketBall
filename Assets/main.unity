@@ -546,11 +546,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e3d229ad6e94a4289862d562f592fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
   scoreText: {fileID: 201783392}
   timerText: {fileID: 871136707}
   highscoreText: {fileID: 1567803822}
-  muteText: {fileID: 0}
+  muteText: {fileID: 965941937}
+  menu: {fileID: 1484761346}
+  startingTime: 30
   timeIncrements:
   - scoreThreshold: 0
     timeIncrement: 7
@@ -562,8 +563,6 @@ MonoBehaviour:
     timeIncrement: 2
   - scoreThreshold: 20
     timeIncrement: 1
-  menu: {fileID: 1484761346}
-  startingTime: 30
 --- !u!4 &575229991
 Transform:
   m_ObjectHideFlags: 0

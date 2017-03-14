@@ -5,15 +5,6 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour 
 {
-	public int score = 0;
-	public Text scoreText;
-	public Text timerText;
-	public Text highscoreText;
-	public Text muteText;
-
-	public delegate void StateChange();
-	public static event StateChange OnStart;
-
 	[System.Serializable]
 	public class TimeIncrement
 	{
@@ -21,20 +12,36 @@ public class GameManager : MonoBehaviour
 		public float timeIncrement;
 	}
 
-	public TimeIncrement[] timeIncrements; // needs to be in order
-
-	public GameObject menu;
-	public float startingTime = 60;
-
-	private float timer = 60;
+	public delegate void GameEvent();
+	public static event GameEvent OnStart, OnTimeUp;
 	public static bool gameHasStarted = false;
+
+	[Header("UI")]
+	public Text scoreText;
+	public Text timerText;
+	public Text highscoreText;
+	public Text muteText;
+	public GameObject menu;
+
+	[Header("Config")]
+	public float startingTime = 30;
+	public TimeIncrement[] timeIncrements;
+
+	private float timer = 30;
+	private int score = 0;
+
+	private void Awake()
+	{
+		EndGame();
+		OnTimeUp+=ShowTimeUpUI;
+	}
 
 	public void Update()
 	{
 		if (gameHasStarted)
 		{
 			timer-= Time.deltaTime;
-			if (timer <= 0f) EndGame();
+			if (timer <= 0f) OnTimeUp();
 
 			scoreText.text = "SCORE: " + score;
 			timerText.text = "" + (int) timer;
@@ -56,6 +63,7 @@ public class GameManager : MonoBehaviour
 
 	private float GetTimeIncrement()
 	{
+		//sort these ffs
 		for (int i =0; i< timeIncrements.Length-1; i++)
 			if (timeIncrements[i].scoreThreshold <= score && timeIncrements[i+1].scoreThreshold > score) return timeIncrements[i].timeIncrement;
 
@@ -83,5 +91,10 @@ public class GameManager : MonoBehaviour
 		score = 0;
 
 		OnStart();
+	}
+
+	private void ShowTimeUpUI()
+	{
+		EndGame();
 	}
 }
