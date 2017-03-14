@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 163625024}
   - component: {fileID: 163625023}
   m_Layer: 5
-  m_Name: Sound
+  m_Name: Sound Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 201783391}
   - component: {fileID: 201783392}
   m_Layer: 5
-  m_Name: Score
+  m_Name: Score Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -455,7 +455,7 @@ GameObject:
   - component: {fileID: 390095572}
   - component: {fileID: 390095571}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Splash Screen Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -667,7 +667,7 @@ GameObject:
   - component: {fileID: 871136708}
   - component: {fileID: 871136707}
   m_Layer: 5
-  m_Name: Timer
+  m_Name: Timer Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -741,7 +741,7 @@ GameObject:
   - component: {fileID: 965941938}
   - component: {fileID: 965941937}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Sound Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1260,7 +1260,7 @@ GameObject:
   - component: {fileID: 1484761349}
   - component: {fileID: 1484761348}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Splash Screen Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1773,7 +1773,7 @@ GameObject:
   - component: {fileID: 1934433921}
   - component: {fileID: 1934433920}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Top Banner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1956,7 +1956,7 @@ GameObject:
   - component: {fileID: 2063296447}
   - component: {fileID: 2063296446}
   m_Layer: 5
-  m_Name: Menu
+  m_Name: Splash Screen Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
