@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour 
 {
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
 	public Text timerText;
 	public Text highscoreText;
 	public Text muteText;
-	public GameObject menu;
+	public GameObject splashScreen;
 
 	[Header("Config")]
 	public float startingTime = 30;
@@ -57,14 +58,15 @@ public class GameManager : MonoBehaviour
 	public void Score()
 	{
 		score++;
-		timer+= GetTimeIncrement();
+		timer+= GetTimeIncrementReward();
 		if (PlayerPrefs.GetInt("highscore") < score) PlayerPrefs.SetInt("highscore", score);
 	}
 
-	private float GetTimeIncrement()
+	private float GetTimeIncrementReward()
 	{
-		//sort these ffs
-		for (int i =0; i< timeIncrements.Length-1; i++)
+		Array.Sort(timeIncrements, (x,y) => x.scoreThreshold.CompareTo(y.scoreThreshold)); // make sure timeIncrements are ordered chronologically
+		
+		for (int i =0; i< timeIncrements.Length-1; i++) //could probably replace all of this with some better linq minby command
 			if (timeIncrements[i].scoreThreshold <= score && timeIncrements[i+1].scoreThreshold > score) return timeIncrements[i].timeIncrement;
 
 		if (timeIncrements.Length > 0)
@@ -77,17 +79,17 @@ public class GameManager : MonoBehaviour
 	{
 		gameHasStarted = false;
 		timer = 0;
-		menu.SetActive(true);
+		splashScreen.SetActive(true);
 		int highscore = PlayerPrefs.GetInt("highscore");
 		if (highscore > 0) highscoreText.text = "HIGHSCORE: " + highscore;
-		//show the menu and restart everything
+		//show the splashScreen and restart everything
 	}
 
 	public void StartGame()
 	{
 		gameHasStarted=true;
 		timer = startingTime;
-		menu.SetActive(false);
+		splashScreen.SetActive(false);
 		score = 0;
 
 		OnStart();
