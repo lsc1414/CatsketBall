@@ -17,6 +17,11 @@ public class Ball : MonoBehaviour {
 		transform.position = startPosition;
 	}
 
+	private void Start()
+	{
+		startPosition = transform.position;
+	}
+
 	public void PlayHitSound()
 	{
 		AudioSource AS = GetComponent<AudioSource>();

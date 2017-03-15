@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour 
 {
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	public delegate void GameEvent();
-	public static event GameEvent OnStart, OnTimeUp;
+	public static UnityEvent OnStart, OnTimeUp;
 	public static bool gameHasStarted = false;
 
 	[Header("UI")]
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		EndGame();
-		OnTimeUp+=ShowTimeUpUI;
+		OnTimeUp.AddListener(ShowTimeUpUI);
 	}
 
 	public void Update()
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
 		if (gameHasStarted)
 		{
 			timer-= Time.deltaTime;
-			if (timer <= 0f) OnTimeUp();
+			if (timer <= 0f) OnTimeUp.Invoke();
 
 			scoreText.text = "SCORE: " + score;
 			timerText.text = "" + (int) timer;
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
 		splashScreen.SetActive(false);
 		score = 0;
 
-		OnStart();
+		OnStart.Invoke();
 	}
 
 	private void ShowTimeUpUI()
