@@ -6,6 +6,7 @@ public class Ball : MonoBehaviour
 {
 	public float forceMultiplier =100f;
 	public Rigidbody2D RB;
+	public Controller controller;
 
 	public float capSpeed = 10f;
 	public float minimumForce = 1f;
@@ -14,14 +15,10 @@ public class Ball : MonoBehaviour
 
 	private void OnMouseDown()
 	{
-		Vector3 touchpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		touchpos.z=0;
-
-		Vector3 force = transform.position-touchpos;
-		if (force.magnitude < minimumForce) force = force.normalized*minimumForce;
-		
-		RB.AddForce(force*forceMultiplier); // ensure everything is z=0
-		PlayHitSound();
+		if (controller.enabled == true)
+		{
+			controller.Move();
+		}
 	}
 
 	public void Reset()
