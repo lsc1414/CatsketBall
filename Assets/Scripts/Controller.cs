@@ -16,6 +16,6 @@ public class Controller : MonoBehaviour{
 		if (force.magnitude < TR.minimumForce) force = force.normalized*TR.minimumForce;
 
 		TR.RB.AddForce(force*TR.forceMultiplier); // ensure everything is z=0
-		TR.PlayHitSound();
+		TR.ball.PlayHitSound();
 	}
 }

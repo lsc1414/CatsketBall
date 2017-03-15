@@ -7,6 +7,7 @@ public class TouchRadius : MonoBehaviour
 	public float forceMultiplier =100f;
 	public Rigidbody2D RB;
 	public Controller controller;
+	public Ball ball;
 
 	public float capSpeed = 10f;
 	public float minimumForce = 1f;
