@@ -21,12 +21,6 @@ public class TouchRadius : MonoBehaviour
 		}
 	}
 
-	public void PlayHitSound()
-	{
-		AudioSource AS = GetComponent<AudioSource>();
-		if(AS.enabled) AS.Play();
-	}
-
 	private void Update()
 	{
 		RB.constraints = !GameManager.gameHasStarted ? RigidbodyConstraints2D.FreezeAll : RigidbodyConstraints2D.None;

@@ -16,4 +16,10 @@ public class Ball : MonoBehaviour {
 	{
 		transform.position = startPosition;
 	}
+
+	public void PlayHitSound()
+	{
+		AudioSource AS = GetComponent<AudioSource>();
+		if(AS.enabled) AS.Play();
+	}
 }
