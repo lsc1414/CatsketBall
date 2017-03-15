@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour{
 
-	[SerializeField] private Ball ball;
+	[SerializeField] private TouchRadius TR;
 
 	public void Move()
 	{
 		Vector3 touchpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		touchpos.z=0;
 
-		Transform ballTrans = ball.transform;
-		Vector3 force = ballTrans.position-touchpos;
-		if (force.magnitude < ball.minimumForce) force = force.normalized*ball.minimumForce;
+		Transform TRTrans = TR.transform;
+		Vector3 force = TRTrans.position-touchpos;
+		if (force.magnitude < TR.minimumForce) force = force.normalized*TR.minimumForce;
 
-		ball.RB.AddForce(force*ball.forceMultiplier); // ensure everything is z=0
-		ball.PlayHitSound();
+		TR.RB.AddForce(force*TR.forceMultiplier); // ensure everything is z=0
+		TR.PlayHitSound();
 	}
 }
