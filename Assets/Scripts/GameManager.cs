@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
 	}
 
 	public delegate void GameEvent();
-	public static UnityEvent OnStart, OnTimeUp;
 	public static bool gameHasStarted = false;
 
 	[Header("UI")]
@@ -29,11 +28,16 @@ public class GameManager : MonoBehaviour
 	public float startingTime = 30;
 	public TimeIncrement[] timeIncrements;
 
+	[Header("Events")]
+	public UnityEvent OnStart;
+	public UnityEvent OnTimeUp;
 	private float timer = 30;
 	private int score = 0;
 
 	private void Awake()
 	{
+		if (OnStart == null) OnStart = new UnityEvent();
+		if (OnTimeUp == null) OnTimeUp = new UnityEvent();
 		EndGame();
 		OnTimeUp.AddListener(ShowTimeUpUI);
 	}
