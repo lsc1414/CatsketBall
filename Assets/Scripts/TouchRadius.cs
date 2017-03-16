@@ -16,7 +16,7 @@ public class TouchRadius : MonoBehaviour
 
 	private void OnMouseDown()
 	{
-		if (controller.enabled == true)
+		if (controller.gameObject.activeSelf == true)
 		{
 			controller.Move();
 		}
@@ -27,6 +27,16 @@ public class TouchRadius : MonoBehaviour
 		RB.constraints = !GameManager.gameHasStarted ? RigidbodyConstraints2D.FreezeAll : RigidbodyConstraints2D.None;
 		transform.position=RB.transform.position - Vector3.forward; //ensuring onmousedown is called due to no z fightingalways
 		if (RB.velocity.magnitude > capSpeed) RB.velocity = RB.velocity.normalized*capSpeed;
+	}
+
+	public void ActivateController()
+	{
+		controller.gameObject.SetActive(true);
+	}
+
+	public void DisableController()
+	{
+		controller.gameObject.SetActive(false);
 	}
 
 }

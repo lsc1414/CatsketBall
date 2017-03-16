@@ -16,12 +16,14 @@ public class GameManager : MonoBehaviour
 
 	public delegate void GameEvent();
 	public static bool gameHasStarted = false;
+	public static bool timeIsUp = false;
 
 	[Header("UI")]
 	public Text scoreText;
 	public Text timerText;
 	public Text highscoreText;
 	public Text muteText;
+	public GameObject timeUpText;
 	public GameObject splashScreen;
 
 	[Header("Config")]
@@ -84,6 +86,7 @@ public class GameManager : MonoBehaviour
 	{
 		gameHasStarted = false;
 		timer = 0;
+		timeUpText.SetActive(false);
 		splashScreen.SetActive(true);
 		int highscore = PlayerPrefs.GetInt("highscore");
 		if (highscore > 0) highscoreText.text = "HIGHSCORE: " + highscore;
@@ -93,6 +96,7 @@ public class GameManager : MonoBehaviour
 	public void StartGame()
 	{
 		gameHasStarted=true;
+		timeIsUp = false;
 		timer = startingTime;
 		splashScreen.SetActive(false);
 		score = 0;
@@ -102,6 +106,7 @@ public class GameManager : MonoBehaviour
 
 	private void ShowTimeUpUI()
 	{
-		EndGame();
+		timeIsUp = true;
+		timeUpText.SetActive(true);
 	}
 }
