@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
 	public delegate void GameEvent();
 	public static bool gameHasStarted = false;
+	public static bool countDownIsActive = false;
 	public static bool timeIsUp = false;
 
 	[Header("UI")]
@@ -23,8 +24,12 @@ public class GameManager : MonoBehaviour
 	public Text timerText;
 	public Text highscoreText;
 	public Text muteText;
-	public GameObject timeUpText;
+	private Text timeUpText;
+	public GameObject timeUpTextObj;
 	public GameObject splashScreen;
+	public GameObject gameOverScreen;
+	public Text gameOverScoreText;
+	public Text gameOverHighScoreText;
 
 	[Header("Config")]
 	public float startingTime = 30;
@@ -40,15 +45,30 @@ public class GameManager : MonoBehaviour
 	{
 		if (OnStart == null) OnStart = new UnityEvent();
 		if (OnTimeUp == null) OnTimeUp = new UnityEvent();
+		timeUpText = timeUpTextObj.GetComponent<Text>();
 		EndGame();
+		gameOverScreen.SetActive(false);
 		OnTimeUp.AddListener(ShowTimeUpUI);
 	}
 
 	public void Update()
 	{
-		if (gameHasStarted)
+		if (gameHasStarted && timeIsUp == false)
 		{
 			timer-= Time.deltaTime;
+			if (timer < 4 && timer > 0)
+			{
+				ShowCountDownUI();
+				countDownIsActive = true;
+			}
+			else if (timer > 3)
+			{
+				if (timeUpTextObj.activeSelf)
+				{
+					countDownIsActive = false;
+					timeUpTextObj.SetActive(false);
+				}
+			}
 			if (timer <= 0f) OnTimeUp.Invoke();
 
 			scoreText.text = "SCORE: " + score;
@@ -82,14 +102,30 @@ public class GameManager : MonoBehaviour
 		else return 0f;
 	}
 
+	public void BeginWaitForGameEnd()
+	{
+		StartCoroutine("WaitToEndGame");
+	}
+
+	public IEnumerator WaitToEndGame()
+	{
+		yield return new WaitForSeconds(3F);
+		EndGame();
+	}
+
 	public void EndGame()
 	{
 		gameHasStarted = false;
 		timer = 0;
-		timeUpText.SetActive(false);
-		splashScreen.SetActive(true);
+		timeUpTextObj.SetActive(false);
+		gameOverScreen.SetActive(true);
+		//splashScreen.SetActive(true);
+		timerText.text = "";
 		int highscore = PlayerPrefs.GetInt("highscore");
 		if (highscore > 0) highscoreText.text = "HIGHSCORE: " + highscore;
+		gameOverScoreText.text = "YOUR SCORE: " + score;
+		gameOverHighScoreText.text = "HIGHSCORE: " + highscore;
+		StopAllCoroutines();
 		//show the splashScreen and restart everything
 	}
 
@@ -99,14 +135,22 @@ public class GameManager : MonoBehaviour
 		timeIsUp = false;
 		timer = startingTime;
 		splashScreen.SetActive(false);
+		gameOverScreen.SetActive(false);
 		score = 0;
 
 		OnStart.Invoke();
 	}
 
+	private void ShowCountDownUI()
+	{
+		timeUpTextObj.SetActive(true);
+		timeUpText.text = "" + (int) timer;
+	}
+
 	private void ShowTimeUpUI()
 	{
 		timeIsUp = true;
-		timeUpText.SetActive(true);
+		timeUpText.text = "TIMES UP";
+		timeUpTextObj.SetActive(true);
 	}
 }
