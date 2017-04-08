@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 	public GameObject timeUpTextObj;
 	public GameObject splashScreen;
 	public GameObject gameOverScreen;
+	public ScoreString scoreStringPrefab;
 
 	[Header("Level Renderers")]
 	public SpriteRenderer stadiumRenderer;
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
 	[Header("Events")]
 	public UnityEvent OnStart;
 	public UnityEvent OnTimeUp;
+	public UnityEvent OnScore;
 	private float timer = 30;
 	private int score = 0;
 
@@ -48,6 +50,8 @@ public class GameManager : MonoBehaviour
 
 		if (OnStart == null) OnStart = new UnityEvent();
 		if (OnTimeUp == null) OnTimeUp = new UnityEvent();
+		if (OnScore == null) OnScore = new UnityEvent();
+
 		timeUpText = timeUpTextObj.GetComponent<Text>();
 		EndGame();
 		gameOverScreen.SetActive(false);
@@ -87,9 +91,17 @@ public class GameManager : MonoBehaviour
 
 	public void Score()
 	{
+		OnScore.Invoke();
+		MakeScoreString(levelInfo.GetScoreString());
 		score++;
 		timer+= GetTimeIncrementReward();
 		if (PlayerPrefs.GetInt("highscore_" + levelInfo.levelName) < score) PlayerPrefs.SetInt("highscore_" + levelInfo.levelName, score);
+	}
+
+	private void MakeScoreString(string s)
+	{
+		ScoreString SS = Instantiate(scoreStringPrefab, ball.gameObject.transform.position - Vector3.forward, Quaternion.identity) as ScoreString;
+		SS.SetText(s);
 	}
 
 	private float GetTimeIncrementReward()

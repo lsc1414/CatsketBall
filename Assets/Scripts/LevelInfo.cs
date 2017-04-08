@@ -12,6 +12,7 @@ public class LevelInfo : ScriptableObject
     public float ballScale = 1f;
     public float netTranslateHeight = 0f;
     public float netWidthScale = 1f;
+    public string[] scoreStrings;
 
 	[System.Serializable]
 	public class TimeIncrement
@@ -57,5 +58,10 @@ public class LevelInfo : ScriptableObject
     	float newNetWidth = GM.net.localScale.x*netWidthScale;
 
     	GM.net.localScale = new Vector3( newNetWidth, GM.net.localScale.y, GM.net.localScale.z);
+    }
+
+    public string GetScoreString()
+    {
+    	return scoreStrings[Random.Range(0, scoreStrings.Length)];
     }
 }
