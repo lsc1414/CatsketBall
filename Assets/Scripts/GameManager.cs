@@ -14,19 +14,26 @@ public class GameManager : MonoBehaviour
 	
 	[Header("Level Info")]
 	public LevelInfo levelInfo;
+	public TouchRadius ballTouchRadius;
+	public Ball ball;
+	public Transform net;
 
 	[Header("UI")]
 	public Text scoreText;
 	public Text timerText;
 	public Text highscoreText;
 	public Text muteText;
+	public Text gameOverScoreText;
+	public Text gameOverHighScoreText;
 	private Text timeUpText;
 	public GameObject timeUpTextObj;
 	public GameObject splashScreen;
 	public GameObject gameOverScreen;
-	public Text gameOverScoreText;
-	public Text gameOverHighScoreText;
 
+	[Header("Level Renderers")]
+	public SpriteRenderer stadiumRenderer;
+	public SpriteRenderer ballRenderer;
+	public SpriteRenderer netRenderer;
 
 	[Header("Events")]
 	public UnityEvent OnStart;
@@ -37,6 +44,7 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		if (levelInfo==null) { Debug.LogError("No Levelinfo assigned to gamemanager - in project folder Create/Catsketball/Levelinfo"); Debug.Break(); }
+		levelInfo.ApplySettings(this);
 
 		if (OnStart == null) OnStart = new UnityEvent();
 		if (OnTimeUp == null) OnTimeUp = new UnityEvent();
@@ -81,7 +89,7 @@ public class GameManager : MonoBehaviour
 	{
 		score++;
 		timer+= GetTimeIncrementReward();
-		if (PlayerPrefs.GetInt("highscore") < score) PlayerPrefs.SetInt("highscore", score);
+		if (PlayerPrefs.GetInt("highscore_" + levelInfo.levelName) < score) PlayerPrefs.SetInt("highscore_" + levelInfo.levelName, score);
 	}
 
 	private float GetTimeIncrementReward()
@@ -116,7 +124,7 @@ public class GameManager : MonoBehaviour
 		gameOverScreen.SetActive(true);
 		//splashScreen.SetActive(true);
 		timerText.text = "";
-		int highscore = PlayerPrefs.GetInt("highscore");
+		int highscore = PlayerPrefs.GetInt("highscore_" + levelInfo.levelName);
 		if (highscore > 0) highscoreText.text = "HIGHSCORE: " + highscore;
 		gameOverScoreText.text = "YOUR SCORE: " + score;
 		gameOverHighScoreText.text = "HIGHSCORE: " + highscore;
