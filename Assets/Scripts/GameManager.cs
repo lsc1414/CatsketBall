@@ -7,17 +7,13 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour 
 {
-	[System.Serializable]
-	public class TimeIncrement
-	{
-		public int scoreThreshold;
-		public float timeIncrement;
-	}
-
 	public delegate void GameEvent();
 	public static bool gameHasStarted = false;
 	public static bool countDownIsActive = false;
 	public static bool timeIsUp = false;
+	
+	[Header("Level Info")]
+	public LevelInfo levelInfo;
 
 	[Header("UI")]
 	public Text scoreText;
@@ -31,9 +27,6 @@ public class GameManager : MonoBehaviour
 	public Text gameOverScoreText;
 	public Text gameOverHighScoreText;
 
-	[Header("Config")]
-	public float startingTime = 30;
-	public TimeIncrement[] timeIncrements;
 
 	[Header("Events")]
 	public UnityEvent OnStart;
@@ -43,6 +36,8 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
+		if (levelInfo==null) { Debug.LogError("No Levelinfo assigned to gamemanager - in project folder Create/Catsketball/Levelinfo"); Debug.Break(); }
+
 		if (OnStart == null) OnStart = new UnityEvent();
 		if (OnTimeUp == null) OnTimeUp = new UnityEvent();
 		timeUpText = timeUpTextObj.GetComponent<Text>();
@@ -91,13 +86,13 @@ public class GameManager : MonoBehaviour
 
 	private float GetTimeIncrementReward()
 	{
-		Array.Sort(timeIncrements, (x,y) => x.scoreThreshold.CompareTo(y.scoreThreshold)); // make sure timeIncrements are ordered chronologically
+		Array.Sort(levelInfo.timeIncrements, (x,y) => x.scoreThreshold.CompareTo(y.scoreThreshold)); // make sure levelInfo.timeIncrements are ordered chronologically
 		
-		for (int i =0; i< timeIncrements.Length-1; i++) //could probably replace all of this with some better linq minby command
-			if (timeIncrements[i].scoreThreshold <= score && timeIncrements[i+1].scoreThreshold > score) return timeIncrements[i].timeIncrement;
+		for (int i =0; i< levelInfo.timeIncrements.Length-1; i++) //could probably replace all of this with some better linq minby command
+			if (levelInfo.timeIncrements[i].scoreThreshold <= score && levelInfo.timeIncrements[i+1].scoreThreshold > score) return levelInfo.timeIncrements[i].timeIncrement;
 
-		if (timeIncrements.Length > 0)
-			return timeIncrements[timeIncrements.Length-1].timeIncrement;
+		if (levelInfo.timeIncrements.Length > 0)
+			return levelInfo.timeIncrements[levelInfo.timeIncrements.Length-1].timeIncrement;
 
 		else return 0f;
 	}
@@ -133,7 +128,7 @@ public class GameManager : MonoBehaviour
 	{
 		gameHasStarted=true;
 		timeIsUp = false;
-		timer = startingTime;
+		timer = levelInfo.startingTime;
 		splashScreen.SetActive(false);
 		gameOverScreen.SetActive(false);
 		score = 0;
