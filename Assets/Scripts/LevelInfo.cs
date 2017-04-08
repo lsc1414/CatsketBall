@@ -56,7 +56,6 @@ public class LevelInfo : ScriptableObject
 
     	float newNetWidth = GM.net.localScale.x*netWidthScale;
 
-    	GM.net.position+= new Vector3((newNetWidth-GM.net.localScale.x)/2f, 0f,0f);
-    	GM.net.localScale = new Vector3( GM.net.localScale.x*netWidthScale, GM.net.localScale.y, GM.net.localScale.z);
+    	GM.net.localScale = new Vector3( newNetWidth, GM.net.localScale.y, GM.net.localScale.z);
     }
 }

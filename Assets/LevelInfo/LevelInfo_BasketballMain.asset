@@ -11,12 +11,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02534a7d19e92b24f89dc5f2ce78a224, type: 3}
   m_Name: LevelInfo_BasketballMain
   m_EditorClassIdentifier: 
+  levelName: basketballmain
+  ballScale: 1
+  netTranslateHeight: 0
+  netWidthScale: 1.1
   startingTime: 30
-  timeIncrements: []
-  backgroundTexture: {fileID: 0}
-  ballTexture: {fileID: 0}
-  netTexture: {fileID: 0}
-  gravity: {x: 0, y: 0, z: 0}
-  forceMultiplier: 0
-  capSpeed: 0
-  minimumForce: 0
+  timeIncrements:
+  - scoreThreshold: 0
+    timeIncrement: 7
+  - scoreThreshold: 5
+    timeIncrement: 5
+  - scoreThreshold: 10
+    timeIncrement: 3
+  - scoreThreshold: 15
+    timeIncrement: 2
+  - scoreThreshold: 20
+    timeIncrement: 1
+  stadiumSprite: {fileID: 21300000, guid: 75b47c2edd436ff46a40ad0372b3a4ef, type: 3}
+  ballSprite: {fileID: 21300000, guid: 5ef7088f7607db749be25a9b890db2a2, type: 3}
+  netSprite: {fileID: 21300000, guid: 893e5c1203aae40999ed4d9304caaf6c, type: 3}
+  gravity: {x: 0, y: -9.81}
+  forceMultiplier: 300
+  capSpeed: 10
+  minimumForce: 2
