@@ -683,9 +683,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e3d229ad6e94a4289862d562f592fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelInfo: {fileID: 11400000, guid: 9e34d78526ad049da91466e5102ebcee, type: 2}
+  levelInfo: {fileID: 11400000, guid: dc1505445e240439b81a7b7a2f5d1d54, type: 2}
   ballTouchRadius: {fileID: 1806647001}
-  ball: {fileID: 0}
+  ball: {fileID: 1943394196}
   net: {fileID: 1975340227}
   scoreText: {fileID: 201783392}
   timerText: {fileID: 871136707}
@@ -849,40 +849,44 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4276613784473306, guid: 6113455aa1c0a40e984d8583fbb77170, type: 2}
+    - target: {fileID: 4065872353333416, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4276613784473306, guid: 6113455aa1c0a40e984d8583fbb77170, type: 2}
+    - target: {fileID: 4065872353333416, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4276613784473306, guid: 6113455aa1c0a40e984d8583fbb77170, type: 2}
+    - target: {fileID: 4065872353333416, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4276613784473306, guid: 6113455aa1c0a40e984d8583fbb77170, type: 2}
+    - target: {fileID: 4065872353333416, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4276613784473306, guid: 6113455aa1c0a40e984d8583fbb77170, type: 2}
+    - target: {fileID: 4065872353333416, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4276613784473306, guid: 6113455aa1c0a40e984d8583fbb77170, type: 2}
+    - target: {fileID: 4065872353333416, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4276613784473306, guid: 6113455aa1c0a40e984d8583fbb77170, type: 2}
+    - target: {fileID: 4065872353333416, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4276613784473306, guid: 6113455aa1c0a40e984d8583fbb77170, type: 2}
+    - target: {fileID: 4065872353333416, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1323685471249062, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
+      propertyPath: m_Name
+      value: BasketBall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 6113455aa1c0a40e984d8583fbb77170, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &700643412
 GameObject:
@@ -5528,6 +5532,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1934433918}
+--- !u!114 &1943394196 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114853674670659508, guid: 6047cd624519a40818a4c37df9def6d8,
+    type: 2}
+  m_PrefabInternal: {fileID: 660336815}
+  m_Script: {fileID: 11500000, guid: a1905c308c7e84e309fa823645dd5a05, type: 3}
 --- !u!1 &1975340226
 GameObject:
   m_ObjectHideFlags: 0

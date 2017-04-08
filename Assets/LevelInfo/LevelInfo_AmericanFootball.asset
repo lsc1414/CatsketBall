@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02534a7d19e92b24f89dc5f2ce78a224, type: 3}
+  m_Name: LevelInfo_AmericanFootball
+  m_EditorClassIdentifier: 
+  levelName: AmericanFootball
+  netTranslateHeight: 0
+  netWidthScale: 1
+  scoreStrings:
+  - PURRR-FECT!
+  - FAN-CAT-STIC!
+  - MEOW!
+  - GOOD! GOOD! GOOD!
+  startingTime: 30
+  timeIncrements:
+  - scoreThreshold: 0
+    timeIncrement: 7
+  - scoreThreshold: 5
+    timeIncrement: 5
+  - scoreThreshold: 10
+    timeIncrement: 3
+  - scoreThreshold: 15
+    timeIncrement: 2
+  - scoreThreshold: 20
+    timeIncrement: 1
+  stadiumSprite: {fileID: 21300000, guid: b0c93f78204ca4878b34b34451f5596f, type: 3}
+  ball: {fileID: 1323685471249062, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
+  netSprite: {fileID: 21300000, guid: 893e5c1203aae40999ed4d9304caaf6c, type: 3}

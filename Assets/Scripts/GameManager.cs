@@ -124,12 +124,14 @@ public class GameManager : MonoBehaviour
 
 	public IEnumerator WaitToEndGame()
 	{
+		Debug.Log("Waiting to End");
 		yield return new WaitForSeconds(3F);
 		EndGame();
 	}
 
 	public void EndGame()
 	{
+		Debug.Log("Game ended");
 		gameHasStarted = false;
 		timer = 0;
 		timeUpTextObj.SetActive(false);
