@@ -31,7 +31,10 @@ public class LevelInfo : ScriptableObject
     public Sprite netSprite;
 
     [Header("Physics")]
-    public Vector2 gravity;
+    public float ballMass = 1;
+    public float ballLinearDrag = 0.1f;
+    public float ballGravityScale = 1f;
+    public float ballAngularDrag = 0.05f;
     public float forceMultiplier = 300f;
     public float capSpeed = 10f;
     public float minimumForce = 2f;
@@ -41,13 +44,15 @@ public class LevelInfo : ScriptableObject
     {
     	if (GM.ball == null) { Debug.LogError("Touch radius not assigned to gamemanager"); Debug.Break(); }
 
-    	Physics2D.gravity = gravity;
-    	//bounce settings etc
-
     	GM.ballTouchRadius.forceMultiplier = forceMultiplier;
     	GM.ballTouchRadius.capSpeed = capSpeed;
     	GM.ballTouchRadius.minimumForce = minimumForce;
+    	
     	GM.ball.gameObject.transform.localScale*=ballScale;
+    	GM.ball.GetComponent<Rigidbody2D>().mass = ballMass;
+    	GM.ball.GetComponent<Rigidbody2D>().drag = ballLinearDrag;
+    	GM.ball.GetComponent<Rigidbody2D>().angularDrag = ballAngularDrag;
+    	GM.ball.GetComponent<Rigidbody2D>().gravityScale = ballGravityScale;
 
     	GM.stadiumRenderer.sprite = stadiumSprite;
     	GM.ballRenderer.sprite = ballSprite;
