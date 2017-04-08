@@ -39,5 +39,11 @@ public class TouchRadius : MonoBehaviour
 		controller.gameObject.SetActive(false);
 	}
 
+	public void AssignBall()
+	{
+		ball = GameObject.FindObjectOfType<Ball>();
+		RB = ball.GetComponent<Rigidbody2D>();
+	}
+
 }
 

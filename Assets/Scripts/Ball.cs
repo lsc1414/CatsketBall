@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Ball : MonoBehaviour {
 
 	private Vector3 startPosition;
+	public float touchRadiusScale;
 	public UnityEvent OnFinalBounce;
 
 	public void Reset()

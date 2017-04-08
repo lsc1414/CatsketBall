@@ -31,4 +31,9 @@ public class Net : MonoBehaviour
 	{
 		netCollider.isTrigger = ballRigidbody.velocity.y <= 0;
 	}
+
+	public void AssignBall(GameObject ballObj)
+	{
+		ballRigidbody = ballObj.GetComponent<Rigidbody2D>();
+	}
 }

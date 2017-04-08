@@ -9,7 +9,6 @@ public class LevelInfo : ScriptableObject
 	[Header("Level Info")]
     [Tooltip("Needs to be different for each level to ensure highscores dont overlap")]
     public string levelName;
-    public float ballScale = 1f;
     public float netTranslateHeight = 0f;
     public float netWidthScale = 1f;
     public string[] scoreStrings;
@@ -25,37 +24,24 @@ public class LevelInfo : ScriptableObject
 	public float startingTime = 30;
 	public TimeIncrement[] timeIncrements;
 
-	[Header("Level Graphics")]
+	[Header("Level Resources")]
     public Sprite stadiumSprite;
-    public Sprite ballSprite;
+    public GameObject ball;
     public Sprite netSprite;
-
-    [Header("Physics")]
-    public float ballMass = 1;
-    public float ballLinearDrag = 0.1f;
-    public float ballGravityScale = 1f;
-    public float ballAngularDrag = 0.05f;
-    public float forceMultiplier = 300f;
-    public float capSpeed = 10f;
-    public float minimumForce = 2f;
 
 
     public void ApplySettings(GameManager GM)
     {
     	if (GM.ball == null) { Debug.LogError("Touch radius not assigned to gamemanager"); Debug.Break(); }
 
-    	GM.ballTouchRadius.forceMultiplier = forceMultiplier;
-    	GM.ballTouchRadius.capSpeed = capSpeed;
-    	GM.ballTouchRadius.minimumForce = minimumForce;
-    	
-    	GM.ball.gameObject.transform.localScale*=ballScale;
-    	GM.ball.GetComponent<Rigidbody2D>().mass = ballMass;
-    	GM.ball.GetComponent<Rigidbody2D>().drag = ballLinearDrag;
-    	GM.ball.GetComponent<Rigidbody2D>().angularDrag = ballAngularDrag;
-    	GM.ball.GetComponent<Rigidbody2D>().gravityScale = ballGravityScale;
-
     	GM.stadiumRenderer.sprite = stadiumSprite;
-    	GM.ballRenderer.sprite = ballSprite;
+		GameObject oldBall = GM.ball.gameObject;
+		GameObject ballObj = Instantiate(ball, new Vector3 (0, 0, 0), ball.transform.rotation);
+		GM.ballTouchRadius.ball = ballObj.GetComponent<Ball>();
+		GM.ballTouchRadius.AssignBall();
+		GM.net.GetComponentInChildren<Net>().AssignBall(ballObj);
+		Destroy(oldBall);
+
     	GM.netRenderer.sprite = netSprite;
 
     	GM.net.position+= new Vector3(0f, netTranslateHeight, 0f);

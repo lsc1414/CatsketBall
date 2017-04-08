@@ -9,12 +9,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02534a7d19e92b24f89dc5f2ce78a224, type: 3}
-  m_Name: LevelInfo_BasketballMain
+  m_Name: LevelInfo_Tennis
   m_EditorClassIdentifier: 
-  levelName: basketballmain
-  ballScale: 1
+  levelName: Tennis
   netTranslateHeight: 0
-  netWidthScale: 1.1
+  netWidthScale: 1
   scoreStrings:
   - PURRR-FECT!
   - FAN-CAT-STIC!
@@ -32,13 +31,6 @@ MonoBehaviour:
     timeIncrement: 2
   - scoreThreshold: 20
     timeIncrement: 1
-  stadiumSprite: {fileID: 21300000, guid: 2338c16276b8046cc95ab086295e0c74, type: 3}
-  ball: {fileID: 1510836273521378, guid: 6113455aa1c0a40e984d8583fbb77170, type: 2}
+  stadiumSprite: {fileID: 21300000, guid: b0c93f78204ca4878b34b34451f5596f, type: 3}
+  ball: {fileID: 1393680802778106, guid: 08ee64e39813c412fb73ea0fc64b964b, type: 2}
   netSprite: {fileID: 21300000, guid: 893e5c1203aae40999ed4d9304caaf6c, type: 3}
-  ballMass: 1
-  ballLinearDrag: 0.1
-  ballGravityScale: 1
-  ballAngularDrag: 0.05
-  forceMultiplier: 300
-  capSpeed: 10
-  minimumForce: 2
