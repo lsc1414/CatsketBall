@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4583918989075182}
   - component: {fileID: 23661420546203614}
   - component: {fileID: 102442576873258308}
+  - component: {fileID: 114153188878042768}
   m_Layer: 0
   m_Name: ScoreStringPrefab
   m_TagString: Untagged
@@ -54,7 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 2100000, guid: b937358f9e6ce4007b7a3902b667b120, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,12 +86,25 @@ TextMesh:
   m_CharacterSize: 0.01
   m_LineSpacing: 1
   m_Anchor: 4
-  m_Alignment: 1
+  m_Alignment: 0
   m_TabSize: 4
   m_FontSize: 258
   m_FontStyle: 0
   m_RichText: 1
-  m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Font: {fileID: 12800000, guid: b937358f9e6ce4007b7a3902b667b120, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &114153188878042768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444073138952552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f1ac6d52878b814cb2788d2e4d64862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 2
+  speed: 0.75

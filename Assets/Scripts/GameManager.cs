@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
 
 	private void MakeScoreString(string s)
 	{
-		ScoreString SS = Instantiate(scoreStringPrefab, ball.gameObject.transform.position - Vector3.forward, Quaternion.identity) as ScoreString;
+		ScoreString SS = Instantiate(scoreStringPrefab, net.position - Vector3.forward + Vector3.right, Quaternion.identity) as ScoreString;
 		SS.SetText(s);
 	}
 

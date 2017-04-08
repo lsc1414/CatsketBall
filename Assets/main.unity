@@ -218,12 +218,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 75b47c2edd436ff46a40ad0372b3a4ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2338c16276b8046cc95ab086295e0c74, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
 --- !u!4 &135121322
@@ -683,7 +683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e3d229ad6e94a4289862d562f592fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelInfo: {fileID: 11400000, guid: de9b5605395575b4a81142bc5a55cf92, type: 2}
+  levelInfo: {fileID: 11400000, guid: 6e6adf77bf7775346a494a50e4497b32, type: 2}
   ballTouchRadius: {fileID: 1806647001}
   ball: {fileID: 1256693395}
   net: {fileID: 1975340227}
@@ -696,6 +696,8 @@ MonoBehaviour:
   timeUpTextObj: {fileID: 1902276809}
   splashScreen: {fileID: 1484761346}
   gameOverScreen: {fileID: 1988359452}
+  scoreStringPrefab: {fileID: 114153188878042768, guid: fe6ee1d765c2a714385b9decbbfed21b,
+    type: 2}
   stadiumRenderer: {fileID: 135121321}
   ballRenderer: {fileID: 1256693398}
   netRenderer: {fileID: 1109715372}
@@ -740,6 +742,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnScore:
+    m_PersistentCalls:
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
 --- !u!4 &575229991
@@ -1828,7 +1835,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -167289629
+  randomSeed: -11321341
   InitialModule:
     serializedVersion: 3
     enabled: 1
