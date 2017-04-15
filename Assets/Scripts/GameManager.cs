@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 	public GameObject timeUpTextObj;
 	public GameObject splashScreen;
 	public GameObject gameOverScreen;
+	public GameObject levelSelectScreen;
 	public ScoreString scoreStringPrefab;
 
 	[Header("Level Renderers")]
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
 		timeUpText = timeUpTextObj.GetComponent<Text>();
 		EndGame();
 		gameOverScreen.SetActive(false);
+		levelSelectScreen.SetActive(false);
 		OnTimeUp.AddListener(ShowTimeUpUI);
 	}
 
@@ -153,6 +155,7 @@ public class GameManager : MonoBehaviour
 		timer = levelInfo.startingTime;
 		splashScreen.SetActive(false);
 		gameOverScreen.SetActive(false);
+		HideLevelSelectScreen();
 		score = 0;
 
 		OnStart.Invoke();
@@ -169,5 +172,15 @@ public class GameManager : MonoBehaviour
 		timeIsUp = true;
 		timeUpText.text = "TIMES UP";
 		timeUpTextObj.SetActive(true);
+	}
+
+	public void ShowLevelSelectScreen()
+	{
+		levelSelectScreen.SetActive(true);
+	}
+
+	public void HideLevelSelectScreen()
+	{
+		levelSelectScreen.SetActive(false);
 	}
 }
