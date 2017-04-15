@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02534a7d19e92b24f89dc5f2ce78a224, type: 3}
   m_Name: LevelInfo_Tennis
   m_EditorClassIdentifier: 
-  levelName: Tennis
+  levelName: TENNIS
   netTranslateHeight: 0
   netWidthScale: 1
   scoreStrings:
