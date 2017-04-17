@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 	public Text gameOverScoreText;
 	public Text gameOverHighScoreText;
 	private Text timeUpText;
+	public Text currentLevelText;
 	public GameObject timeUpTextObj;
 	public GameObject splashScreen;
 	public GameObject gameOverScreen;
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		if (levelInfo==null) { Debug.LogError("No Levelinfo assigned to gamemanager - in project folder Create/Catsketball/Levelinfo"); Debug.Break(); }
-		levelInfo.ApplySettings(this);
+		UpdateLevel(levelInfo);
 
 		if (OnStart == null) OnStart = new UnityEvent();
 		if (OnTimeUp == null) OnTimeUp = new UnityEvent();
@@ -177,10 +178,18 @@ public class GameManager : MonoBehaviour
 	public void ShowLevelSelectScreen()
 	{
 		levelSelectScreen.SetActive(true);
+		levelSelectScreen.GetComponent<LevelSelectScreen>().Display();
 	}
 
 	public void HideLevelSelectScreen()
 	{
 		levelSelectScreen.SetActive(false);
+	}
+
+	public void UpdateLevel(LevelInfo sentInfo)
+	{
+		levelInfo = sentInfo;
+		currentLevelText.text = "CURRENT LEVEL: " + levelInfo.levelName;
+		levelInfo.ApplySettings(this);
 	}
 }

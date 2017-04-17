@@ -1042,6 +1042,7 @@ MonoBehaviour:
   muteText: {fileID: 965941937}
   gameOverScoreText: {fileID: 218824521}
   gameOverHighScoreText: {fileID: 700643413}
+  currentLevelText: {fileID: 725291356}
   timeUpTextObj: {fileID: 1902276809}
   splashScreen: {fileID: 1484761346}
   gameOverScreen: {fileID: 1988359452}
@@ -1498,6 +1499,7 @@ GameObject:
   - component: {fileID: 798090067}
   - component: {fileID: 798090070}
   - component: {fileID: 798090069}
+  - component: {fileID: 798090068}
   m_Layer: 5
   m_Name: Level Select Screen
   m_TagString: Untagged
@@ -1526,6 +1528,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &798090068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 798090066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fdab7da84b774c54a0dbd057deab585, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelUIButtons:
+  - {fileID: 912612577}
+  - {fileID: 1448151351}
+  - {fileID: 1800755436}
+  - {fileID: 1224072055}
 --- !u!114 &798090069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1834,6 +1852,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 871887330}
+--- !u!114 &912612577 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114190459241461118, guid: 087b4380bc46b4a66b3a15b5b64737a6,
+    type: 2}
+  m_PrefabInternal: {fileID: 362121820}
+  m_Script: {fileID: 11500000, guid: 99012282e74d44fd99d38760d4176b04, type: 3}
 --- !u!1 &931591237
 GameObject:
   m_ObjectHideFlags: 0
@@ -2602,7 +2626,7 @@ Prefab:
     - target: {fileID: 114190459241461118, guid: 087b4380bc46b4a66b3a15b5b64737a6,
         type: 2}
       propertyPath: requiredScore
-      value: 30
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 114190459241461118, guid: 087b4380bc46b4a66b3a15b5b64737a6,
         type: 2}
@@ -2612,6 +2636,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 087b4380bc46b4a66b3a15b5b64737a6, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1224072055 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114190459241461118, guid: 087b4380bc46b4a66b3a15b5b64737a6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1460224235}
+  m_Script: {fileID: 11500000, guid: 99012282e74d44fd99d38760d4176b04, type: 3}
 --- !u!1 &1227368817
 GameObject:
   m_ObjectHideFlags: 0
@@ -6120,6 +6150,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 087b4380bc46b4a66b3a15b5b64737a6, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1448151351 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114190459241461118, guid: 087b4380bc46b4a66b3a15b5b64737a6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1223856217}
+  m_Script: {fileID: 11500000, guid: 99012282e74d44fd99d38760d4176b04, type: 3}
 --- !u!1001 &1460224235
 Prefab:
   m_ObjectHideFlags: 0
@@ -7018,6 +7054,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1763634985}
+--- !u!114 &1800755436 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114190459241461118, guid: 087b4380bc46b4a66b3a15b5b64737a6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1438022004}
+  m_Script: {fileID: 11500000, guid: 99012282e74d44fd99d38760d4176b04, type: 3}
 --- !u!1 &1806647000
 GameObject:
   m_ObjectHideFlags: 0

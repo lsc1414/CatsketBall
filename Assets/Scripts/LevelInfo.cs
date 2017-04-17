@@ -39,6 +39,7 @@ public class LevelInfo : ScriptableObject
 		GameObject ballObj = Instantiate(ball, new Vector3 (0, 0, 0), ball.transform.rotation);
 		GM.ballTouchRadius.ball = ballObj.GetComponent<Ball>();
 		ballObj.GetComponent<Ball>().OnFinalBounce.AddListener(GM.BeginWaitForGameEnd);
+		GM.ball = ballObj.GetComponent<Ball>();
 		GM.ballTouchRadius.AssignBall();
 		GM.net.GetComponentInChildren<Net>().AssignBall(ballObj);
 		Destroy(oldBall);

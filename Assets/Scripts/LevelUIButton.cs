@@ -20,7 +20,7 @@ public class LevelUIButton : MonoBehaviour {
 	public Color unlockedColour;
 	public Color lockedColour;
 
-	private void Awake()
+	public void Set()
 	{
 		levelImage.sprite = thisLevel.stadiumSprite;
 		levelNameText.text = thisLevel.levelName;
@@ -35,6 +35,15 @@ public class LevelUIButton : MonoBehaviour {
 			statusText.text = "LOCKED";
 			levelImage.color = lockedColour;
 			requiredScoreText.text = "SCORE " + requiredScore + " IN " + previousLevel.levelName + " TO UNLOCK";
+		}
+	}
+
+	public void OnClick()
+	{
+		Debug.Log("Clicked");
+		if (isUnlocked == true)
+		{
+			GameObject.FindObjectOfType<GameManager>().UpdateLevel(thisLevel);
 		}
 	}
 
