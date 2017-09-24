@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelSelectScreen : MonoBehaviour {
 
 	public LevelUIButton[] levelUIButtons;
+	public Text currentLevelText;
 
 	public void Display()
 	{

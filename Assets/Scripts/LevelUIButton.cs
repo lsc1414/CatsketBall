@@ -43,7 +43,8 @@ public class LevelUIButton : MonoBehaviour {
 		Debug.Log("Clicked");
 		if (isUnlocked == true)
 		{
-			GameObject.FindObjectOfType<GameManager>().UpdateLevel(thisLevel);
+			GameManager GM = GameObject.FindObjectOfType<GameManager>();
+			GM.UpdateLevel(thisLevel);
 		}
 	}
 

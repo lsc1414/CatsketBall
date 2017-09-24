@@ -191,5 +191,6 @@ public class GameManager : MonoBehaviour
 		levelInfo = sentInfo;
 		currentLevelText.text = "CURRENT LEVEL: " + levelInfo.levelName;
 		levelInfo.ApplySettings(this);
+		levelSelectScreen.GetComponent<LevelSelectScreen>().currentLevelText.text = "CURRENT LEVEL: " + levelInfo.levelName;
 	}
 }
