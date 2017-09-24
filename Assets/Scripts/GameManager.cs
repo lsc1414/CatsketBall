@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 	public GameObject gameOverScreen;
 	public GameObject levelSelectScreen;
 	public ScoreString scoreStringPrefab;
+	public ScoreString scoreString;
 
 	[Header("Level Renderers")]
 	public SpriteRenderer stadiumRenderer;
@@ -103,8 +104,8 @@ public class GameManager : MonoBehaviour
 
 	private void MakeScoreString(string s)
 	{
-		ScoreString SS = Instantiate(scoreStringPrefab, net.position - Vector3.forward + Vector3.right, Quaternion.identity) as ScoreString;
-		SS.SetText(s);
+		scoreString = Instantiate(scoreStringPrefab, net.position - Vector3.forward + Vector3.right, Quaternion.identity) as ScoreString;
+		scoreString.SetText(s);
 	}
 
 	private float GetTimeIncrementReward()
@@ -134,19 +135,33 @@ public class GameManager : MonoBehaviour
 
 	public void EndGame()
 	{
-		Debug.Log("Game ended");
-		gameHasStarted = false;
-		timer = 0;
 		timeUpTextObj.SetActive(false);
 		gameOverScreen.SetActive(true);
 		//splashScreen.SetActive(true);
-		timerText.text = "";
 		int highscore = PlayerPrefs.GetInt("highscore_" + levelInfo.levelName);
 		if (highscore > 0) highscoreText.text = "HIGHSCORE: " + highscore;
 		gameOverScoreText.text = "YOUR SCORE: " + score;
 		gameOverHighScoreText.text = "HIGHSCORE: " + highscore;
 		StopAllCoroutines();
+		ResetGameState();
 		//show the splashScreen and restart everything
+	}
+
+	public void CancelGame()
+	{
+		ResetGameState();
+		splashScreen.SetActive(true);
+		scoreText.text = "SCORE: 0";
+	}
+
+	private void ResetGameState()
+	{
+		Debug.Log("Game ended");
+		gameHasStarted = false;
+		timer = 0;
+		score = 0;
+		timerText.text = "";
+		if (scoreString != null) Destroy(scoreString.gameObject);
 	}
 
 	public void StartGame()
@@ -185,6 +200,16 @@ public class GameManager : MonoBehaviour
 	public void HideLevelSelectScreen()
 	{
 		levelSelectScreen.SetActive(false);
+	}
+
+	public void ShowExtrasScreen()
+	{
+		
+	}
+
+	public void HideExtrasScreen()
+	{
+		
 	}
 
 	public void UpdateLevel(LevelInfo sentInfo)
