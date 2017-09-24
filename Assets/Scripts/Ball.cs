@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Ball : MonoBehaviour {
 
-	[SerializeField] private Vector3 startPosition;
+	public Vector3 startPosition;
 	private Rigidbody2D rb;
 	public float touchRadiusScale;
 	public UnityEvent OnFinalBounce;

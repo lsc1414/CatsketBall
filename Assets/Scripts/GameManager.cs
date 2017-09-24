@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 	public TouchRadius ballTouchRadius;
 	public Ball ball;
 	public Transform net;
+	public PlayArea playArea;
 
 	[Header("UI")]
 	public Text scoreText;
@@ -189,6 +190,7 @@ public class GameManager : MonoBehaviour
 		gameOverScreen.SetActive(false);
 		HideLevelSelectScreen();
 		score = 0;
+		playArea.SetResetPosition(ball.startPosition);
 
 		if (OnStart == null) OnStart = new UnityEvent();
 		OnStart.Invoke();

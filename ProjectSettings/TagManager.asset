@@ -42,6 +42,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Stadium
+    uniqueID: 2703637387
+    locked: 0
+  - name: Net
+    uniqueID: 3680541869
+    locked: 0
   - name: TextMesh
     uniqueID: 1652322907
     locked: 0
