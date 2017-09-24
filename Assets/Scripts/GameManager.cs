@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 	public static bool gameHasStarted = false;
 	public static bool countDownIsActive = false;
 	public static bool timeIsUp = false;
+	private AudioSource[] audios;
 	
 	[Header("Level Info")]
 	public LevelInfo levelInfo;
@@ -89,8 +90,23 @@ public class GameManager : MonoBehaviour
 
 	public void Mute(bool b)
 	{
-		if (b) muteText.text = "MUTE" ;
-		else muteText.text = "UNMUTE";
+		audios = GameObject.FindObjectsOfType<AudioSource>();
+		if (b)
+		{
+			muteText.text = "MUTE" ;
+			foreach (AudioSource audio in audios)
+			{
+				audio.enabled = true;
+			}
+		}
+		else
+		{
+			muteText.text = "UNMUTE";
+			foreach (AudioSource audio in audios)
+			{
+				audio.enabled = false;
+			}
+		}
 	}
 
 	public void Score()
