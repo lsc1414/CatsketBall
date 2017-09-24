@@ -159,6 +159,7 @@ public class GameManager : MonoBehaviour
 		HideLevelSelectScreen();
 		score = 0;
 
+		if (OnStart == null) OnStart = new UnityEvent();
 		OnStart.Invoke();
 	}
 

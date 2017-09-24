@@ -5,7 +5,8 @@ using UnityEngine.Events;
 
 public class Ball : MonoBehaviour {
 
-	private Vector3 startPosition;
+	[SerializeField] private Vector3 startPosition;
+	private Rigidbody2D rb;
 	public float touchRadiusScale;
 	public UnityEvent OnFinalBounce;
 
@@ -14,10 +15,14 @@ public class Ball : MonoBehaviour {
 		transform.position = startPosition;
 	}
 
-	private void Start()
+	public void Start()
 	{
 		if (OnFinalBounce == null) OnFinalBounce = new UnityEvent();
-		startPosition = transform.position;
+		transform.position = startPosition;
+		if (rb == null) rb = GetComponent<Rigidbody2D>();
+		transform.rotation = new Quaternion();
+		rb.velocity = new Vector2(0, 0);
+		rb.angularVelocity = 0;
 	}
 
 	public void PlayHitSound()

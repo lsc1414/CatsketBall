@@ -26,7 +26,7 @@ public class LevelInfo : ScriptableObject
 
 	[Header("Level Resources")]
     public Sprite stadiumSprite;
-    public GameObject ball;
+    public GameObject ballPrefab;
     public Sprite netSprite;
 
 
@@ -36,10 +36,12 @@ public class LevelInfo : ScriptableObject
 
     	GM.stadiumRenderer.sprite = stadiumSprite;
 		GameObject oldBall = GM.ball.gameObject;
-		GameObject ballObj = Instantiate(ball, new Vector3 (0, 0, 0), ball.transform.rotation);
-		GM.ballTouchRadius.ball = ballObj.GetComponent<Ball>();
-		ballObj.GetComponent<Ball>().OnFinalBounce.AddListener(GM.BeginWaitForGameEnd);
-		GM.ball = ballObj.GetComponent<Ball>();
+		GameObject ballObj = Instantiate(ballPrefab, new Vector3 (0, 0, 0), ballPrefab.transform.rotation);
+		Ball ball = ballObj.GetComponent<Ball>();
+		GM.ballTouchRadius.ball = ball;
+		ball.OnFinalBounce.AddListener(GM.BeginWaitForGameEnd);
+		GM.OnStart.AddListener(ball.Start);
+		GM.ball = ball;
 		GM.ballTouchRadius.AssignBall();
 		GM.net.GetComponentInChildren<Net>().AssignBall(ballObj);
 		Destroy(oldBall);
