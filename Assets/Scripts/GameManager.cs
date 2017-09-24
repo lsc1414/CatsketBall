@@ -219,4 +219,11 @@ public class GameManager : MonoBehaviour
 		levelInfo.ApplySettings(this);
 		levelSelectScreen.GetComponent<LevelSelectScreen>().currentLevelText.text = "CURRENT LEVEL: " + levelInfo.levelName;
 	}
+
+	public void ReturnToSplashScreen()
+	{
+		splashScreen.SetActive(true);
+		levelSelectScreen.SetActive(false);
+		gameOverScreen.SetActive(false);
+	}
 }
