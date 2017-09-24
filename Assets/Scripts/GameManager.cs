@@ -179,6 +179,7 @@ public class GameManager : MonoBehaviour
 		score = 0;
 		timerText.text = "";
 		if (scoreString != null) Destroy(scoreString.gameObject);
+		timeUpText.gameObject.SetActive(false);
 	}
 
 	public void StartGame()
