@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 50465581065673834}
   - component: {fileID: 114871362143089548}
   - component: {fileID: 82229492020263752}
+  - component: {fileID: 66191475548660338}
   m_Layer: 0
   m_Name: GolfClub
   m_TagString: Player
@@ -354,7 +355,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.6
+  m_Mass: 0.4
   m_LinearDrag: 0.1
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -484,7 +485,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_UsedByComposite: 1
   m_Offset: {x: -0.30229616, y: -5.65754}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -509,7 +510,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_UsedByComposite: 1
   m_Offset: {x: -0.2976443, y: -5.653862}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -573,6 +574,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3366909, y: 8.861725}
   m_EdgeRadius: 0
+--- !u!66 &66191475548660338
+CompositeCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1804315482217580}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths: []
+  m_CompositePaths:
+    m_Paths: []
+  m_VertexDistance: 0.0005
 --- !u!82 &82229492020263752
 AudioSource:
   m_ObjectHideFlags: 1
@@ -664,6 +685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1905c308c7e84e309fa823645dd5a05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startPosition: {x: 0, y: 0, z: 0}
   touchRadiusScale: 0.768
   OnFinalBounce:
     m_PersistentCalls:
@@ -710,8 +732,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1440015821
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 92a6f79361a2e462eb6c51d29c7e00e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -721,3 +743,5 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0

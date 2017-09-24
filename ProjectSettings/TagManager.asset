@@ -45,6 +45,9 @@ TagManager:
   - name: Stadium
     uniqueID: 2703637387
     locked: 0
+  - name: Ball
+    uniqueID: 1440015821
+    locked: 0
   - name: Net
     uniqueID: 3680541869
     locked: 0

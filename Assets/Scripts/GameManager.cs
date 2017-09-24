@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 	public Text timerText;
 	public Text highscoreText;
 	public Text muteText;
+	public Text muteShadowText;
 	public Text gameOverScoreText;
 	public Text gameOverHighScoreText;
 	private Text timeUpText;
@@ -35,6 +36,9 @@ public class GameManager : MonoBehaviour
 	public GameObject levelSelectScreen;
 	public ScoreString scoreStringPrefab;
 	public ScoreString scoreString;
+	public GameObject restartButton;
+	public GameObject homeButton;
+	public GameObject muteButton;
 
 	[Header("Level Renderers")]
 	public SpriteRenderer stadiumRenderer;
@@ -59,6 +63,7 @@ public class GameManager : MonoBehaviour
 
 		timeUpText = timeUpTextObj.GetComponent<Text>();
 		EndGame();
+		splashScreen.SetActive(true);
 		gameOverScreen.SetActive(false);
 		levelSelectScreen.SetActive(false);
 		OnTimeUp.AddListener(ShowTimeUpUI);
@@ -95,6 +100,7 @@ public class GameManager : MonoBehaviour
 		if (b)
 		{
 			muteText.text = "MUTE" ;
+			muteShadowText.text = "MUTE";
 			foreach (AudioSource audio in audios)
 			{
 				audio.enabled = true;
@@ -103,6 +109,7 @@ public class GameManager : MonoBehaviour
 		else
 		{
 			muteText.text = "UNMUTE";
+			muteShadowText.text = "UNMUTE";
 			foreach (AudioSource audio in audios)
 			{
 				audio.enabled = false;
@@ -178,6 +185,10 @@ public class GameManager : MonoBehaviour
 		timer = 0;
 		score = 0;
 		timerText.text = "";
+		restartButton.SetActive(false);
+		homeButton.SetActive(false);
+		scoreText.gameObject.SetActive(false);
+		timerText.gameObject.SetActive(false);
 		if (scoreString != null) Destroy(scoreString.gameObject);
 		timeUpText.gameObject.SetActive(false);
 	}
@@ -190,6 +201,10 @@ public class GameManager : MonoBehaviour
 		splashScreen.SetActive(false);
 		gameOverScreen.SetActive(false);
 		HideLevelSelectScreen();
+		restartButton.SetActive(true);
+		homeButton.SetActive(true);
+		scoreText.gameObject.SetActive(true);
+		timerText.gameObject.SetActive(true);
 		score = 0;
 		playArea.SetResetPosition(ball.startPosition);
 

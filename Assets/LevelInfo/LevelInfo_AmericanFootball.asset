@@ -31,6 +31,6 @@ MonoBehaviour:
     timeIncrement: 2
   - scoreThreshold: 20
     timeIncrement: 1
-  stadiumSprite: {fileID: 21300000, guid: 8e6d4911680b04f22b3aee77a1597d61, type: 3}
+  stadiumSprite: {fileID: 21300000, guid: 2dadf4b50d076453ab278fe67b443c16, type: 3}
   ballPrefab: {fileID: 1323685471249062, guid: 6047cd624519a40818a4c37df9def6d8, type: 2}
   netSprite: {fileID: 21300000, guid: 893e5c1203aae40999ed4d9304caaf6c, type: 3}

@@ -15,6 +15,7 @@ public class LevelUIButton : MonoBehaviour {
 	[Header("UI")]
 	public Image levelImage;
 	public Text levelNameText;
+	public Text levelNameTextShadow;
 	public Text statusText;
 	public Text requiredScoreText;
 	public Color unlockedColour;
@@ -24,6 +25,7 @@ public class LevelUIButton : MonoBehaviour {
 	{
 		levelImage.sprite = thisLevel.stadiumSprite;
 		levelNameText.text = thisLevel.levelName;
+		levelNameTextShadow.text = thisLevel.levelName;
 		if (isUnlocked)
 		{
 			statusText.text = "";
