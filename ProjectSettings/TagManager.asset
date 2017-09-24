@@ -42,6 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: TextMesh
+    uniqueID: 1652322907
+    locked: 0
   - name: Confetti
     uniqueID: 2794340659
     locked: 0

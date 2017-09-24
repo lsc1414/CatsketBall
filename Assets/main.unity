@@ -393,7 +393,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 575229992}
+      - m_Target: {fileID: 0}
         m_MethodName: set_enabled
         m_Mode: 0
         m_Arguments:
@@ -404,7 +404,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 0}
         m_MethodName: Mute
         m_Mode: 0
         m_Arguments:
@@ -944,7 +944,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 0}
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -1455,7 +1455,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 0}
         m_MethodName: ReturnToSplashScreen
         m_Mode: 1
         m_Arguments:
@@ -1889,7 +1889,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 0}
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -2164,7 +2164,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 0}
         m_MethodName: CancelGame
         m_Mode: 1
         m_Arguments:
@@ -2360,7 +2360,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 0}
         m_MethodName: ShowLevelSelectScreen
         m_Mode: 1
         m_Arguments:
@@ -3404,7 +3404,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1500626637
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -7260,7 +7260,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 0}
         m_MethodName: HideLevelSelectScreen
         m_Mode: 1
         m_Arguments:
@@ -7635,7 +7635,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 0}
         m_MethodName: ShowExtrasScreen
         m_Mode: 1
         m_Arguments:
@@ -7831,7 +7831,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 0}
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -8438,7 +8438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1988359453
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8666,7 +8666,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 0}
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -8864,7 +8864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e9d94e5f9abf9e4eb5ba6928c1a0da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 575229990}
+  gameManager: {fileID: 0}
   ballRigidbody: {fileID: 0}
   netCollider: {fileID: 2116596087}
 --- !u!50 &2116596089

@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
 
 	private void MakeScoreString(string s)
 	{
-		scoreString = Instantiate(scoreStringPrefab, net.position - Vector3.forward + Vector3.right, Quaternion.identity) as ScoreString;
+		scoreString = Instantiate(scoreStringPrefab, new Vector3 (0,0.2F,-2), Quaternion.identity) as ScoreString;
 		scoreString.SetText(s);
 	}
 
@@ -150,8 +150,8 @@ public class GameManager : MonoBehaviour
 	public void CancelGame()
 	{
 		ResetGameState();
-		splashScreen.SetActive(true);
 		scoreText.text = "SCORE: 0";
+		ReturnToSplashScreen();
 	}
 
 	private void ResetGameState()

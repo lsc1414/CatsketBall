@@ -9,6 +9,8 @@ public class ScoreString : MonoBehaviour
 
 	public void SetText(string s)
 	{
+		MeshRenderer rend = GetComponent<MeshRenderer>();
+		rend.sortingLayerName = "TextMesh";
 		GetComponent<TextMesh>().text = s;
 		Invoke("DelMe", timer);
 	}
