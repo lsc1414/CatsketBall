@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: LevelInfo_BasketballMain
   m_EditorClassIdentifier: 
   levelName: BASKET BALL
+  scoreToPass: 25
   netTranslateHeight: 0
   netWidthScale: 1.1
   scoreStrings:

@@ -7,10 +7,7 @@ public class LevelUIButton : MonoBehaviour {
 
 	[Header("Parameters")]
 	public LevelInfo thisLevel;
-	public LevelInfo previousLevel;
-	public int requiredScore;
 	public bool isUnlocked;
-
 
 	[Header("UI")]
 	public Image levelImage;
@@ -21,7 +18,7 @@ public class LevelUIButton : MonoBehaviour {
 	public Color unlockedColour;
 	public Color lockedColour;
 
-	public void Set()
+	public void Set(LevelInfo previousLevel)
 	{
 		levelImage.sprite = thisLevel.stadiumSprite;
 		levelNameText.text = thisLevel.levelName;
@@ -36,7 +33,7 @@ public class LevelUIButton : MonoBehaviour {
 		{
 			statusText.text = "LOCKED";
 			levelImage.color = lockedColour;
-			requiredScoreText.text = "SCORE " + requiredScore + " IN " + previousLevel.levelName + " TO UNLOCK";
+			requiredScoreText.text = "SCORE " + previousLevel.ScoreToPass + " IN " + previousLevel.levelName + " TO UNLOCK";
 		}
 	}
 

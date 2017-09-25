@@ -722,7 +722,7 @@ GameObject:
   - component: {fileID: 218824520}
   - component: {fileID: 218824521}
   m_Layer: 5
-  m_Name: GameOverScoreText
+  m_Name: ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1603,6 +1603,7 @@ GameObject:
   - component: {fileID: 575229990}
   - component: {fileID: 575229992}
   - component: {fileID: 575229993}
+  - component: {fileID: 575229994}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1621,29 +1622,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e3d229ad6e94a4289862d562f592fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 575229994}
+  extrasManager: {fileID: 575229993}
   levelInfo: {fileID: 11400000, guid: 6e6adf77bf7775346a494a50e4497b32, type: 2}
   ballTouchRadius: {fileID: 1806647001}
   ball: {fileID: 1396542824}
   net: {fileID: 1975340227}
   playArea: {fileID: 135121323}
-  scoreText: {fileID: 201783392}
-  timerText: {fileID: 871136707}
-  highscoreText: {fileID: 1567803822}
-  muteText: {fileID: 965941937}
-  muteShadowText: {fileID: 903231139}
-  gameOverScoreText: {fileID: 218824521}
-  gameOverHighScoreText: {fileID: 700643413}
-  currentLevelText: {fileID: 725291356}
-  timeUpTextObj: {fileID: 1902276809}
-  splashScreen: {fileID: 1484761346}
-  gameOverScreen: {fileID: 1988359452}
-  levelSelectScreen: {fileID: 798090066}
-  scoreStringPrefab: {fileID: 114153188878042768, guid: fe6ee1d765c2a714385b9decbbfed21b,
-    type: 2}
-  scoreString: {fileID: 0}
-  restartButton: {fileID: 826140477}
-  homeButton: {fileID: 846696166}
-  muteButton: {fileID: 163625021}
   stadiumRenderer: {fileID: 135121321}
   ballRenderer: {fileID: 0}
   netRenderer: {fileID: 1109715372}
@@ -1803,6 +1788,32 @@ MonoBehaviour:
   useGlasses3D: 0
   popCorn: {fileID: 1223760106}
   glasses3D: {fileID: 389568318}
+--- !u!114 &575229994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 575229989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5d2e905d7f94f3081429617e768172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 201783392}
+  timerText: {fileID: 871136707}
+  highscoreText: {fileID: 1567803822}
+  muteText: {fileID: 965941937}
+  muteTextShadow: {fileID: 903231139}
+  homeButton: {fileID: 846696166}
+  muteButton: {fileID: 163625021}
+  restartButton: {fileID: 826140477}
+  splashScreen: {fileID: 1484761350}
+  gameOverScreen: {fileID: 0}
+  levelSelectScreen: {fileID: 798090066}
+  timeUpTextObj: {fileID: 1902276809}
+  scoreStringPrefab: {fileID: 114153188878042768, guid: fe6ee1d765c2a714385b9decbbfed21b,
+    type: 2}
+  scoreString: {fileID: 0}
 --- !u!1 &625971877
 GameObject:
   m_ObjectHideFlags: 0
@@ -2086,7 +2097,7 @@ GameObject:
   - component: {fileID: 700643414}
   - component: {fileID: 700643413}
   m_Layer: 5
-  m_Name: GameOverHighScoreText
+  m_Name: HighScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2160,7 +2171,7 @@ GameObject:
   - component: {fileID: 725291357}
   - component: {fileID: 725291356}
   m_Layer: 5
-  m_Name: Text
+  m_Name: CurrentLevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3040,7 +3051,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 575229990}
+      - m_Target: {fileID: 575229994}
         m_MethodName: ShowLevelSelectScreen
         m_Mode: 1
         m_Arguments:
@@ -8315,8 +8326,9 @@ GameObject:
   - component: {fileID: 1484761347}
   - component: {fileID: 1484761349}
   - component: {fileID: 1484761348}
+  - component: {fileID: 1484761350}
   m_Layer: 5
-  m_Name: Splash Screen Background
+  m_Name: SplashScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8376,6 +8388,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1484761346}
+--- !u!114 &1484761350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1484761346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71c1a0ffcda1423a8c61af5e1de20b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevelText: {fileID: 725291356}
 --- !u!1 &1485510430
 GameObject:
   m_ObjectHideFlags: 0
@@ -8590,7 +8614,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 'HIGHSCORE: '
 --- !u!1 &1580500629
 GameObject:
   m_ObjectHideFlags: 0
@@ -9826,6 +9850,7 @@ GameObject:
   - component: {fileID: 1988359453}
   - component: {fileID: 1988359455}
   - component: {fileID: 1988359454}
+  - component: {fileID: 1988359456}
   m_Layer: 5
   m_Name: Game Over Screen
   m_TagString: Untagged
@@ -9887,6 +9912,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1988359452}
+--- !u!114 &1988359456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1988359452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cd90bc3295bd4c05a30bf73e5be7dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 218824521}
+  highScoreText: {fileID: 700643413}
 --- !u!1 &2023614243
 GameObject:
   m_ObjectHideFlags: 0

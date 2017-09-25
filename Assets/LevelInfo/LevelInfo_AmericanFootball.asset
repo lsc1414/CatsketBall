@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: LevelInfo_AmericanFootball
   m_EditorClassIdentifier: 
   levelName: AMERICAN FOOTBALL
+  scoreToPass: 15
   netTranslateHeight: 0
   netWidthScale: 1
   scoreStrings:

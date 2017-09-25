@@ -9,6 +9,8 @@ public class LevelInfo : ScriptableObject
 	[Header("Level Info")]
     [Tooltip("Needs to be different for each level to ensure highscores dont overlap")]
     public string levelName;
+	[SerializeField] private int scoreToPass;
+	public int ScoreToPass {get {return scoreToPass; } }
     public float netTranslateHeight = 0f;
     public float netWidthScale = 1f;
     public string[] scoreStrings;
@@ -47,11 +49,8 @@ public class LevelInfo : ScriptableObject
 		Destroy(oldBall);
 
     	GM.netRenderer.sprite = netSprite;
-
     	GM.net.position+= new Vector3(0f, netTranslateHeight, 0f);
-
     	float newNetWidth = GM.net.localScale.x*netWidthScale;
-
     	GM.net.localScale = new Vector3( newNetWidth, GM.net.localScale.y, GM.net.localScale.z);
     }
 

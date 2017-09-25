@@ -11,8 +11,18 @@ public class GameManager : MonoBehaviour
 	public static bool gameHasStarted = false;
 	public static bool countDownIsActive = false;
 	public static bool timeIsUp = false;
+	private static float timer;
+	public static float Timer {get {return timer;}}
+	private static int score;
+	public static int Score {get {return score;}}
+	private static int highScore;
+	public static int HighScore {get {return highScore;}}
 	private AudioSource[] audios;
-	
+
+	[Header("SubManagers")]
+	[SerializeField] private UIManager uiManager;
+	[SerializeField] private ExtrasManager extrasManager;
+
 	[Header("Level Info")]
 	public LevelInfo levelInfo;
 	public TouchRadius ballTouchRadius;
@@ -20,25 +30,6 @@ public class GameManager : MonoBehaviour
 	public Transform net;
 	public PlayArea playArea;
 
-	[Header("UI")]
-	public Text scoreText;
-	public Text timerText;
-	public Text highscoreText;
-	public Text muteText;
-	public Text muteShadowText;
-	public Text gameOverScoreText;
-	public Text gameOverHighScoreText;
-	private Text timeUpText;
-	public Text currentLevelText;
-	public GameObject timeUpTextObj;
-	public GameObject splashScreen;
-	public GameObject gameOverScreen;
-	public GameObject levelSelectScreen;
-	public ScoreString scoreStringPrefab;
-	public ScoreString scoreString;
-	public GameObject restartButton;
-	public GameObject homeButton;
-	public GameObject muteButton;
 
 	[Header("Level Renderers")]
 	public SpriteRenderer stadiumRenderer;
@@ -49,8 +40,6 @@ public class GameManager : MonoBehaviour
 	public UnityEvent OnStart;
 	public UnityEvent OnTimeUp;
 	public UnityEvent OnScore;
-	private float timer = 30;
-	private int score = 0;
 
 	private void Awake()
 	{
@@ -60,13 +49,8 @@ public class GameManager : MonoBehaviour
 		if (OnStart == null) OnStart = new UnityEvent();
 		if (OnTimeUp == null) OnTimeUp = new UnityEvent();
 		if (OnScore == null) OnScore = new UnityEvent();
-
-		timeUpText = timeUpTextObj.GetComponent<Text>();
-		EndGame();
-		splashScreen.SetActive(true);
-		gameOverScreen.SetActive(false);
-		levelSelectScreen.SetActive(false);
-		OnTimeUp.AddListener(ShowTimeUpUI);
+		ResetGameState();
+		OnTimeUp.AddListener(EndTimer);
 	}
 
 	public void Update()
@@ -74,24 +58,27 @@ public class GameManager : MonoBehaviour
 		if (gameHasStarted && timeIsUp == false)
 		{
 			timer-= Time.deltaTime;
+			uiManager.TopBanner.UpdateGameUI();
 			if (timer < 4 && timer > 0)
 			{
-				ShowCountDownUI();
 				countDownIsActive = true;
+				uiManager.ShowCountDownUI();
 			}
 			else if (timer > 3)
 			{
-				if (timeUpTextObj.activeSelf)
+				if (countDownIsActive)
 				{
 					countDownIsActive = false;
-					timeUpTextObj.SetActive(false);
+					uiManager.HideCountDownUI();
 				}
 			}
 			if (timer <= 0f) OnTimeUp.Invoke();
-
-			scoreText.text = "SCORE: " + score;
-			timerText.text = "" + (int) timer;
 		}
+	}
+
+	public void SetHighScore()
+	{
+		highScore = PlayerPrefs.GetInt("highscore_" + levelInfo.levelName);
 	}
 
 	public void Mute(bool b)
@@ -99,8 +86,8 @@ public class GameManager : MonoBehaviour
 		audios = GameObject.FindObjectsOfType<AudioSource>();
 		if (b)
 		{
-			muteText.text = "MUTE" ;
-			muteShadowText.text = "MUTE";
+			uiManager.ChangeButtonText("MUTE", uiManager.TopBanner.MuteText);
+			uiManager.ChangeButtonText("MUTE", uiManager.TopBanner.MuteTextShadow);
 			foreach (AudioSource audio in audios)
 			{
 				audio.enabled = true;
@@ -108,8 +95,8 @@ public class GameManager : MonoBehaviour
 		}
 		else
 		{
-			muteText.text = "UNMUTE";
-			muteShadowText.text = "UNMUTE";
+			uiManager.ChangeButtonText("UNMUTE", uiManager.TopBanner.MuteText);
+			uiManager.ChangeButtonText("UNMUTE", uiManager.TopBanner.MuteTextShadow);
 			foreach (AudioSource audio in audios)
 			{
 				audio.enabled = false;
@@ -117,19 +104,17 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	public void Score()
+	public void IncreaseScore()
 	{
 		OnScore.Invoke();
-		MakeScoreString(levelInfo.GetScoreString());
+		uiManager.MakeScoreString(levelInfo.GetScoreString());
 		score++;
 		timer+= GetTimeIncrementReward();
-		if (PlayerPrefs.GetInt("highscore_" + levelInfo.levelName) < score) PlayerPrefs.SetInt("highscore_" + levelInfo.levelName, score);
-	}
-
-	private void MakeScoreString(string s)
-	{
-		scoreString = Instantiate(scoreStringPrefab, new Vector3 (0,0.2F,-2), Quaternion.identity) as ScoreString;
-		scoreString.SetText(s);
+		if (PlayerPrefs.GetInt("highscore_" + levelInfo.levelName) < score)
+		{
+			PlayerPrefs.SetInt("highscore_" + levelInfo.levelName, score);
+			SetHighScore();
+		}
 	}
 
 	private float GetTimeIncrementReward()
@@ -159,13 +144,7 @@ public class GameManager : MonoBehaviour
 
 	public void EndGame()
 	{
-		timeUpTextObj.SetActive(false);
-		gameOverScreen.SetActive(true);
-		//splashScreen.SetActive(true);
-		int highscore = PlayerPrefs.GetInt("highscore_" + levelInfo.levelName);
-		if (highscore > 0) highscoreText.text = "HIGHSCORE: " + highscore;
-		gameOverScoreText.text = "YOUR SCORE: " + score;
-		gameOverHighScoreText.text = "HIGHSCORE: " + highscore;
+		uiManager.ToggleUIScreens(gameOverState: true);
 		StopAllCoroutines();
 		ResetGameState();
 		//show the splashScreen and restart everything
@@ -174,8 +153,7 @@ public class GameManager : MonoBehaviour
 	public void CancelGame()
 	{
 		ResetGameState();
-		scoreText.text = "SCORE: 0";
-		ReturnToSplashScreen();
+		uiManager.ToggleUIScreens(splashState: true);
 	}
 
 	private void ResetGameState()
@@ -184,13 +162,7 @@ public class GameManager : MonoBehaviour
 		gameHasStarted = false;
 		timer = 0;
 		score = 0;
-		timerText.text = "";
-		restartButton.SetActive(false);
-		homeButton.SetActive(false);
-		scoreText.gameObject.SetActive(false);
-		timerText.gameObject.SetActive(false);
-		if (scoreString != null) Destroy(scoreString.gameObject);
-		timeUpText.gameObject.SetActive(false);
+		uiManager.ToggleGamePlayUI(false);
 	}
 
 	public void StartGame()
@@ -198,66 +170,26 @@ public class GameManager : MonoBehaviour
 		gameHasStarted=true;
 		timeIsUp = false;
 		timer = levelInfo.startingTime;
-		splashScreen.SetActive(false);
-		gameOverScreen.SetActive(false);
-		HideLevelSelectScreen();
-		restartButton.SetActive(true);
-		homeButton.SetActive(true);
-		scoreText.gameObject.SetActive(true);
-		timerText.gameObject.SetActive(true);
+		uiManager.ToggleUIScreens();
+		uiManager.ToggleGamePlayUI(true);
 		score = 0;
 		playArea.SetResetPosition(ball.startPosition);
-
 		if (OnStart == null) OnStart = new UnityEvent();
 		OnStart.Invoke();
 	}
 
-	private void ShowCountDownUI()
-	{
-		timeUpTextObj.SetActive(true);
-		timeUpText.text = "" + (int) timer;
-	}
-
-	private void ShowTimeUpUI()
+	private void EndTimer()
 	{
 		timeIsUp = true;
-		timeUpText.text = "TIMES UP";
-		timeUpTextObj.SetActive(true);
-	}
-
-	public void ShowLevelSelectScreen()
-	{
-		levelSelectScreen.SetActive(true);
-		levelSelectScreen.GetComponent<LevelSelectScreen>().Display();
-	}
-
-	public void HideLevelSelectScreen()
-	{
-		levelSelectScreen.SetActive(false);
-	}
-
-	public void ShowExtrasScreen()
-	{
-		
-	}
-
-	public void HideExtrasScreen()
-	{
-		
+		uiManager.ShowTimeUpUI();
 	}
 
 	public void UpdateLevel(LevelInfo sentInfo)
 	{
 		levelInfo = sentInfo;
-		currentLevelText.text = "CURRENT LEVEL: " + levelInfo.levelName;
 		levelInfo.ApplySettings(this);
-		levelSelectScreen.GetComponent<LevelSelectScreen>().currentLevelText.text = "CURRENT LEVEL: " + levelInfo.levelName;
+		uiManager.UpdateCurrentLevelUI(levelInfo.levelName);
+		SetHighScore();
 	}
 
-	public void ReturnToSplashScreen()
-	{
-		splashScreen.SetActive(true);
-		levelSelectScreen.SetActive(false);
-		gameOverScreen.SetActive(false);
-	}
 }

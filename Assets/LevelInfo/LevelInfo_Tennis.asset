@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: LevelInfo_Tennis
   m_EditorClassIdentifier: 
   levelName: TENNIS
+  scoreToPass: 20
   netTranslateHeight: 0
   netWidthScale: 1
   scoreStrings:

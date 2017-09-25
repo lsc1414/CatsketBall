@@ -21,7 +21,7 @@ public class Net : MonoBehaviour
 	{
 		if (other.tag == "Player" && other.transform.position.y < transform.position.y) 
 		{
-			if (isGoalPossible) gameManager.Score();
+			if (isGoalPossible) gameManager.IncreaseScore();
 		}
 
 		isGoalPossible=false;
