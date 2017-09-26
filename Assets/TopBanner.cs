@@ -11,8 +11,6 @@ public class TopBanner : MonoBehaviour {
 	public Text HighScoreText {get {return highscoreText;}}
 	[SerializeField] private Text muteText;
 	public Text MuteText {get {return muteText;}}
-	[SerializeField] private Text muteTextShadow;
-	public Text MuteTextShadow {get {return muteTextShadow;}}
 	[SerializeField] private GameObject homeButton;
 	[SerializeField] private GameObject muteButton;
 	[SerializeField] private GameObject restartButton;

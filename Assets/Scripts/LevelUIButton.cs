@@ -12,9 +12,9 @@ public class LevelUIButton : MonoBehaviour {
 	[Header("UI")]
 	public Image levelImage;
 	public Text levelNameText;
-	public Text levelNameTextShadow;
 	public Text statusText;
 	public Text requiredScoreText;
+	public Text currentHighScoreText;
 	public Color unlockedColour;
 	public Color lockedColour;
 
@@ -22,19 +22,28 @@ public class LevelUIButton : MonoBehaviour {
 	{
 		levelImage.sprite = thisLevel.stadiumSprite;
 		levelNameText.text = thisLevel.levelName;
-		levelNameTextShadow.text = thisLevel.levelName;
-		if (isUnlocked)
+		currentHighScoreText.text = "CURRENT HIGHSCORE: " + PlayerPrefs.GetInt("highscore_"+ thisLevel.levelName);
+		isUnlocked = true;
+		if (previousLevel != null)
 		{
-			statusText.text = "";
-			levelImage.color = unlockedColour;
-			requiredScoreText.text = "";
+			int previousLevelHighScore = PlayerPrefs.GetInt("highscore_" + previousLevel.levelName);
+			if (previousLevelHighScore >= previousLevel.ScoreToPass)
+			{
+				isUnlocked = false;
+			}
 		}
-		else
+		//using isUnlocked instead of score check allows for unlocking levels in editor
+		if (isUnlocked == false)
 		{
 			statusText.text = "LOCKED";
 			levelImage.color = lockedColour;
 			requiredScoreText.text = "SCORE " + previousLevel.ScoreToPass + " IN " + previousLevel.levelName + " TO UNLOCK";
+			GetComponentInChildren<Button>().interactable = false;
+			return;
 		}
+		statusText.text = "";
+		levelImage.color = unlockedColour;
+		requiredScoreText.text = "";
 	}
 
 	public void OnClick()

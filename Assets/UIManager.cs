@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour {
 	[SerializeField] private SplashScreen splashScreen;
 	[SerializeField] private GameOverScreen gameOverScreen;
 	[SerializeField] private LevelSelectScreen levelSelectScreen;
+	[SerializeField] private ExtrasScreen extrasScreen;
 
 	[Header("GamePlay")]
 	public GameObject timeUpTextObj;
@@ -23,12 +24,12 @@ public class UIManager : MonoBehaviour {
 		//timeUpText = timeUpTextObj.GetComponent<Text>();
 	}
 
-	public void ToggleUIScreens(bool splashState = false, bool gameOverState = false, bool levelSelectState = false)
+	public void ToggleUIScreens(bool splashState = false, bool gameOverState = false, bool levelSelectState = false, bool extrasState = false)
 	{
 		splashScreen.gameObject.SetActive(splashState);
 		gameOverScreen.gameObject.SetActive(gameOverState);
 		levelSelectScreen.gameObject.SetActive(levelSelectState);
-		if (levelSelectState == true) levelSelectScreen.GetComponent<LevelSelectScreen>().Display();
+		extrasScreen.gameObject.SetActive(extrasState);
 	}
 
 	public void ToggleGamePlayUI(bool status)
@@ -61,6 +62,11 @@ public class UIManager : MonoBehaviour {
 	public void ShowLevelSelectScreen()
 	{
 		ToggleUIScreens(levelSelectState: true);
+	}
+
+	public void ShowExtrasScreen()
+	{
+		ToggleUIScreens(extrasState: true);
 	}
 
 	public void MakeScoreString(string s)

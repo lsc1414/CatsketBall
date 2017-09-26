@@ -87,7 +87,6 @@ public class GameManager : MonoBehaviour
 		if (b)
 		{
 			uiManager.ChangeButtonText("MUTE", uiManager.TopBanner.MuteText);
-			uiManager.ChangeButtonText("MUTE", uiManager.TopBanner.MuteTextShadow);
 			foreach (AudioSource audio in audios)
 			{
 				audio.enabled = true;
@@ -96,7 +95,6 @@ public class GameManager : MonoBehaviour
 		else
 		{
 			uiManager.ChangeButtonText("UNMUTE", uiManager.TopBanner.MuteText);
-			uiManager.ChangeButtonText("UNMUTE", uiManager.TopBanner.MuteTextShadow);
 			foreach (AudioSource audio in audios)
 			{
 				audio.enabled = false;
