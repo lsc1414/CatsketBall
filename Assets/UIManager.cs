@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour {
 
 	private void Awake()
 	{
-		timeUpText = timeUpTextObj.GetComponent<Text>();
+		//timeUpText = timeUpTextObj.GetComponent<Text>();
 	}
 
 	public void ToggleUIScreens(bool splashState = false, bool gameOverState = false, bool levelSelectState = false)
@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour {
 		if (status == false)
 		{
 			if (scoreString != null) Destroy(scoreString.gameObject);
-			timeUpText.gameObject.SetActive(false);
+			timeUpTextObj.gameObject.SetActive(false);
 		}
 		topBanner.ToggleGamePlayUI(status);
 	}
@@ -49,6 +49,7 @@ public class UIManager : MonoBehaviour {
 	public void ShowCountDownUI()
 	{
 		timeUpTextObj.SetActive(true);
+		timeUpText = timeUpTextObj.GetComponent<Text>();
 		timeUpText.text = "" + (int) GameManager.Timer;
 	}
 

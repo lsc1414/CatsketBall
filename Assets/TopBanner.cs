@@ -22,6 +22,7 @@ public class TopBanner : MonoBehaviour {
 	{
 		scoreText.text = "SCORE: " + GameManager.Score;
 		timerText.text = "" + (int) GameManager.Timer;
+		highscoreText.text = "HIGHSCORE: " + GameManager.HighScore;
 	}
 
 	public void ToggleGamePlayUI(bool status)
