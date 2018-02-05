@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelUIButton : MonoBehaviour {
+public class LevelUIButton : MonoBehaviour
+{
 
 	[Header("Parameters")]
 	public LevelInfo thisLevel;
@@ -22,12 +23,12 @@ public class LevelUIButton : MonoBehaviour {
 	{
 		levelImage.sprite = thisLevel.stadiumSprite;
 		levelNameText.text = thisLevel.levelName;
-		currentHighScoreText.text = "CURRENT HIGHSCORE: " + PlayerPrefs.GetInt("highscore_"+ thisLevel.levelName);
+		currentHighScoreText.text = "CURRENT HIGHSCORE: " + PlayerPrefs.GetInt("highscore_" + thisLevel.levelName);
 		isUnlocked = true;
 		if (previousLevel != null)
 		{
 			int previousLevelHighScore = PlayerPrefs.GetInt("highscore_" + previousLevel.levelName);
-			if (previousLevelHighScore >= previousLevel.ScoreToPass)
+			if (previousLevelHighScore < previousLevel.ScoreToPass)
 			{
 				isUnlocked = false;
 			}
@@ -43,6 +44,7 @@ public class LevelUIButton : MonoBehaviour {
 		}
 		statusText.text = "";
 		levelImage.color = unlockedColour;
+		GetComponentInChildren<Button>().interactable = true;
 		requiredScoreText.text = "";
 	}
 
