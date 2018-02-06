@@ -20,6 +20,7 @@ MonoBehaviour:
   - FAN-CAT-STIC!
   - MEOW!
   - GOOD! GOOD! GOOD!
+  leaderBoardID: Tennis
   startingTime: 30
   timeIncrements:
   - scoreThreshold: 0

@@ -13,16 +13,20 @@ public class PriceSetter : MonoBehaviour
 
 	public void SetPriceText(IStoreController sentController)
 	{
+		Debug.Log("Setting Price Text");
 		if (sentController == null) { return; }
 		Product product = sentController.products.WithID(itemName);
 		if (product == null)
 		{
+			Debug.Log("Product was null");
 			text.text = "Error";
 			button.interactable = false;
 			return;
 		}
+		Debug.Log("Product: " + product.metadata.localizedTitle + ", " + product.metadata.localizedPriceString);
 		if (product.hasReceipt == true)
 		{
+			Debug.Log("Product had receipt");
 			text.text = "Purchased";
 			button.interactable = false;
 			return;

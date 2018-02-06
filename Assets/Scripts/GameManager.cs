@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Events;
+using UnityEngine.SocialPlatforms;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviour
 	private AudioSource[] audios;
 	[SerializeField] private SplashScreen splashScreen;
 	[SerializeField] private GameOverScreen gameOverScreen;
+	[SerializeField] private SocialManager socialManager;
 
 	[Header("SubManagers")] [SerializeField] private UIManager uiManager;
 
@@ -111,6 +114,7 @@ public class GameManager : MonoBehaviour
 		if (PlayerPrefs.GetInt("highscore_" + levelInfo.levelName) < score)
 		{
 			PlayerPrefs.SetInt("highscore_" + levelInfo.levelName, score);
+			socialManager.ReportScore(score, levelInfo.leaderBoardID);
 			SetHighScore();
 		}
 	}
@@ -143,6 +147,7 @@ public class GameManager : MonoBehaviour
 	public void EndGame()
 	{
 		gameOverScreen.Show();
+		socialManager.ReportScore(score, levelInfo.leaderBoardID);
 		ball.gameObject.SetActive(false);
 		StopAllCoroutines();
 		ResetGameState();

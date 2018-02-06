@@ -15,7 +15,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	public static string popCornProductID = "PopCorn";
 	public static string threeDeeGlassesID = "3DGlasses";
 
-	void Awake()
+	private void Start()
 	{
 		if (m_StoreController == null)
 		{
@@ -25,8 +25,9 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 		}
 	}
 
-	private void RefreshPurchaseables()
+	public void RefreshPurchaseables()
 	{
+		Debug.Log("Refreshing Purchases");
 		RestorePurchases();
 		extrasScreen.SetPurchaseButtons();
 		backgroundImage.SetPurchaseableImages(m_StoreController);
@@ -79,6 +80,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
 	{
+		Debug.Log("Purchase Handler initialized");
 		m_StoreController = controller;
 		m_StoreExtensionProvider = extensions;
 	}
@@ -86,12 +88,12 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	public void OnInitializeFailed(InitializationFailureReason error)
 	{
+		Debug.Log("Purchase Handler initialize failed");
 	}
 
 
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
 	{
-		RefreshPurchaseables();
 		return PurchaseProcessingResult.Complete;
 	}
 

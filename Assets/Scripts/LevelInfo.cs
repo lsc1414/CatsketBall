@@ -14,6 +14,7 @@ public class LevelInfo : ScriptableObject
 	public float netTranslateHeight = 0f;
 	public float netWidthScale = 1f;
 	public string[] scoreStrings;
+	public string leaderBoardID;
 
 	[System.Serializable]
 	public class TimeIncrement
