@@ -8,7 +8,6 @@ public class SocialManager : MonoBehaviour
 {
 	private void Start()
 	{
-		Debug.Log("Social Manager Starting");
 		Social.localUser.Authenticate(callback => { Debug.Log(callback ? "Login succeessfull." : "Login failed."); });
 		/*if (Social.localUser.authenticated)
 		{
@@ -27,7 +26,7 @@ public class SocialManager : MonoBehaviour
 	{
 		if (Social.localUser.authenticated)
 		{
-			Debug.Log("Score reporting user authenticated, using leaderboard: " + leaderBoardID);
+			//Debug.Log("Score reporting user authenticated, using leaderboard: " + leaderBoardID);
 			Social.ReportScore((long)score, leaderBoardID, callback => { Debug.Log(callback ? "Score reported." : "Score report failed."); });
 		}
 	}

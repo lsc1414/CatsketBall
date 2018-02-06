@@ -50,7 +50,6 @@ public class LevelUIButton : MonoBehaviour
 
 	public void OnClick()
 	{
-		Debug.Log("Clicked");
 		if (isUnlocked == true)
 		{
 			GameManager GM = GameObject.FindObjectOfType<GameManager>();

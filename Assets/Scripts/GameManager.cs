@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
 
 	public void BeginWaitForGameEnd()
 	{
-		StartCoroutine("WaitToEndGame");
+		StartCoroutine(WaitToEndGame());
 	}
 
 	public IEnumerator WaitToEndGame()
@@ -170,6 +170,7 @@ public class GameManager : MonoBehaviour
 
 	public void StartGame()
 	{
+		StopAllCoroutines();
 		gameHasStarted = true;
 		timeIsUp = false;
 		timer = levelInfo.startingTime;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
@@ -11,15 +12,19 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	[SerializeField] private ExtrasScreen extrasScreen;
 	[SerializeField] private BackgroundImage backgroundImage;
+	[SerializeField] private Image suspendedImage;
 
 	public static string popCornProductID = "PopCorn";
 	public static string threeDeeGlassesID = "3DGlasses";
+
+	private bool isPurchasing;
 
 	private void Start()
 	{
 		if (m_StoreController == null)
 		{
 			InitializePurchasing();
+			Handheld.SetActivityIndicatorStyle(UnityEngine.iOS.ActivityIndicatorStyle.White);
 			extrasScreen.SetStoreController(m_StoreController);
 			RefreshPurchaseables();
 		}
@@ -56,25 +61,79 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	{
 		if (IsInitialized())
 		{
-			Product product = m_StoreController.products.WithID(productId);
-			if (product != null && product.availableToPurchase)
+			if (isPurchasing == false)
 			{
-				m_StoreController.InitiatePurchase(product);
+				Product product = m_StoreController.products.WithID(productId);
+				if (product != null && product.availableToPurchase)
+				{
+					StartCoroutine(WaitWhilePurchasing());
+					m_StoreController.InitiatePurchase(product);
+				}
+				return;
 			}
-			RefreshPurchaseables();
-			return;
 		}
+	}
+
+	private IEnumerator WaitWhilePurchasing()
+	{
+		isPurchasing = true;
+		try
+		{
+			Handheld.StartActivityIndicator();
+		}
+		catch (Exception e)
+		{
+			Debug.Log("Device not HandHeld, " + e.ToString());
+		}
+		while (isPurchasing == true)
+		{
+			yield return null;
+		}
+		RefreshPurchaseables();
+		try
+		{
+			Handheld.StopActivityIndicator();
+		}
+		catch (Exception e)
+		{
+			Debug.Log("Device not HandHeld, " + e.ToString());
+		}
+	}
+
+	private void Suspend()
+	{
+		isPurchasing = true;
+		suspendedImage.gameObject.SetActive(true);
+		try { Handheld.StartActivityIndicator(); }
+		catch (Exception e)
+		{
+			Debug.Log("Device not HandHeld, " + e.ToString());
+		}
+	}
+
+	private void Resume()
+	{
+		RefreshPurchaseables();
+		try { Handheld.StopActivityIndicator(); }
+		catch (Exception e)
+		{
+			Debug.Log("Device not HandHeld, " + e.ToString());
+		}
+		suspendedImage.gameObject.SetActive(false);
 	}
 
 	public void RestorePurchases()
 	{
-		if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.OSXPlayer)
+		if (isPurchasing == false)
 		{
-			var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
-			apple.RestoreTransactions((result) =>
+			if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.OSXPlayer)
 			{
-				Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
-			});
+				var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
+				apple.RestoreTransactions((result) =>
+				{
+					Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
+				});
+			}
 		}
 	}
 
@@ -94,12 +153,15 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
 	{
+		isPurchasing = false;
+		Debug.Log("Purchase Successful");
 		return PurchaseProcessingResult.Complete;
 	}
 
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 	{
+		isPurchasing = false;
 		Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
 	}
 }
