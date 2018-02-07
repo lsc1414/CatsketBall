@@ -17,11 +17,9 @@ public class GameManager : MonoBehaviour
 	public static float Timer { get { return timer; } }
 	private static int score;
 	public static int Score { get { return score; } }
-	private static int highScore;
-	public static int HighScore { get { return highScore; } }
 	[SerializeField] private SplashScreen splashScreen;
 	[SerializeField] private GameOverScreen gameOverScreen;
-	[SerializeField] private SocialManager socialManager;
+	[SerializeField] private HighScoreManager highScoreManager;
 
 	[Header("SubManagers")] [SerializeField] private UIManager uiManager;
 
@@ -78,23 +76,13 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	public void SetHighScore()
-	{
-		highScore = PlayerPrefs.GetInt("highscore_" + levelInfo.levelName);
-	}
-
 	public void IncreaseScore()
 	{
 		OnScore.Invoke();
 		uiManager.MakeScoreString(levelInfo.GetScoreString());
 		score++;
 		timer += GetTimeIncrementReward();
-		if (PlayerPrefs.GetInt("highscore_" + levelInfo.levelName) < score)
-		{
-			PlayerPrefs.SetInt("highscore_" + levelInfo.levelName, score);
-			socialManager.ReportScore(score, levelInfo.leaderBoardID);
-			SetHighScore();
-		}
+		highScoreManager.ProcessNewScore(score);
 	}
 
 	private float GetTimeIncrementReward()
@@ -125,7 +113,6 @@ public class GameManager : MonoBehaviour
 	public void EndGame()
 	{
 		gameOverScreen.Show();
-		socialManager.ReportScore(score, levelInfo.leaderBoardID);
 		ball.gameObject.SetActive(false);
 		StopAllCoroutines();
 		ResetGameState();
@@ -172,13 +159,7 @@ public class GameManager : MonoBehaviour
 		levelInfo = sentInfo;
 		levelInfo.ApplySettings(this);
 		uiManager.UpdateCurrentLevelUI(levelInfo.levelName);
-		SetHighScore();
-	}
-
-	public void ResetScores()
-	{
-		PlayerPrefs.DeleteAll();
-		SetHighScore();
+		highScoreManager.SetLevelInfo(sentInfo);
 	}
 
 }

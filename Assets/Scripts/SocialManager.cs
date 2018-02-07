@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.GameCenter;
 using UnityEngine.SocialPlatforms;
+using System.Linq;
 
 public class SocialManager : MonoBehaviour
 {
@@ -29,5 +30,29 @@ public class SocialManager : MonoBehaviour
 			//Debug.Log("Score reporting user authenticated, using leaderboard: " + leaderBoardID);
 			Social.ReportScore((long)score, leaderBoardID, callback => { Debug.Log(callback ? "Score reported." : "Score report failed."); });
 		}
+	}
+
+	public bool GetIsAuthenticated()
+	{
+		return Social.localUser.authenticated;
+	}
+
+	public int GetHighScoreFromLeaderBoard(string sentLeaderBoardID)
+	{
+		int tempHighScore = 0;
+		if (GetIsAuthenticated())
+		{
+			Social.LoadScores(sentLeaderBoardID, scores =>
+			{
+				for (int i = 0; i < scores.Length; i++)
+				{
+					if ((int)scores[i].value > tempHighScore)
+					{
+						tempHighScore = (int)scores[i].value;
+					}
+				}
+			});
+		}
+		return tempHighScore;
 	}
 }

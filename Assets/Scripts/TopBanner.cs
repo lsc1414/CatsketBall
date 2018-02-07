@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TopBanner : MonoBehaviour {
+public class TopBanner : MonoBehaviour
+{
 
 	[SerializeField] private Text scoreText;
 	[SerializeField] private Text timerText;
-	[SerializeField] private Text highscoreText;
-	public Text HighScoreText {get {return highscoreText;}}
 	[SerializeField] private Text muteText;
-	public Text MuteText {get {return muteText;}}
+	public Text MuteText { get { return muteText; } }
 	[SerializeField] private GameObject homeButton;
 	[SerializeField] private GameObject muteButton;
 	[SerializeField] private GameObject restartButton;
@@ -19,8 +18,7 @@ public class TopBanner : MonoBehaviour {
 	public void UpdateGameUI()
 	{
 		scoreText.text = "SCORE: " + GameManager.Score;
-		timerText.text = "" + (int) GameManager.Timer;
-		highscoreText.text = "HIGHSCORE: " + GameManager.HighScore;
+		timerText.text = "" + (int)GameManager.Timer;
 	}
 
 	public void ToggleGamePlayUI(bool status)
