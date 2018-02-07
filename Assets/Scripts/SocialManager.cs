@@ -7,6 +7,8 @@ using System.Linq;
 
 public class SocialManager : MonoBehaviour
 {
+	[SerializeField] private LoadingPanel loadingPanel;
+
 	private void Start()
 	{
 		Social.localUser.Authenticate(callback => { Debug.Log(callback ? "Login succeessfull." : "Login failed."); });
@@ -42,16 +44,20 @@ public class SocialManager : MonoBehaviour
 		int tempHighScore = 0;
 		if (GetIsAuthenticated())
 		{
-			Social.LoadScores(sentLeaderBoardID, scores =>
+			try
 			{
-				for (int i = 0; i < scores.Length; i++)
+				Social.LoadScores(sentLeaderBoardID, scores =>
 				{
-					if ((int)scores[i].value > tempHighScore)
+					for (int i = 0; i < scores.Length; i++)
 					{
-						tempHighScore = (int)scores[i].value;
+						if ((int)scores[i].value > tempHighScore)
+						{
+							tempHighScore = (int)scores[i].value;
+						}
 					}
-				}
-			});
+				});
+			}
+			catch (System.Exception e) { Debug.Log(e.ToString()); }
 		}
 		return tempHighScore;
 	}

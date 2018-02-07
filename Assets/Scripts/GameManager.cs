@@ -55,33 +55,41 @@ public class GameManager : MonoBehaviour
 
 	public void Update()
 	{
-		if (gameHasStarted && timeIsUp == false)
+		if (gameHasStarted)
 		{
-			timer -= Time.deltaTime;
 			uiManager.TopBanner.UpdateGameUI();
-			if (timer < 4 && timer > 0)
+			if (timeIsUp == false)
 			{
-				countDownIsActive = true;
-				uiManager.ShowCountDownUI();
-			}
-			else if (timer > 3)
-			{
-				if (countDownIsActive)
+				timer -= Time.deltaTime;
+				if (timer < 4 && timer > 0)
 				{
-					countDownIsActive = false;
-					uiManager.HideCountDownUI();
+					countDownIsActive = true;
+					uiManager.ShowCountDownUI();
+				}
+				else if (timer > 3)
+				{
+					if (countDownIsActive)
+					{
+						countDownIsActive = false;
+						uiManager.HideCountDownUI();
+					}
+				}
+				if (timer <= 0f)
+				{
+					OnTimeUp.Invoke();
 				}
 			}
-			if (timer <= 0f) OnTimeUp.Invoke();
 		}
 	}
 
 	public void IncreaseScore()
 	{
 		OnScore.Invoke();
-		uiManager.MakeScoreString(levelInfo.GetScoreString());
+		float timeIncrement = GetTimeIncrementReward();
 		score++;
-		timer += GetTimeIncrementReward();
+		string timeIncrementString = "+ " + timeIncrement.ToString() + " SECONDS";
+		uiManager.MakeScoreString(levelInfo.GetScoreString(), timeIncrementString);
+		timer += timeIncrement;
 		highScoreManager.ProcessNewScore(score);
 	}
 

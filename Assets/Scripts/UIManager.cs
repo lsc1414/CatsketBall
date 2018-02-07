@@ -16,8 +16,8 @@ public class UIManager : MonoBehaviour
 
 	[Header("GamePlay")]
 	public GameObject timeUpTextObj;
-	public ScoreString scoreStringPrefab;
-	public ScoreString scoreString;
+	public ScoreMessage scoreMessagePrefab;
+	public ScoreMessage scoreMessage;
 	private Text timeUpText;
 
 	private void Awake()
@@ -29,15 +29,10 @@ public class UIManager : MonoBehaviour
 	{
 		if (status == false)
 		{
-			if (scoreString != null) Destroy(scoreString.gameObject);
+			if (scoreMessage != null) Destroy(scoreMessage.gameObject);
 			timeUpTextObj.gameObject.SetActive(false);
 		}
 		topBanner.ToggleGamePlayUI(status);
-	}
-
-	public void ChangeButtonText(string sentString, Text sentText)
-	{
-		sentText.text = sentString;
 	}
 
 	public void ShowCountDownUI()
@@ -52,10 +47,10 @@ public class UIManager : MonoBehaviour
 		timeUpTextObj.SetActive(false);
 	}
 
-	public void MakeScoreString(string s)
+	public void MakeScoreString(string scoreText, string timeRewardText)
 	{
-		scoreString = Instantiate(scoreStringPrefab, new Vector3(0, 0.2F, -2), Quaternion.identity) as ScoreString;
-		scoreString.SetText(s);
+		scoreMessage = Instantiate(scoreMessagePrefab, new Vector3(0, 0.2F, -2), Quaternion.identity) as ScoreMessage;
+		scoreMessage.SetText(scoreText, timeRewardText);
 	}
 
 	public void ShowTimeUpUI()

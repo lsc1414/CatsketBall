@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LevelSelectScreen : UIScreen
 {
+	[SerializeField] private HighScoreManager highScoreManager;
 	[SerializeField] private LevelUIButton[] levelUIButtons;
 	public LevelUIButton[] LevelUIButtons { get { return levelUIButtons; } }
 	[SerializeField] private Text currentLevelText;
@@ -13,10 +14,10 @@ public class LevelSelectScreen : UIScreen
 	public override void Show()
 	{
 		base.Show();
-		levelUIButtons[0].Set(null);
+		levelUIButtons[0].Set(null, highScoreManager);
 		for (int i = 1; i < levelUIButtons.Length; i++)
 		{
-			levelUIButtons[i].Set(levelUIButtons[i - 1].thisLevel);
+			levelUIButtons[i].Set(levelUIButtons[i - 1].thisLevel, highScoreManager);
 		}
 	}
 }

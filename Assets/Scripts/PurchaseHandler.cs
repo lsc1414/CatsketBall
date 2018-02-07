@@ -12,7 +12,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	[SerializeField] private ExtrasScreen extrasScreen;
 	[SerializeField] private BackgroundImage backgroundImage;
-	[SerializeField] private Image suspendedImage;
+	[SerializeField] private LoadingPanel LoadingPanel;
 
 	public static string popCornProductID = "PopCorn";
 	public static string threeDeeGlassesID = "3DGlasses";
@@ -36,6 +36,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 		RestorePurchases();
 		extrasScreen.SetPurchaseButtons();
 		backgroundImage.SetPurchaseableImages(m_StoreController);
+		LoadingPanel.Resume();
 	}
 
 	public void InitializePurchasing()
@@ -66,60 +67,12 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 				Product product = m_StoreController.products.WithID(productId);
 				if (product != null && product.availableToPurchase)
 				{
-					StartCoroutine(WaitWhilePurchasing());
+					LoadingPanel.Suspend();
 					m_StoreController.InitiatePurchase(product);
 				}
 				return;
 			}
 		}
-	}
-
-	private IEnumerator WaitWhilePurchasing()
-	{
-		isPurchasing = true;
-		try
-		{
-			Handheld.StartActivityIndicator();
-		}
-		catch (Exception e)
-		{
-			Debug.Log("Device not HandHeld, " + e.ToString());
-		}
-		while (isPurchasing == true)
-		{
-			yield return null;
-		}
-		RefreshPurchaseables();
-		try
-		{
-			Handheld.StopActivityIndicator();
-		}
-		catch (Exception e)
-		{
-			Debug.Log("Device not HandHeld, " + e.ToString());
-		}
-	}
-
-	private void Suspend()
-	{
-		isPurchasing = true;
-		suspendedImage.gameObject.SetActive(true);
-		try { Handheld.StartActivityIndicator(); }
-		catch (Exception e)
-		{
-			Debug.Log("Device not HandHeld, " + e.ToString());
-		}
-	}
-
-	private void Resume()
-	{
-		RefreshPurchaseables();
-		try { Handheld.StopActivityIndicator(); }
-		catch (Exception e)
-		{
-			Debug.Log("Device not HandHeld, " + e.ToString());
-		}
-		suspendedImage.gameObject.SetActive(false);
 	}
 
 	public void RestorePurchases()
@@ -153,7 +106,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
 	{
-		isPurchasing = false;
+		RefreshPurchaseables();
 		Debug.Log("Purchase Successful");
 		return PurchaseProcessingResult.Complete;
 	}
@@ -161,7 +114,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 	{
-		isPurchasing = false;
+		RefreshPurchaseables();
 		Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
 	}
 }

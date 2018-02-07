@@ -2468,9 +2468,9 @@ MonoBehaviour:
   levelSelectScreen: {fileID: 798090068}
   extrasScreen: {fileID: 1698811037}
   timeUpTextObj: {fileID: 1902276809}
-  scoreStringPrefab: {fileID: 114153188878042768, guid: fe6ee1d765c2a714385b9decbbfed21b,
+  scoreMessagePrefab: {fileID: 114457621363738696, guid: 7bf73139bf603498f92703ce433b6528,
     type: 2}
-  scoreString: {fileID: 0}
+  scoreMessage: {fileID: 0}
 --- !u!1 &625971877
 GameObject:
   m_ObjectHideFlags: 0
@@ -3150,6 +3150,40 @@ Transform:
   m_Father: {fileID: 135121322}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &743202943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 743202944}
+  m_Layer: 5
+  m_Name: HowToPlayScreens
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &743202944
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 743202943}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1099332871}
+  m_Father: {fileID: 1922769370}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &762352333
 GameObject:
   m_ObjectHideFlags: 0
@@ -3324,6 +3358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fdab7da84b774c54a0dbd057deab585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highScoreManager: {fileID: 1986590906}
   levelUIButtons:
   - {fileID: 912612577}
   - {fileID: 1448151351}
@@ -5070,7 +5105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1099332871
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5083,8 +5118,8 @@ RectTransform:
   m_Children:
   - {fileID: 1853267763}
   - {fileID: 989671360}
-  m_Father: {fileID: 1922769370}
-  m_RootOrder: 7
+  m_Father: {fileID: 743202944}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -11270,6 +11305,7 @@ GameObject:
   - component: {fileID: 1540184337}
   - component: {fileID: 1540184339}
   - component: {fileID: 1540184338}
+  - component: {fileID: 1540184340}
   m_Layer: 5
   m_Name: BlackOutPanel
   m_TagString: Untagged
@@ -11328,6 +11364,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1540184336}
+--- !u!114 &1540184340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1540184336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 087a943dc473a44e4b96e08c9870db8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1567803819
 GameObject:
   m_ObjectHideFlags: 0
@@ -11973,6 +12020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca090c80946f4afc85341c24be80458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingPanel: {fileID: 1540184340}
 --- !u!4 &1705337289
 Transform:
   m_ObjectHideFlags: 0
@@ -12482,7 +12530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   extrasScreen: {fileID: 1698811037}
   backgroundImage: {fileID: 135121325}
-  suspendedImage: {fileID: 1540184338}
+  LoadingPanel: {fileID: 1540184340}
 --- !u!1 &1853267762
 GameObject:
   m_ObjectHideFlags: 0
@@ -12750,7 +12798,7 @@ RectTransform:
   - {fileID: 798090067}
   - {fileID: 1698811036}
   - {fileID: 1512983662}
-  - {fileID: 1099332871}
+  - {fileID: 743202944}
   - {fileID: 1540184337}
   - {fileID: 1841716839}
   m_Father: {fileID: 0}

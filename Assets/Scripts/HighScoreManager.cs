@@ -25,15 +25,7 @@ public class HighScoreManager : MonoBehaviour
 	public void SetLevelInfo(LevelInfo sentLevelInfo)
 	{
 		levelInfo = sentLevelInfo;
-		highScore = PlayerPrefs.GetInt("highscore_" + levelInfo.levelName);
-		if (socialManager.GetIsAuthenticated())
-		{
-			int tempHighScore = socialManager.GetHighScoreFromLeaderBoard(levelInfo.leaderBoardID);
-			if (highScore < tempHighScore)
-			{
-				highScore = tempHighScore;
-			}
-		}
+		highScore = GetLevelHighScore(levelInfo);
 		WriteHighScoreToUI();
 	}
 
@@ -41,6 +33,21 @@ public class HighScoreManager : MonoBehaviour
 	{
 		highScoreText.text = "HIGHSCORE: " + highScore;
 		gameOverHighScoreText.text = "HIGHSCORE: " + highScore;
+	}
+
+	public int GetLevelHighScore(LevelInfo sentInfo)
+	{
+		int tempHighScore = PlayerPrefs.GetInt("highscore_" + sentInfo.levelName);
+		if (socialManager.GetIsAuthenticated())
+		{
+			int leaderBoardHighScore = socialManager.GetHighScoreFromLeaderBoard(sentInfo.leaderBoardID);
+			if (tempHighScore < leaderBoardHighScore)
+			{
+				PlayerPrefs.SetInt("highscore_" + sentInfo.levelName, leaderBoardHighScore);
+				tempHighScore = leaderBoardHighScore;
+			}
+		}
+		return tempHighScore;
 	}
 
 }
