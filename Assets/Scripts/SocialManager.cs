@@ -4,20 +4,24 @@ using UnityEngine;
 using UnityEngine.SocialPlatforms.GameCenter;
 using UnityEngine.SocialPlatforms;
 using System.Linq;
+using UnityEngine.Events;
 
 public class SocialManager : MonoBehaviour
 {
 	[SerializeField] private LoadingPanel loadingPanel;
 
+	public UnityEvent OnAuthenticate;
+
 	private void Start()
 	{
-		Social.localUser.Authenticate(callback => { Debug.Log(callback ? "Login succeessfull." : "Login failed."); });
-		/*if (Social.localUser.authenticated)
+		Social.localUser.Authenticate(isAuthenticated =>
 		{
-			ILeaderboard basketBallLeaderBoard = Social.CreateLeaderboard();
-			basketBallLeaderBoard.id = "BasketBall";
-			Debug.Log("LeaderBoard Created: " + basketBallLeaderBoard.id);
-		}*/
+			Debug.Log(isAuthenticated ? "Login succeessfull." : "Login failed.");
+			if (isAuthenticated)
+			{
+				OnAuthenticate.Invoke();
+			}
+		});
 	}
 
 	public void ShowLeaderBoards()
@@ -29,7 +33,6 @@ public class SocialManager : MonoBehaviour
 	{
 		if (Social.localUser.authenticated)
 		{
-			//Debug.Log("Score reporting user authenticated, using leaderboard: " + leaderBoardID);
 			Social.ReportScore((long)score, leaderBoardID, callback => { Debug.Log(callback ? "Score reported." : "Score report failed."); });
 		}
 	}

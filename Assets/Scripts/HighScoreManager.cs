@@ -25,6 +25,11 @@ public class HighScoreManager : MonoBehaviour
 	public void SetLevelInfo(LevelInfo sentLevelInfo)
 	{
 		levelInfo = sentLevelInfo;
+		CheckHighScore();
+	}
+
+	public void CheckHighScore()
+	{
 		highScore = GetLevelHighScore(levelInfo);
 		WriteHighScoreToUI();
 	}
