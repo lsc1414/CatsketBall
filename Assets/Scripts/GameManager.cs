@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
 	public static int Score { get { return score; } }
 	private static int highScore;
 	public static int HighScore { get { return highScore; } }
-	private AudioSource[] audios;
 	[SerializeField] private SplashScreen splashScreen;
 	[SerializeField] private GameOverScreen gameOverScreen;
 	[SerializeField] private SocialManager socialManager;
@@ -82,27 +81,6 @@ public class GameManager : MonoBehaviour
 	public void SetHighScore()
 	{
 		highScore = PlayerPrefs.GetInt("highscore_" + levelInfo.levelName);
-	}
-
-	public void Mute(bool b)
-	{
-		audios = GameObject.FindObjectsOfType<AudioSource>();
-		if (b)
-		{
-			uiManager.ChangeButtonText("MUTE", uiManager.TopBanner.MuteText);
-			foreach (AudioSource audio in audios)
-			{
-				audio.enabled = true;
-			}
-		}
-		else
-		{
-			uiManager.ChangeButtonText("UNMUTE", uiManager.TopBanner.MuteText);
-			foreach (AudioSource audio in audios)
-			{
-				audio.enabled = false;
-			}
-		}
 	}
 
 	public void IncreaseScore()
