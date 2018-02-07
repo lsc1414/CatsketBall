@@ -12,6 +12,10 @@ public class SocialManager : MonoBehaviour
 
 	public UnityEvent OnAuthenticate;
 
+	private void Awake()
+	{
+		if (OnAuthenticate == null) { OnAuthenticate = new UnityEvent(); }
+	}
 	private void Start()
 	{
 		Social.localUser.Authenticate(isAuthenticated =>

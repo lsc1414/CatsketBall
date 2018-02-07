@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (levelInfo == null) { Debug.LogError("No Levelinfo assigned to gamemanager - in project folder Create/Catsketball/Levelinfo"); Debug.Break(); }
 		UpdateLevel(levelInfo);
-
+		highScoreManager.CheckHighScore();
 		if (OnStart == null) OnStart = new UnityEvent();
 		if (OnTimeUp == null) OnTimeUp = new UnityEvent();
 		if (OnScore == null) OnScore = new UnityEvent();
