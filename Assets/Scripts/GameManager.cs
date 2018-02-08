@@ -74,9 +74,14 @@ public class GameManager : MonoBehaviour
 						uiManager.HideCountDownUI();
 					}
 				}
-				if (timer <= 0f)
+				if (timeIsUp == false)
 				{
-					OnTimeUp.Invoke();
+					if (timer <= 0f)
+					{
+						timeIsUp = true;
+						BeginWaitForGameEnd(6F);
+						OnTimeUp.Invoke();
+					}
 				}
 			}
 		}
@@ -106,15 +111,20 @@ public class GameManager : MonoBehaviour
 		else return 0f;
 	}
 
-	public void BeginWaitForGameEnd()
+	public void BeginWaitForGameEnd(float sentTime)
 	{
-		StartCoroutine(WaitToEndGame());
+		StartCoroutine(WaitToEndGame(sentTime));
 	}
 
-	public IEnumerator WaitToEndGame()
+	public void OnFinalBounce()
+	{
+		BeginWaitForGameEnd(3F);
+	}
+
+	public IEnumerator WaitToEndGame(float sentTime)
 	{
 		Debug.Log("Waiting to End");
-		yield return new WaitForSeconds(3F);
+		yield return new WaitForSeconds(sentTime);
 		EndGame();
 	}
 

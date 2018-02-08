@@ -64,9 +64,11 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 		{
 			if (isPurchasing == false)
 			{
+				isPurchasing = true;
 				Product product = m_StoreController.products.WithID(productId);
 				if (product != null && product.availableToPurchase)
 				{
+					LoadingPanel.SetManualStopping(true);
 					LoadingPanel.Suspend();
 					m_StoreController.InitiatePurchase(product);
 				}
@@ -106,7 +108,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
 	{
-		RefreshPurchaseables();
+		FinishPurchase();
 		Debug.Log("Purchase Successful");
 		return PurchaseProcessingResult.Complete;
 	}
@@ -114,7 +116,13 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 	{
-		RefreshPurchaseables();
+		FinishPurchase();
 		Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
+	}
+
+	public void FinishPurchase()
+	{
+		RefreshPurchaseables();
+		isPurchasing = false;
 	}
 }

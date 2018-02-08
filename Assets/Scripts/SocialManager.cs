@@ -24,11 +24,13 @@ public class SocialManager : MonoBehaviour
 
 	public void ShowLeaderBoards()
 	{
+		loadingPanel.Suspend();
 		if (GetIsAuthenticated() == false)
 		{
 			AuthenticateUser();
 			return;
 		}
+		loadingPanel.Suspend();
 		OnAuthenticate.Invoke();
 		Social.ShowLeaderboardUI();
 	}
@@ -60,12 +62,13 @@ public class SocialManager : MonoBehaviour
 
 	public int GetHighScoreFromLeaderBoard(string sentLeaderBoardID)
 	{
+		Debug.Log("Getting HighScore: " + sentLeaderBoardID);
 		int tempHighScore = 0;
 		if (GetIsAuthenticated())
 		{
 			try
 			{
-				leaderBoard = Social.CreateLeaderboard();
+				/*leaderBoard = Social.CreateLeaderboard();
 				leaderBoard.id = sentLeaderBoardID;
 				Debug.Log("Leaderboard: " + leaderBoard.ToString());
 				leaderBoard.SetUserFilter(new string[] { Social.localUser.id });
@@ -74,6 +77,22 @@ public class SocialManager : MonoBehaviour
 					if (scores)
 					{
 						tempHighScore = (int)leaderBoard.localUserScore.value;
+					}
+				});*/
+				Social.LoadScores(sentLeaderBoardID, scores =>
+				{
+					if (scores != null)
+					{
+						foreach (IScore score in scores)
+						{
+							if (score.userID == Social.localUser.id)
+							{
+								if ((int)score.value > tempHighScore)
+								{
+									tempHighScore = (int)score.value;
+								}
+							}
+						}
 					}
 				});
 			}

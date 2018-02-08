@@ -42,7 +42,7 @@ public class LevelInfo : ScriptableObject
 		GameObject ballObj = Instantiate(ballPrefab, new Vector3(0, 0, 0), ballPrefab.transform.rotation);
 		Ball ball = ballObj.GetComponent<Ball>();
 		GM.ballTouchRadius.ball = ball;
-		ball.OnFinalBounce.AddListener(GM.BeginWaitForGameEnd);
+		ball.OnFinalBounce.AddListener(GM.OnFinalBounce);
 		GM.OnStart.AddListener(ball.Start);
 		GM.ball = ball;
 		GM.ballTouchRadius.AssignBall();
