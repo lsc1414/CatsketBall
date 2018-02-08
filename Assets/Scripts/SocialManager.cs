@@ -11,6 +11,7 @@ public class SocialManager : MonoBehaviour
 	[SerializeField] private LoadingPanel loadingPanel;
 
 	public UnityEvent OnAuthenticate;
+	private ILeaderboard leaderBoard;
 
 	private void Awake()
 	{
@@ -18,18 +19,17 @@ public class SocialManager : MonoBehaviour
 	}
 	private void Start()
 	{
-		Social.localUser.Authenticate(isAuthenticated =>
-		{
-			Debug.Log(isAuthenticated ? "Login succeessfull." : "Login failed.");
-			if (isAuthenticated)
-			{
-				OnAuthenticate.Invoke();
-			}
-		});
+		AuthenticateUser();
 	}
 
 	public void ShowLeaderBoards()
 	{
+		if (GetIsAuthenticated() == false)
+		{
+			AuthenticateUser();
+			return;
+		}
+		OnAuthenticate.Invoke();
 		Social.ShowLeaderboardUI();
 	}
 
@@ -46,6 +46,18 @@ public class SocialManager : MonoBehaviour
 		return Social.localUser.authenticated;
 	}
 
+	public void AuthenticateUser()
+	{
+		Social.localUser.Authenticate(isAuthenticated =>
+		{
+			Debug.Log(isAuthenticated ? "Login succeessfull." : "Login failed.");
+			if (isAuthenticated)
+			{
+				OnAuthenticate.Invoke();
+			}
+		});
+	}
+
 	public int GetHighScoreFromLeaderBoard(string sentLeaderBoardID)
 	{
 		int tempHighScore = 0;
@@ -53,14 +65,15 @@ public class SocialManager : MonoBehaviour
 		{
 			try
 			{
-				Social.LoadScores(sentLeaderBoardID, scores =>
+				leaderBoard = Social.CreateLeaderboard();
+				leaderBoard.id = sentLeaderBoardID;
+				Debug.Log("Leaderboard: " + leaderBoard.ToString());
+				leaderBoard.SetUserFilter(new string[] { Social.localUser.id });
+				leaderBoard.LoadScores(scores =>
 				{
-					for (int i = 0; i < scores.Length; i++)
+					if (scores)
 					{
-						if ((int)scores[i].value > tempHighScore)
-						{
-							tempHighScore = (int)scores[i].value;
-						}
+						tempHighScore = (int)leaderBoard.localUserScore.value;
 					}
 				});
 			}

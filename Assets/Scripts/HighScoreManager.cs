@@ -43,9 +43,11 @@ public class HighScoreManager : MonoBehaviour
 	public int GetLevelHighScore(LevelInfo sentInfo)
 	{
 		int tempHighScore = PlayerPrefs.GetInt("highscore_" + sentInfo.levelName);
+		Debug.Log("PlayerPref HighScore: " + tempHighScore);
 		if (socialManager.GetIsAuthenticated())
 		{
 			int leaderBoardHighScore = socialManager.GetHighScoreFromLeaderBoard(sentInfo.leaderBoardID);
+			Debug.Log("Leaderboard HighScore: " + leaderBoardHighScore);
 			if (tempHighScore < leaderBoardHighScore)
 			{
 				PlayerPrefs.SetInt("highscore_" + sentInfo.levelName, leaderBoardHighScore);
