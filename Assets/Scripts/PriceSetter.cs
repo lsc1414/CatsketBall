@@ -8,30 +8,26 @@ public class PriceSetter : MonoBehaviour
 {
 	[SerializeField] private string buyString;
 	[SerializeField] private string itemName;
+	public string ProductID { get { return itemName; } }
 	[SerializeField] private Button button;
 	[SerializeField] private Text text;
+	private bool isPurchased;
 
-	public void SetPriceText(IStoreController sentController)
+	public void SetText(bool sentIsPurchased = false, string priceString = "")
 	{
 		Debug.Log("Setting Price Text");
-		if (sentController == null) { return; }
-		Product product = sentController.products.WithID(itemName);
-		if (product == null)
+		if (sentIsPurchased == true)
 		{
-			Debug.Log("Product was null");
-			text.text = "Error";
-			button.interactable = false;
-			return;
+			isPurchased = true;
 		}
-		Debug.Log("Product: " + product.metadata.localizedTitle + ", " + product.metadata.localizedPriceString);
-		if (product.hasReceipt == true)
+		if (isPurchased == true)
 		{
 			Debug.Log("Product had receipt");
 			text.text = "Purchased";
 			button.interactable = false;
 			return;
 		}
-		text.text = buyString + " " + product.metadata.localizedPriceString;
+		text.text = buyString + " " + priceString;
 		button.interactable = true;
 	}
 }

@@ -20,4 +20,23 @@ public class BackgroundImage : MonoBehaviour
 			purchaseableImages[i].gameObject.SetActive(false);
 		}
 	}
+
+	public void SetPurchased(string sentID)
+	{
+		for (int i = 0; i < purchaseableImages.Length; i++)
+		{
+			if (purchaseableImages[i].ItemName == sentID)
+			{
+				purchaseableImages[i].gameObject.SetActive(true);
+			}
+		}
+	}
+
+	public void DeActivatePurchasedImages()
+	{
+		for (int i = 0; i < purchaseableImages.Length; i++)
+		{
+			purchaseableImages[i].gameObject.SetActive(false);
+		}
+	}
 }

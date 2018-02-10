@@ -13,7 +13,7 @@ public class LocalizationManager : MonoBehaviour
 
 	public void Awake()
 	{
-		languageDictionary = new Dictionary<SystemLanguage, LocalizedLanguage>();
+		/*languageDictionary = new Dictionary<SystemLanguage, LocalizedLanguage>();
 		for (int i = 0; i < languages.Length; i++)
 		{
 			languageDictionary.Add(languages[i].Language, languages[i]);
@@ -25,18 +25,18 @@ public class LocalizationManager : MonoBehaviour
 		for (int i = 0; i < localizedStringHolder.LocalizedStrings.Length; i++)
 		{
 			stringDictionary.Add(localizedStringHolder.LocalizedStrings[i].StringID, localizedStringHolder.LocalizedStrings[i].TranslatedString);
-		}
+		}*/
 	}
 
 	public void SetLocalizedStrings()
 	{
-		string path = language.FilePath;
+		/*string path = language.FilePath;
 		string text;
 		using (StreamReader sr = new StreamReader(path))
 		{
 			text = sr.ReadToEnd();
 		}
-		localizedStringHolder = JsonUtility.FromJson<LocalizedStringHolder>(text);
+		localizedStringHolder = JsonUtility.FromJson<LocalizedStringHolder>(text);*/
 	}
 
 
