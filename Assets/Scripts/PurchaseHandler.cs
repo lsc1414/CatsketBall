@@ -50,7 +50,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 			return;
 		}
 		ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-		#if UNITY_IOS
+#if UNITY_IOS
 		try
 		{
 			CreateReceiptData(builder);
@@ -60,7 +60,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 			e.ToString();
 			Debug.Log("build platform not recognised for receipts");
 		}
-		#endif
+#endif
 		builder.AddProduct(popCornProductID, ProductType.NonConsumable);
 		builder.AddProduct(threeDeeGlassesID, ProductType.NonConsumable);
 		UnityPurchasing.Initialize(this, builder);
@@ -121,7 +121,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 					backgroundImage.SetPurchased(product.definition.storeSpecificId);
 				}
 			}
-			#if UNITY_IOS || UNITY_IOS
+#if UNITY_IOS || UNITY_IOS
 			try
 			{
 				RestoreReciepts();
@@ -131,7 +131,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 				e.ToString();
 				Debug.Log("No RestoreReceipts function on this platform");
 			}
-			#endif
+#endif
 		}
 	}
 
@@ -177,7 +177,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	}
 #endif
 
-#if UNITY_ANDROID || UNITY_EDITOR
+#if UNITY_ANDROID
 	private void RestoreByPlatform()
 	{
 			CompleteRestore(true);
