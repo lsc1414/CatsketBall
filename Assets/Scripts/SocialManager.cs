@@ -47,7 +47,6 @@ public class SocialManager : MonoBehaviour
 
 	public void AuthenticateUser(System.Action sentAction = null)
 	{
-		loadingPanel.SetManualStopping(true);
 		loadingPanel.Suspend();
 		Social.localUser.Authenticate(isAuthenticated =>
 		{

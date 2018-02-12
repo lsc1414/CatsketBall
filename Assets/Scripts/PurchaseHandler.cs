@@ -15,7 +15,9 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	[SerializeField] private ExtrasScreen extrasScreen;
 	[SerializeField] private BackgroundImage backgroundImage;
 	[SerializeField] private LoadingPanel loadingPanel;
+#if UNITY_IOS
 	private AppleReceipt appleReceipt;
+#endif
 
 	public static string popCornProductID = "PopCorn";
 	public static string threeDeeGlassesID = "3DGlasses";
@@ -27,8 +29,6 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	{
 		if (m_StoreController == null)
 		{
-			Handheld.SetActivityIndicatorStyle(UnityEngine.iOS.ActivityIndicatorStyle.White);
-			loadingPanel.SetManualStopping(true);
 			loadingPanel.Suspend();
 			InitializePurchasing();
 			backgroundImage.DeActivatePurchasedImages();
@@ -52,7 +52,24 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 		ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 		try
 		{
-			var appleConfig = builder.Configure<IAppleConfiguration>();
+			CreateReceiptData(builder);
+		}
+		catch (System.Exception e)
+		{
+			e.ToString();
+			Debug.Log("build platform not recognised for receipts");
+		}
+		builder.AddProduct(popCornProductID, ProductType.NonConsumable);
+		builder.AddProduct(threeDeeGlassesID, ProductType.NonConsumable);
+		UnityPurchasing.Initialize(this, builder);
+	}
+
+#if UNITY_IOS
+	private void CreateReceiptData(ConfigurationBuilder sentBuilder)
+	{
+		try
+		{
+			var appleConfig = sentBuilder.Configure<IAppleConfiguration>();
 			var receiptData = System.Convert.FromBase64String(appleConfig.appReceipt);
 			appleReceipt = new AppleValidator(AppleTangle.Data()).Validate(receiptData);
 		}
@@ -61,10 +78,8 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 			e.ToString();
 			Debug.Log("Could not create apple receipt");
 		}
-		builder.AddProduct(popCornProductID, ProductType.NonConsumable);
-		builder.AddProduct(threeDeeGlassesID, ProductType.NonConsumable);
-		UnityPurchasing.Initialize(this, builder);
 	}
+#endif
 
 
 	private bool IsInitialized()
@@ -83,7 +98,6 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 				Product product = m_StoreController.products.WithID(productId);
 				if (product != null && product.availableToPurchase)
 				{
-					loadingPanel.SetManualStopping(true);
 					loadingPanel.Suspend();
 					m_StoreController.InitiatePurchase(product);
 				}
@@ -105,36 +119,48 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 					backgroundImage.SetPurchased(product.definition.storeSpecificId);
 				}
 			}
-			if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.OSXPlayer)
+			try
 			{
-
-				try
-				{
-					ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-					var appleConfig = builder.Configure<IAppleConfiguration>();
-					var receiptData = System.Convert.FromBase64String(appleConfig.appReceipt);
-					var receipt = new AppleValidator(AppleTangle.Data()).Validate(receiptData);
-					foreach (AppleInAppPurchaseReceipt productReceipt in receipt.inAppPurchaseReceipts)
-					{
-						extrasScreen.SetPurchased(productReceipt.productID);
-						backgroundImage.SetPurchased(productReceipt.productID);
-					}
-				}
-				catch (System.Exception e)
-				{
-					e.ToString();
-					Debug.Log("Faled to restore purchases");
-				}
+				RestoreReciepts();
+			}
+			catch (System.Exception e)
+			{
+				e.ToString();
+				Debug.Log("No RestoreReceipts function on this platform");
 			}
 		}
 	}
 
+#if UNITY_IOS
+	private void RestoreReciepts()
+	{
+		try
+		{
+			ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+			var appleConfig = builder.Configure<IAppleConfiguration>();
+			var receiptData = System.Convert.FromBase64String(appleConfig.appReceipt);
+			var receipt = new AppleValidator(AppleTangle.Data()).Validate(receiptData);
+			foreach (AppleInAppPurchaseReceipt productReceipt in receipt.inAppPurchaseReceipts)
+			{
+				extrasScreen.SetPurchased(productReceipt.productID);
+				backgroundImage.SetPurchased(productReceipt.productID);
+			}
+		}
+		catch (System.Exception e)
+		{
+			e.ToString();
+			Debug.Log("Faled to restore purchases");
+		}
+	}
+#endif
+
 	public void ManualRestorePurchases()
 	{
-		loadingPanel.SetManualStopping(true);
 		loadingPanel.Suspend();
 		isRestoring = true;
+#if UNITY_IOS
 		var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
+#endif
 		apple.RestoreTransactions((result) =>
 		{
 			Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");

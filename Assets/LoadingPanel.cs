@@ -9,25 +9,46 @@ public class LoadingPanel : MonoBehaviour
 	private int callCounts;
 	public bool IsDisplayed { get; protected set; }
 
+	private void Awake()
+	{
+		try
+		{
+			SetActiviteIndicator();
+		}
+		catch (System.Exception e)
+		{
+			e.ToString();
+			Debug.Log("Build platform loading indicator not recognised");
+		}
+	}
+
+#if UNITY_IOS
+	private void SetActiviteIndicator()
+	{
+		Handheld.SetActivityIndicatorStyle(UnityEngine.iOS.ActivityIndicatorStyle.White);
+	}
+#endif
+
+#if UNITY_ANDROID
+	private void SetActiviteIndicator(string bleugh)
+	{
+		Handheld.SetActivityIndicatorStyle(UnityEngine.AndroidActivityIndicatorStyle.Small);
+	}
+#endif
+
 	void OnApplicationFocus(bool isFocused)
 	{
 		if (isFocused)
 		{
-			if (isManuallyStopped == false)
-			{
-				Resume();
-			}
+			Resume();
+			return;
 		}
-	}
-
-	public void SetManualStopping(bool sentValue)
-	{
-		isManuallyStopped = sentValue;
-		callCounts++;
+		Suspend();
 	}
 
 	public void Suspend()
 	{
+		callCounts++;
 		IsDisplayed = true;
 		gameObject.SetActive(true);
 		try { Handheld.StartActivityIndicator(); }
@@ -45,7 +66,6 @@ public class LoadingPanel : MonoBehaviour
 		if (callCounts == 0)
 		{
 			IsDisplayed = false;
-			isManuallyStopped = false;
 			try { Handheld.StopActivityIndicator(); }
 			catch (Exception e)
 			{
