@@ -11,6 +11,7 @@ public class LoadingPanel : MonoBehaviour
 
 	private void Awake()
 	{
+		#if UNITY_IOS || UNITY_ANDROID
 		try
 		{
 			SetActiviteIndicator();
@@ -20,6 +21,7 @@ public class LoadingPanel : MonoBehaviour
 			e.ToString();
 			Debug.Log("Build platform loading indicator not recognised");
 		}
+		#endif
 	}
 
 #if UNITY_IOS
