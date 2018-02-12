@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_IOS
 using UnityEngine.SocialPlatforms.GameCenter;
+#endif
 using UnityEngine.SocialPlatforms;
 using System.Linq;
 using UnityEngine.Events;
