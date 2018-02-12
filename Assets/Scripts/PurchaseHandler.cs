@@ -19,8 +19,15 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	private AppleReceipt appleReceipt;
 #endif
 
+#if UNITY_IOS
 	public static string popCornProductID = "PopCorn";
 	public static string threeDeeGlassesID = "3DGlasses";
+#endif
+
+#if UNITY_ANDROID
+	public static string popCornProductID = "com.DSA.CatsketBallTest.PopCorn";
+	public static string threeDeeGlassesID = "com.DSA.CatsketBallTest.3DGlasses";
+#endif
 
 	private bool isPurchasing;
 	private bool isRestoring;
