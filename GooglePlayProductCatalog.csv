@@ -1,0 +1,3 @@
+Product ID,Published State,Purchase Type,Auto Translate,Locale; Title; Description,Auto Fill Prices,Price,Pricing Template ID
+com.dsa.catsketballtest.popcorn,published,managed_by_android,false,en_GB;Popcorn;Popcorn for your loyal fans.,true,990000,
+com.dsa.catsketballtest.3d_glasses,published,managed_by_android,false,en_GB;3D Glasses;3D Glasses for your loyal fans.,true,990000,
