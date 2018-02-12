@@ -50,7 +50,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 			return;
 		}
 		ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-		#if UNITY_IOS || UNITY_ANDROID
+		#if UNITY_IOS
 		try
 		{
 			CreateReceiptData(builder);

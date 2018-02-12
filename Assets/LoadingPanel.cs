@@ -32,7 +32,7 @@ public class LoadingPanel : MonoBehaviour
 #endif
 
 #if UNITY_ANDROID
-	private void SetActiviteIndicator(string bleugh)
+	private void SetActiviteIndicator()
 	{
 		Handheld.SetActivityIndicatorStyle(UnityEngine.AndroidActivityIndicatorStyle.Small);
 	}
