@@ -158,15 +158,33 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	{
 		loadingPanel.Suspend();
 		isRestoring = true;
+		RestoreByPlatform();
+	}
+
 #if UNITY_IOS
+	private void RestoreByPlatform()
+	{
 		var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
-#endif
 		apple.RestoreTransactions((result) =>
 		{
-			Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
-			isRestoring = false;
-			RefreshPurchaseables();
+			CompleteRestore(result);
 		});
+		return;
+	}
+#endif
+
+#if UNITY_ANDROID
+	private void RestoreByPlatform()
+	{
+			CompleteRestore(result);
+	}
+#endif
+
+	private void CompleteRestore(bool result)
+	{
+		Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
+		isRestoring = false;
+		RefreshPurchaseables();
 	}
 
 	public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
