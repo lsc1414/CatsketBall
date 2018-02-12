@@ -6,6 +6,9 @@ using System;
 public class LoadingPanel : MonoBehaviour
 {
 	private bool isManuallyStopped = false;
+	private int callCounts;
+	public bool IsDisplayed { get; protected set; }
+
 	void OnApplicationFocus(bool isFocused)
 	{
 		if (isFocused)
@@ -20,10 +23,12 @@ public class LoadingPanel : MonoBehaviour
 	public void SetManualStopping(bool sentValue)
 	{
 		isManuallyStopped = sentValue;
+		callCounts++;
 	}
 
 	public void Suspend()
 	{
+		IsDisplayed = true;
 		gameObject.SetActive(true);
 		try { Handheld.StartActivityIndicator(); }
 		catch (Exception e)
@@ -35,14 +40,20 @@ public class LoadingPanel : MonoBehaviour
 
 	public void Resume()
 	{
-		isManuallyStopped = false;
-		try { Handheld.StopActivityIndicator(); }
-		catch (Exception e)
+		callCounts--;
+		if (callCounts < 0) { callCounts = 0; }
+		if (callCounts == 0)
 		{
-			Debug.Log("Device not HandHeld, ");
-			e.ToString();
+			IsDisplayed = false;
+			isManuallyStopped = false;
+			try { Handheld.StopActivityIndicator(); }
+			catch (Exception e)
+			{
+				Debug.Log("Device not HandHeld, ");
+				e.ToString();
+			}
+			gameObject.SetActive(false);
 		}
-		gameObject.SetActive(false);
 	}
 
 }

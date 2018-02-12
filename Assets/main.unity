@@ -9749,6 +9749,7 @@ Transform:
   - {fileID: 575229991}
   - {fileID: 1705337289}
   - {fileID: 1986590905}
+  - {fileID: 1841716839}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17080,16 +17081,16 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1841716838}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1922769370}
-  m_RootOrder: 9
+  m_Father: {fileID: 1331962950}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 237, y: 133.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1841716840
@@ -17105,7 +17106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   extrasScreen: {fileID: 1698811037}
   backgroundImage: {fileID: 135121325}
-  LoadingPanel: {fileID: 1540184340}
+  loadingPanel: {fileID: 1540184340}
 --- !u!1 &1852151620
 GameObject:
   m_ObjectHideFlags: 0
@@ -17747,7 +17748,6 @@ RectTransform:
   - {fileID: 1512983662}
   - {fileID: 743202944}
   - {fileID: 1540184337}
-  - {fileID: 1841716839}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

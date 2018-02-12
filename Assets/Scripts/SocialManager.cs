@@ -24,14 +24,11 @@ public class SocialManager : MonoBehaviour
 
 	public void ShowLeaderBoards()
 	{
-		loadingPanel.Suspend();
 		if (GetIsAuthenticated() == false)
 		{
-			AuthenticateUser();
+			AuthenticateUser(Social.ShowLeaderboardUI);
 			return;
 		}
-		loadingPanel.Suspend();
-		OnAuthenticate.Invoke();
 		Social.ShowLeaderboardUI();
 	}
 
@@ -48,14 +45,21 @@ public class SocialManager : MonoBehaviour
 		return Social.localUser.authenticated;
 	}
 
-	public void AuthenticateUser()
+	public void AuthenticateUser(System.Action sentAction = null)
 	{
+		loadingPanel.SetManualStopping(true);
+		loadingPanel.Suspend();
 		Social.localUser.Authenticate(isAuthenticated =>
 		{
 			Debug.Log(isAuthenticated ? "Login succeessfull." : "Login failed.");
 			if (isAuthenticated)
 			{
 				OnAuthenticate.Invoke();
+			}
+			loadingPanel.Resume();
+			if (sentAction != null)
+			{
+				sentAction();
 			}
 		});
 	}
@@ -68,17 +72,6 @@ public class SocialManager : MonoBehaviour
 		{
 			try
 			{
-				/*leaderBoard = Social.CreateLeaderboard();
-				leaderBoard.id = sentLeaderBoardID;
-				Debug.Log("Leaderboard: " + leaderBoard.ToString());
-				leaderBoard.SetUserFilter(new string[] { Social.localUser.id });
-				leaderBoard.LoadScores(scores =>
-				{
-					if (scores)
-					{
-						tempHighScore = (int)leaderBoard.localUserScore.value;
-					}
-				});*/
 				Social.LoadScores(sentLeaderBoardID, scores =>
 				{
 					if (scores != null)

@@ -9,27 +9,28 @@ using UnityEngine.Purchasing.MiniJSON;
 
 public class PurchaseHandler : MonoBehaviour, IStoreListener
 {
-	private static IStoreController m_StoreController;          // The Unity Purchasing system.
-	private static IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
+	private static IStoreController m_StoreController;
+	private static IExtensionProvider m_StoreExtensionProvider;
 
 	[SerializeField] private ExtrasScreen extrasScreen;
 	[SerializeField] private BackgroundImage backgroundImage;
-	[SerializeField] private LoadingPanel LoadingPanel;
+	[SerializeField] private LoadingPanel loadingPanel;
 	private AppleReceipt appleReceipt;
 
 	public static string popCornProductID = "PopCorn";
 	public static string threeDeeGlassesID = "3DGlasses";
 
 	private bool isPurchasing;
+	private bool isRestoring;
 
 	private void Start()
 	{
 		if (m_StoreController == null)
 		{
-			LoadingPanel.Suspend();
-			InitializePurchasing();
 			Handheld.SetActivityIndicatorStyle(UnityEngine.iOS.ActivityIndicatorStyle.White);
-			//extrasScreen.SetStoreController(m_StoreController);
+			loadingPanel.SetManualStopping(true);
+			loadingPanel.Suspend();
+			InitializePurchasing();
 			backgroundImage.DeActivatePurchasedImages();
 		}
 	}
@@ -38,7 +39,8 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	{
 		Debug.Log("Refreshing Purchases");
 		RestorePurchases();
-		LoadingPanel.Resume();
+		if (isRestoring) { return; }
+		loadingPanel.Resume();
 	}
 
 	public void InitializePurchasing()
@@ -81,8 +83,8 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 				Product product = m_StoreController.products.WithID(productId);
 				if (product != null && product.availableToPurchase)
 				{
-					LoadingPanel.SetManualStopping(true);
-					LoadingPanel.Suspend();
+					loadingPanel.SetManualStopping(true);
+					loadingPanel.Suspend();
 					m_StoreController.InitiatePurchase(product);
 				}
 				return;
@@ -129,11 +131,14 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	public void ManualRestorePurchases()
 	{
-		LoadingPanel.Suspend();
+		loadingPanel.SetManualStopping(true);
+		loadingPanel.Suspend();
+		isRestoring = true;
 		var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
 		apple.RestoreTransactions((result) =>
 		{
 			Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
+			isRestoring = false;
 			RefreshPurchaseables();
 		});
 	}
@@ -155,27 +160,27 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	public void OnInitializeFailed(InitializationFailureReason error)
 	{
 		Debug.Log("Purchase Handler initialize failed");
-		LoadingPanel.Resume();
+		loadingPanel.Resume();
 	}
 
 
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
 	{
-		FinishPurchase();
-		Debug.Log("Purchase Successful");
+		isPurchasing = false;
+		if (isRestoring == false)
+		{
+			RefreshPurchaseables();
+			Debug.Log("Purchase Successful");
+		}
 		return PurchaseProcessingResult.Complete;
 	}
 
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 	{
-		FinishPurchase();
-		Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
-	}
-
-	public void FinishPurchase()
-	{
 		isPurchasing = false;
+		if (isRestoring) { return; }
 		RefreshPurchaseables();
+		Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
 	}
 }
