@@ -95,7 +95,6 @@ public class GameManager : MonoBehaviour
 		string timeIncrementString = "+ " + timeIncrement.ToString() + " SECONDS";
 		uiManager.MakeScoreString(levelInfo.GetScoreString(), timeIncrementString);
 		timer += timeIncrement;
-		highScoreManager.ProcessNewScore(score);
 	}
 
 	private float GetTimeIncrementReward()
@@ -130,6 +129,7 @@ public class GameManager : MonoBehaviour
 
 	public void EndGame()
 	{
+		highScoreManager.ProcessNewScore(score);
 		gameOverScreen.Show();
 		ball.gameObject.SetActive(false);
 		StopAllCoroutines();
