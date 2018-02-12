@@ -25,8 +25,8 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 #endif
 
 #if UNITY_ANDROID
-	public static string popCornProductID = "com.DSA.CatsketBallTest.PopCorn";
-	public static string threeDeeGlassesID = "com.DSA.CatsketBallTest.3DGlasses";
+	public static string popCornProductID = "com.dsa.catsketballest.popcorn";
+	public static string threeDeeGlassesID = "com.dsa.catsketballtest.3d_glasses";
 #endif
 
 	private bool isPurchasing;
