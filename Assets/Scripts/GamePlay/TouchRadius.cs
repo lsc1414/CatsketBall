@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TouchRadius : MonoBehaviour 
+public class TouchRadius : MonoBehaviour
 {
-	public float forceMultiplier =100f;
+	public float forceMultiplier = 100f;
 	public Rigidbody2D RB;
 	public Controller controller;
 	public Ball ball;
@@ -22,11 +22,11 @@ public class TouchRadius : MonoBehaviour
 		}
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		RB.constraints = !GameManager.gameHasStarted ? RigidbodyConstraints2D.FreezeAll : RigidbodyConstraints2D.None;
-		transform.position=RB.transform.position - Vector3.forward; //ensuring onmousedown is called due to no z fightingalways
-		if (RB.velocity.magnitude > capSpeed) RB.velocity = RB.velocity.normalized*capSpeed;
+		transform.position = RB.transform.position - Vector3.forward; //ensuring onmousedown is called due to no z fightingalways
+		if (RB.velocity.magnitude > capSpeed) RB.velocity = RB.velocity.normalized * capSpeed;
 	}
 
 	public void ActivateController()

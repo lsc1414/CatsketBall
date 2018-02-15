@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LocalizedText : MonoBehaviour
 {
-	[SerializeField] private string preText;
+	/*[SerializeField] private string preText;
 	[SerializeField] private string postText;
 	[SerializeField] private string stringID;
 	private Text text;
@@ -24,5 +24,5 @@ public class LocalizedText : MonoBehaviour
 	private string GetCombinedString()
 	{
 		return preText + LocalizationManager.GetLocalizedString(stringID) + postText;
-	}
+	}*/
 }

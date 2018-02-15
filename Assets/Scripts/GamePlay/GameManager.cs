@@ -94,7 +94,11 @@ public class GameManager : MonoBehaviour
 		score++;
 		string timeIncrementString = "+ " + timeIncrement.ToString() + " SECONDS";
 		uiManager.MakeScoreString(levelInfo.GetScoreString(), timeIncrementString);
-		timer += timeIncrement;
+		if (timeIsUp == false)
+		{
+			timer += timeIncrement;
+		}
+		highScoreManager.ProcessNewScore(score);
 	}
 
 	private float GetTimeIncrementReward()

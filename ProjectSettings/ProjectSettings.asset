@@ -121,7 +121,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.1
+  bundleVersion: 1.1.1
   preloadedAssets: []
   metroInputSource: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -147,7 +147,7 @@ PlayerSettings:
     iOS: com.DSA.CatsketBallTest
     tvOS: com.DSA.CatsketBallTest
   buildNumber:
-    iOS: 007
+    iOS: 001
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0

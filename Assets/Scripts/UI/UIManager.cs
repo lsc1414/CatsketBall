@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
 
 	[Header("GamePlay")]
 	public GameObject timeUpTextObj;
-	public ScoreMessage scoreMessagePrefab;
+	[SerializeField] private ScoreMessage[] scoreMessages;
 	public ScoreMessage scoreMessage;
 	private Text timeUpText;
 
@@ -29,7 +29,10 @@ public class UIManager : MonoBehaviour
 	{
 		if (status == false)
 		{
-			if (scoreMessage != null) Destroy(scoreMessage.gameObject);
+			for (int i = 0; i < scoreMessages.Length; i++)
+			{
+				scoreMessages[i].Reset();
+			}
 			timeUpTextObj.gameObject.SetActive(false);
 		}
 		topBanner.ToggleGamePlayUI(status);
@@ -49,8 +52,15 @@ public class UIManager : MonoBehaviour
 
 	public void MakeScoreString(string scoreText, string timeRewardText)
 	{
-		scoreMessage = Instantiate(scoreMessagePrefab, new Vector3(0, 0.2F, -2), Quaternion.identity) as ScoreMessage;
-		scoreMessage.SetText(scoreText, timeRewardText);
+		for (int i = 0; i < scoreMessages.Length; i++)
+		{
+			if (scoreMessages[i].gameObject.activeSelf == false)
+			{
+				scoreMessage = scoreMessages[i];
+				scoreMessage.SetText(scoreText, timeRewardText);
+				break;
+			}
+		}
 	}
 
 	public void ShowTimeUpUI()

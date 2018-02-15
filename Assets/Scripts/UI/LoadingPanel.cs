@@ -5,13 +5,12 @@ using System;
 
 public class LoadingPanel : MonoBehaviour
 {
-	private bool isManuallyStopped = false;
 	private int callCounts;
 	public bool IsDisplayed { get; protected set; }
 
 	private void Awake()
 	{
-		#if UNITY_IOS || UNITY_ANDROID
+#if UNITY_IOS || UNITY_ANDROID
 		try
 		{
 			SetActiviteIndicator();
@@ -21,7 +20,7 @@ public class LoadingPanel : MonoBehaviour
 			e.ToString();
 			Debug.Log("Build platform loading indicator not recognised");
 		}
-		#endif
+#endif
 	}
 
 #if UNITY_IOS

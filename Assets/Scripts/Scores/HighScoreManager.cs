@@ -11,6 +11,11 @@ public class HighScoreManager : MonoBehaviour
 	private int highScore;
 	private LevelInfo levelInfo;
 
+	private void Awake()
+	{
+		socialManager.SetHighScoreAction = CheckHighScore;
+	}
+
 	public void ProcessNewScore(int sentScore)
 	{
 		if (highScore < sentScore)
@@ -27,8 +32,8 @@ public class HighScoreManager : MonoBehaviour
 				Debug.Log("Could not set new high score");
 				e.ToString();
 			}
-			socialManager.ReportScore(sentScore, levelInfo.leaderBoardID);
 		}
+		socialManager.ReportScore(sentScore, levelInfo.leaderBoardID);
 	}
 
 	public void SetLevelInfo(LevelInfo sentLevelInfo)
@@ -64,16 +69,12 @@ public class HighScoreManager : MonoBehaviour
 		try
 		{
 			Debug.Log("PlayerPref HighScore: " + tempHighScore);
-			if (socialManager.GetIsAuthenticated())
+			int leaderBoardHighScore = socialManager.GetHighScoreFromLeaderBoard(sentInfo.leaderBoardID);
+			Debug.Log("Leaderboard HighScore: " + leaderBoardHighScore);
+			if (tempHighScore < leaderBoardHighScore)
 			{
-				int leaderBoardHighScore = socialManager.GetHighScoreFromLeaderBoard(sentInfo.leaderBoardID);
-				Debug.Log("Leaderboard HighScore: " + leaderBoardHighScore);
-				if (tempHighScore < leaderBoardHighScore)
-				{
-					PlayerPrefs.SetInt("highscore_" + sentInfo.levelName, leaderBoardHighScore);
-					tempHighScore = leaderBoardHighScore;
-					WriteHighScoreToUI();
-				}
+				PlayerPrefs.SetInt("highscore_" + sentInfo.levelName, leaderBoardHighScore);
+				tempHighScore = leaderBoardHighScore;
 			}
 		}
 		catch (System.Exception e)

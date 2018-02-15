@@ -15,6 +15,8 @@ public class SocialManager : MonoBehaviour
 	public UnityEvent OnAuthenticate;
 	private ILeaderboard leaderBoard;
 
+	public System.Action SetHighScoreAction;
+
 	private void Awake()
 	{
 		if (OnAuthenticate == null) { OnAuthenticate = new UnityEvent(); }
@@ -49,7 +51,6 @@ public class SocialManager : MonoBehaviour
 
 	public void AuthenticateUser(System.Action sentAction = null)
 	{
-		loadingPanel.Suspend();
 		Social.localUser.Authenticate(isAuthenticated =>
 		{
 			Debug.Log(isAuthenticated ? "Login succeessfull." : "Login failed.");
@@ -57,10 +58,13 @@ public class SocialManager : MonoBehaviour
 			{
 				OnAuthenticate.Invoke();
 			}
-			loadingPanel.Resume();
 			if (sentAction != null)
 			{
 				sentAction();
+			}
+			if (SetHighScoreAction != null)
+			{
+				SetHighScoreAction();
 			}
 		});
 	}
