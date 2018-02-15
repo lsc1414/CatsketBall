@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
 	[Header("Level Info")]
 	public LevelInfo levelInfo;
-	public TouchRadius ballTouchRadius;
+	public TouchRadius touchRadius;
 	public Ball ball;
 	public Transform net;
 	public PlayArea playArea;

@@ -30,6 +30,7 @@ public class LevelInfo : ScriptableObject
 	[Header("Level Resources")]
 	public Sprite stadiumSprite;
 	public GameObject ballPrefab;
+	public TouchRadius touchRadiusPrefab;
 	public Sprite netSprite;
 
 
@@ -39,20 +40,20 @@ public class LevelInfo : ScriptableObject
 
 		GM.stadiumRenderer.sprite = stadiumSprite;
 		GameObject oldBall = GM.ball.gameObject;
+		GameObject oldTouchRadius = GM.touchRadius.gameObject;
 		GameObject ballObj = Instantiate(ballPrefab, new Vector3(0, 0, 0), ballPrefab.transform.rotation);
+		TouchRadius touchRadius = (TouchRadius)Instantiate(touchRadiusPrefab, new Vector3(0, 0, 0), touchRadiusPrefab.transform.rotation);
 		Ball ball = ballObj.GetComponent<Ball>();
-		GM.ballTouchRadius.ball = ball;
+		touchRadius.ball = ball;
 		ball.OnFinalBounce.AddListener(GM.OnFinalBounce);
 		GM.OnStart.AddListener(ball.Start);
 		GM.ball = ball;
-		GM.ballTouchRadius.AssignBall();
+		GM.touchRadius = touchRadius;
+		touchRadius.AssignBall(ball);
 		GM.net.GetComponentInChildren<Net>().AssignBall(ballObj);
 		Destroy(oldBall);
-
+		Destroy(oldTouchRadius);
 		GM.netRenderer.sprite = netSprite;
-		//GM.net.position+= new Vector3(0f, netTranslateHeight, 0f);
-		//float newNetWidth = GM.net.localScale.x*netWidthScale;
-		//GM.net.localScale = new Vector3( newNetWidth, GM.net.localScale.y, GM.net.localScale.z);
 	}
 
 	public string GetScoreString()
