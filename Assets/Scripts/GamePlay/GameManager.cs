@@ -7,71 +7,68 @@ using UnityEngine.Events;
 using UnityEngine.SocialPlatforms;
 
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IToggleable, ISettable<LevelInfo>
 {
-	public delegate void GameEvent();
-	public static bool gameHasStarted = false;
-	public static bool countDownIsActive = false;
-	public static bool timeIsUp = false;
-	private static float timer;
-	public static float Timer { get { return timer; } }
-	private static int score;
-	public static int Score { get { return score; } }
+	[SerializeField] private float startingTime;
+	private bool gameHasStarted = false;
+	private bool countDownIsActive = false;
+	private bool timeIsUp = false;
+	private float timer;
+	private int score;
 	[SerializeField] private SplashScreen splashScreen;
 	[SerializeField] private GameOverScreen gameOverScreen;
 	[SerializeField] private HighScoreManager highScoreManager;
 
-	[Header("SubManagers")] [SerializeField] private UIManager uiManager;
-
-	[Header("Level Info")]
-	public LevelInfo levelInfo;
-	public TouchRadius touchRadius;
-	public Ball ball;
-	public Transform net;
-	public PlayArea playArea;
+	[Header("Level Info")] [SerializeField] private LevelInfo levelInfo;
+	[SerializeField] private Net net;
+	[SerializeField] private TouchRadius touchRadius;
+	[SerializeField] private Ball ball;
+	[SerializeField] private PlayArea playArea;
 
 
-	[Header("Level Renderers")]
-	public SpriteRenderer stadiumRenderer;
-	public SpriteRenderer ballRenderer;
-	public SpriteRenderer netRenderer;
+	[Header("Level Renderers")] [SerializeField] private SpriteRenderer stadiumRenderer;
+	[SerializeField] private SpriteRenderer ballRenderer;
+	[SerializeField] private SpriteRenderer netRenderer;
 
-	[Header("Events")]
-	public UnityEvent OnStart;
-	public UnityEvent OnTimeUp;
-	public UnityEvent OnScore;
+	[Header("UI")] [SerializeField] private CountDownScreen countDownScreen;
+	[SerializeField] private TopBanner topBanner;
+	[SerializeField] private ScoreMessage[] scoreMessages;
+	[SerializeField] private LevelSelectScreen levelSelectScreen;
 
 	private void Awake()
 	{
 		if (levelInfo == null) { Debug.LogError("No Levelinfo assigned to gamemanager - in project folder Create/Catsketball/Levelinfo"); Debug.Break(); }
-		UpdateLevel(levelInfo);
+		net.OnScore += new EventHandler(delegate (object sentObject, EventArgs e)
+		{
+			IncreaseScore();
+		});
+		playArea.Set(new Vector3(0, 0, 0));
+		topBanner.GetVital = GetTime;
+		Set(levelInfo);
 		highScoreManager.CheckHighScore();
-		if (OnStart == null) OnStart = new UnityEvent();
-		if (OnTimeUp == null) OnTimeUp = new UnityEvent();
-		if (OnScore == null) OnScore = new UnityEvent();
+		countDownScreen.GetVital = GetTime;
 		ResetGameState();
-		OnTimeUp.AddListener(EndTimer);
 	}
 
-	public void Update()
+	private void Update()
 	{
 		if (gameHasStarted)
 		{
-			uiManager.TopBanner.UpdateGameUI();
 			if (timeIsUp == false)
 			{
 				timer -= Time.deltaTime;
+				topBanner.UpdateGameUI();
 				if (timer < 4 && timer > 0)
 				{
 					countDownIsActive = true;
-					uiManager.ShowCountDownUI();
+					countDownScreen.Toggle(true);
 				}
 				else if (timer > 3)
 				{
 					if (countDownIsActive)
 					{
 						countDownIsActive = false;
-						uiManager.HideCountDownUI();
+						countDownScreen.Toggle(false);
 					}
 				}
 				if (timeIsUp == false)
@@ -80,108 +77,135 @@ public class GameManager : MonoBehaviour
 					{
 						timeIsUp = true;
 						BeginWaitForGameEnd(6F);
-						OnTimeUp.Invoke();
 					}
 				}
 			}
 		}
 	}
 
-	public void IncreaseScore()
+	private void ToggleGamePlayUI(bool status)
 	{
-		OnScore.Invoke();
-		float timeIncrement = GetTimeIncrementReward();
+		if (status == false)
+		{
+			for (int i = 0; i < scoreMessages.Length; i++)
+			{
+				scoreMessages[i].Reset();
+			}
+			countDownScreen.Toggle(false);
+		}
+		topBanner.ToggleGamePlayUI(status);
+	}
+
+	private float GetTime()
+	{
+		return timer;
+	}
+
+	private void IncreaseScore()
+	{
+		float timeIncrement = levelInfo.GetTimeIncrememnt(score);
 		score++;
 		string timeIncrementString = "+ " + timeIncrement.ToString() + " SECONDS";
-		uiManager.MakeScoreString(levelInfo.GetScoreString(), timeIncrementString);
+		ShowScoreString(levelInfo.GetScoreString(), timeIncrementString);
 		if (timeIsUp == false)
 		{
 			timer += timeIncrement;
 		}
+		topBanner.Set(score);
 		highScoreManager.ProcessNewScore(score);
 	}
 
-	private float GetTimeIncrementReward()
+	private void ShowScoreString(string scoreText, string timeRewardText)
 	{
-		Array.Sort(levelInfo.timeIncrements, (x, y) => x.scoreThreshold.CompareTo(y.scoreThreshold)); // make sure levelInfo.timeIncrements are ordered chronologically
-
-		for (int i = 0; i < levelInfo.timeIncrements.Length - 1; i++) //could probably replace all of this with some better linq minby command
-			if (levelInfo.timeIncrements[i].scoreThreshold <= score && levelInfo.timeIncrements[i + 1].scoreThreshold > score) return levelInfo.timeIncrements[i].timeIncrement;
-
-		if (levelInfo.timeIncrements.Length > 0)
-			return levelInfo.timeIncrements[levelInfo.timeIncrements.Length - 1].timeIncrement;
-
-		else return 0f;
+		for (int i = 0; i < scoreMessages.Length; i++)
+		{
+			if (scoreMessages[i].gameObject.activeSelf == false)
+			{
+				ScoreMessage scoreMessage = scoreMessages[i];
+				scoreMessage.SetText(scoreText, timeRewardText);
+				break;
+			}
+		}
 	}
 
-	public void BeginWaitForGameEnd(float sentTime)
+	private void BeginWaitForGameEnd(float sentTime)
 	{
 		StartCoroutine(WaitToEndGame(sentTime));
 	}
 
-	public void OnFinalBounce()
-	{
-		BeginWaitForGameEnd(3F);
-	}
-
-	public IEnumerator WaitToEndGame(float sentTime)
+	private IEnumerator WaitToEndGame(float sentTime)
 	{
 		Debug.Log("Waiting to End");
 		yield return new WaitForSeconds(sentTime);
 		EndGame();
 	}
 
-	public void EndGame()
+	private void EndGame()
 	{
 		highScoreManager.ProcessNewScore(score);
-		gameOverScreen.Show();
+		gameOverScreen.Set(score);
+		gameOverScreen.Toggle(true);
 		ball.gameObject.SetActive(false);
 		StopAllCoroutines();
 		ResetGameState();
 	}
 
-	public void CancelGame()
+	private void CancelGame()
 	{
 		ResetGameState();
-		splashScreen.Show();
+		splashScreen.Toggle(true);
 	}
 
 	private void ResetGameState()
 	{
 		Debug.Log("Game ended");
 		gameHasStarted = false;
-		timer = 0;
+		timeIsUp = false;
+		timer = startingTime;
 		score = 0;
-		uiManager.ToggleGamePlayUI(false);
+		ToggleGamePlayUI(false);
+		ball.Toggle(false);
 	}
 
-	public void StartGame()
+	private void StartGame()
 	{
 		StopAllCoroutines();
+		ResetGameState();
+		splashScreen.Toggle(false);
+		countDownScreen.Toggle(false);
+		topBanner.Set(score);
+		ToggleGamePlayUI(true);
+		ball.Toggle(true);
+		ball.Reset();
 		gameHasStarted = true;
-		timeIsUp = false;
-		timer = levelInfo.startingTime;
-		splashScreen.Hide();
-		uiManager.ToggleGamePlayUI(true);
-		score = 0;
-		playArea.SetResetPosition(ball.startPosition);
-		if (OnStart == null) OnStart = new UnityEvent();
-		ball.gameObject.SetActive(true);
-		OnStart.Invoke();
 	}
 
-	private void EndTimer()
-	{
-		timeIsUp = true;
-		uiManager.ShowTimeUpUI();
-	}
-
-	public void UpdateLevel(LevelInfo sentInfo)
+	public void Set(LevelInfo sentInfo)
 	{
 		levelInfo = sentInfo;
-		levelInfo.ApplySettings(this);
-		uiManager.UpdateCurrentLevelUI(levelInfo.levelName);
 		highScoreManager.SetLevelInfo(sentInfo);
+		stadiumRenderer.sprite = sentInfo.Sprite;
+		Destroy(ball.gameObject);
+		Destroy(touchRadius.gameObject);
+		ball = sentInfo.GetBall();
+		touchRadius = sentInfo.GetTouchRadius();
+		ball.OnFinalBounce += new EventHandler(delegate (object sentObject, EventArgs e)
+		{
+			BeginWaitForGameEnd(3F);
+		});
+		net.Set(ball);
+		touchRadius.Set(ball);
+		splashScreen.Set("CURRENT LEVEL: " + sentInfo.Name);
+		levelSelectScreen.Set("CURRENT LEVEL: " + sentInfo.Name);
 	}
 
+	public void Toggle(bool isActive)
+	{
+		if (isActive)
+		{
+			StartGame();
+			return;
+		}
+		CancelGame();
+	}
 }

@@ -1,43 +1,57 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
+using System;
 
-public class Ball : MonoBehaviour {
-
-	public Vector3 startPosition;
+public class Ball : MonoBehaviour, IResetable, IAudioPlayable, IToggleable
+{
+	[SerializeField] private Vector3 startPosition;
+	private bool isTimeUp;
 	private Rigidbody2D rb;
-	public float touchRadiusScale;
-	public UnityEvent OnFinalBounce;
+	private AudioSource audioSource;
+
+	public event EventHandler OnFinalBounce;
 
 	public void Reset()
 	{
+		isTimeUp = false;
 		transform.position = startPosition;
-	}
-
-	public void Start()
-	{
-		if (OnFinalBounce == null) OnFinalBounce = new UnityEvent();
-		transform.position = startPosition;
-		if (rb == null) rb = GetComponent<Rigidbody2D>();
 		transform.rotation = new Quaternion();
 		rb.velocity = new Vector2(0, 0);
 		rb.angularVelocity = 0;
 	}
 
-	public void PlayHitSound()
+	public void Toggle(bool isActive)
 	{
-		AudioSource AS = GetComponent<AudioSource>();
-		if(AS.enabled) AS.Play();
+		gameObject.SetActive(isActive);
+		rb.constraints = isActive ? RigidbodyConstraints2D.None : RigidbodyConstraints2D.FreezeAll;
 	}
 
-	public void OnCollisionEnter2D(Collision2D collision)
+	private void Awake()
 	{
-		if (GameManager.timeIsUp)
+		if (rb == null) rb = GetComponent<Rigidbody2D>();
+		Reset();
+	}
+
+	public void PlayAudio()
+	{
+		if (audioSource.enabled) { audioSource.Play(); }
+	}
+
+	public void OnTimeIsUp()
+	{
+		isTimeUp = true;
+	}
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (isTimeUp)
 		{
 			if (collision.gameObject.tag == "Floor")
 			{
-				OnFinalBounce.Invoke();
+				isTimeUp = false;
+				if (OnFinalBounce != null)
+				{
+					OnFinalBounce(this, e: new EventArgs());
+				}
 			}
 		}
 	}

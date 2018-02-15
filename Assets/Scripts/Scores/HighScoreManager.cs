@@ -23,8 +23,8 @@ public class HighScoreManager : MonoBehaviour
 			try
 			{
 				highScore = sentScore;
-				PlayerPrefs.SetInt("highscore_" + levelInfo.levelName, sentScore);
-				Debug.Log("HighScore: " + levelInfo.leaderBoardID + ", " + highScore);
+				PlayerPrefs.SetInt("highscore_" + levelInfo.Name, sentScore);
+				Debug.Log("HighScore: " + levelInfo.ID + ", " + highScore);
 				WriteHighScoreToUI();
 			}
 			catch (System.Exception e)
@@ -33,7 +33,7 @@ public class HighScoreManager : MonoBehaviour
 				e.ToString();
 			}
 		}
-		socialManager.ReportScore(sentScore, levelInfo.leaderBoardID);
+		socialManager.ReportScore(sentScore, levelInfo.ID);
 	}
 
 	public void SetLevelInfo(LevelInfo sentLevelInfo)
@@ -59,7 +59,7 @@ public class HighScoreManager : MonoBehaviour
 		int tempHighScore = 0;
 		try
 		{
-			tempHighScore = PlayerPrefs.GetInt("highscore_" + sentInfo.levelName, 0);
+			tempHighScore = PlayerPrefs.GetInt("highscore_" + sentInfo.Name, 0);
 		}
 		catch (System.Exception e)
 		{
@@ -69,11 +69,11 @@ public class HighScoreManager : MonoBehaviour
 		try
 		{
 			Debug.Log("PlayerPref HighScore: " + tempHighScore);
-			int leaderBoardHighScore = socialManager.GetHighScoreFromLeaderBoard(sentInfo.leaderBoardID);
+			int leaderBoardHighScore = socialManager.GetHighScoreFromLeaderBoard(sentInfo.ID);
 			Debug.Log("Leaderboard HighScore: " + leaderBoardHighScore);
 			if (tempHighScore < leaderBoardHighScore)
 			{
-				PlayerPrefs.SetInt("highscore_" + sentInfo.levelName, leaderBoardHighScore);
+				PlayerPrefs.SetInt("highscore_" + sentInfo.ID, leaderBoardHighScore);
 				tempHighScore = leaderBoardHighScore;
 			}
 		}

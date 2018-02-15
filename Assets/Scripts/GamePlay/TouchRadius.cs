@@ -1,49 +1,63 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TouchRadius : MonoBehaviour
+public class TouchRadius : MonoBehaviour, IAudioPlayable, IToggleable, ISettable<Ball>
 {
-	public float forceMultiplier = 100f;
-	public Rigidbody2D RB;
-	public Controller controller;
-	public Ball ball;
+	[SerializeField] private float forceMultiplier = 100f;
+	private Rigidbody2D rb;
 
-	public float capSpeed = 10f;
-	public float minimumForce = 1f;
+	[SerializeField] private float capSpeed = 10f;
+	[SerializeField] private float minimumForce = 1f;
 
 	private Vector3 startPosition;
+	private AudioSource audioSource;
+
+	private bool isActive;
+
+	private void Awake()
+	{
+		audioSource = GetComponent<AudioSource>();
+	}
 
 	private void OnMouseDown()
 	{
-		if (controller.gameObject.activeSelf == true)
+		if (gameObject.activeSelf == true)
 		{
-			controller.Move();
+			Move();
 		}
+	}
+
+	private void Move()
+	{
+		Vector3 touchpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		touchpos.z = 0;
+		Vector3 force = transform.position - touchpos;
+		if (force.magnitude < minimumForce) force = force.normalized * minimumForce;
+		rb.AddForce(force * forceMultiplier);
+		PlayAudio();
 	}
 
 	private void FixedUpdate()
 	{
-		RB.constraints = !GameManager.gameHasStarted ? RigidbodyConstraints2D.FreezeAll : RigidbodyConstraints2D.None;
-		transform.position = RB.transform.position - Vector3.forward; //ensuring onmousedown is called due to no z fightingalways
-		if (RB.velocity.magnitude > capSpeed) RB.velocity = RB.velocity.normalized * capSpeed;
+		transform.position = rb.transform.position - Vector3.forward; //ensuring onmousedown is called due to no z fightingalways
+		if (rb.velocity.magnitude > capSpeed) rb.velocity = rb.velocity.normalized * capSpeed;
 	}
 
-	public void ActivateController()
+	public void PlayAudio()
 	{
-		controller.gameObject.SetActive(true);
+		if (audioSource.enabled) { audioSource.Play(); }
 	}
 
-	public void DisableController()
+	public void Toggle(bool isActive)
 	{
-		controller.gameObject.SetActive(false);
+		gameObject.SetActive(isActive);
+		rb.constraints = isActive ? RigidbodyConstraints2D.None : RigidbodyConstraints2D.FreezeAll;
 	}
 
-	public void AssignBall(Ball sentBal)
+	public void Set(Ball sentT)
 	{
-		ball = sentBal;
-		RB = ball.GetComponent<Rigidbody2D>();
+		rb = sentT.GetComponent<Rigidbody2D>();
 	}
-
 }
-

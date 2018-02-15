@@ -1,15 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TopBanner : MonoBehaviour
+public class TopBanner : MonoBehaviour, IDependant<float>, ISettable<int>
 {
-
 	[SerializeField] private Text scoreText;
 	[SerializeField] private Text timerText;
 	[SerializeField] private Text muteText;
 	public Text MuteText { get { return muteText; } }
+
+	public Func<float> GetVital { get; set; }
+
 	[SerializeField] private GameObject homeButton;
 	[SerializeField] private GameObject muteButton;
 	[SerializeField] private GameObject restartButton;
@@ -17,8 +20,7 @@ public class TopBanner : MonoBehaviour
 
 	public void UpdateGameUI()
 	{
-		scoreText.text = "SCORE: " + GameManager.Score;
-		timerText.text = "" + (int)GameManager.Timer;
+		timerText.text = "" + (int)GetVital();
 	}
 
 	public void ToggleGamePlayUI(bool status)
@@ -32,5 +34,10 @@ public class TopBanner : MonoBehaviour
 		homeButton.SetActive(status);
 		scoreText.gameObject.SetActive(status);
 		timerText.gameObject.SetActive(status);
+	}
+
+	public void Set(int sentT)
+	{
+		scoreText.text = "SCORE: " + sentT;
 	}
 }

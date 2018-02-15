@@ -1,10 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SplashScreen : UIScreen
+public class SplashScreen : UIScreen, ISettable<string>
 {
 	[SerializeField] private Text currentLevelText;
-	public Text CurrentLevelText { get { return currentLevelText; } }
+
+	public void Set(string sentT)
+	{
+		currentLevelText.text = sentT;
+	}
 }

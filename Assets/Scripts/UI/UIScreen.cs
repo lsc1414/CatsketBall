@@ -1,18 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIScreen : MonoBehaviour
+public class UIScreen : MonoBehaviour, IToggleable
 {
 
-	public virtual void Show()
+	protected virtual void Show()
 	{
 		gameObject.SetActive(true);
 	}
 
-	public virtual void Hide()
+	protected virtual void Hide()
 	{
 		gameObject.SetActive(false);
 	}
 
+	public void Toggle(bool isActive)
+	{
+		if (isActive)
+		{
+			Show();
+			return;
+		}
+		Hide();
+	}
 }

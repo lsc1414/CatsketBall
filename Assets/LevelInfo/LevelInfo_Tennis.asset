@@ -13,28 +13,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: TENNIS
   scoreToPass: 30
-  netTranslateHeight: 0
-  netWidthScale: 1
   scoreStrings:
   - PURRR-FECT!
   - FAN-CAT-STIC!
   - MEOW!
   - GOOD! GOOD! GOOD!
-  leaderBoardID: Tennis
-  startingTime: 30
+  id: Tennis
   timeIncrements:
   - scoreThreshold: 0
-    timeIncrement: 7
+    increment: 7
   - scoreThreshold: 5
-    timeIncrement: 5
+    increment: 5
   - scoreThreshold: 10
-    timeIncrement: 3
+    increment: 3
   - scoreThreshold: 15
-    timeIncrement: 2
+    increment: 2
   - scoreThreshold: 20
-    timeIncrement: 1
+    increment: 1
   stadiumSprite: {fileID: 21300000, guid: 8e6d4911680b04f22b3aee77a1597d61, type: 3}
-  ballPrefab: {fileID: 1393680802778106, guid: 08ee64e39813c412fb73ea0fc64b964b, type: 2}
+  ballPrefab: {fileID: 114061128376820244, guid: 08ee64e39813c412fb73ea0fc64b964b,
+    type: 2}
   touchRadiusPrefab: {fileID: 114480038167443302, guid: 7808fdb0e0a784f1ba8b772eb78a23b3,
     type: 2}
-  netSprite: {fileID: 21300000, guid: 893e5c1203aae40999ed4d9304caaf6c, type: 3}

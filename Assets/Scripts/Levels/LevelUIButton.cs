@@ -21,8 +21,8 @@ public class LevelUIButton : MonoBehaviour
 
 	public void Set(LevelInfo previousLevel, HighScoreManager highScoreManager)
 	{
-		levelImage.sprite = thisLevel.stadiumSprite;
-		levelNameText.text = thisLevel.levelName;
+		levelImage.sprite = thisLevel.Sprite;
+		levelNameText.text = thisLevel.Name;
 		currentHighScoreText.text = "CURRENT HIGHSCORE: " + highScoreManager.GetLevelHighScore(thisLevel);
 		isUnlocked = true;
 		if (previousLevel != null)
@@ -33,7 +33,7 @@ public class LevelUIButton : MonoBehaviour
 				isUnlocked = false;
 				statusText.text = "LOCKED";
 				levelImage.color = lockedColour;
-				requiredScoreText.text = "SCORE " + previousLevel.ScoreToPass + " IN " + previousLevel.levelName + " TO UNLOCK";
+				requiredScoreText.text = "SCORE " + previousLevel.ScoreToPass + " IN " + previousLevel.Name + " TO UNLOCK";
 				GetComponentInChildren<Button>().interactable = false;
 				return;
 			}
@@ -49,7 +49,7 @@ public class LevelUIButton : MonoBehaviour
 		if (isUnlocked == true)
 		{
 			GameManager GM = GameObject.FindObjectOfType<GameManager>();
-			GM.UpdateLevel(thisLevel);
+			GM.Set(thisLevel);
 		}
 	}
 
