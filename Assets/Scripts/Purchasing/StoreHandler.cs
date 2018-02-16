@@ -16,5 +16,4 @@ public abstract class StoreHandler
 	public System.Action<bool> RestoreAction { get; set; }
 
 	public abstract void RestoreReciepts(IExtensionProvider sentProvider);
-	public abstract void DisplayNativeMessage(string title, string message);
 }

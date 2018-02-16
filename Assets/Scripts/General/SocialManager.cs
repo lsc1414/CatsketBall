@@ -14,6 +14,7 @@ public class SocialManager : MonoBehaviour
 
 	public UnityEvent OnAuthenticate;
 	private ILeaderboard leaderBoard;
+	private bool isAuthenticating;
 
 	public System.Action SetHighScoreAction;
 
@@ -28,12 +29,33 @@ public class SocialManager : MonoBehaviour
 
 	public void ShowLeaderBoards()
 	{
-		if (GetIsAuthenticated() == false)
+		loadingPanel.Suspend();
+		if (isAuthenticating)
 		{
-			AuthenticateUser(Social.ShowLeaderboardUI);
+			StartCoroutine(WaitToDisplayLeaderBoard());
 			return;
 		}
+		if (GetIsAuthenticated() == false)
+		{
+			AuthenticateUser(FinalizeLeaderBoardDisplay);
+			return;
+		}
+		FinalizeLeaderBoardDisplay();
+	}
+
+	private void FinalizeLeaderBoardDisplay()
+	{
 		Social.ShowLeaderboardUI();
+		loadingPanel.Resume();
+	}
+
+	private IEnumerator WaitToDisplayLeaderBoard()
+	{
+		while (isAuthenticating)
+		{
+			yield return null;
+		}
+		FinalizeLeaderBoardDisplay();
 	}
 
 	public void ReportScore(int score, string leaderBoardID)
@@ -51,9 +73,11 @@ public class SocialManager : MonoBehaviour
 
 	public void AuthenticateUser(System.Action sentAction = null)
 	{
+		isAuthenticating = true;
 		Social.localUser.Authenticate(isAuthenticated =>
 		{
 			Debug.Log(isAuthenticated ? "Login succeessfull." : "Login failed.");
+			isAuthenticating = false;
 			if (isAuthenticated)
 			{
 				OnAuthenticate.Invoke();

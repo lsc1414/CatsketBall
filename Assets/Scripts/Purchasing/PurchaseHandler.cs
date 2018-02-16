@@ -7,6 +7,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	private IExtensionProvider storeExtensionProvider;
 
 	private StoreHandler storeHandler;
+	private NativeMessageHandler messageHandler;
 
 	[SerializeField] private ExtrasScreen extrasScreen;
 	[SerializeField] private BackgroundImage backgroundImage;
@@ -18,6 +19,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 #if UNITY_IOS
 	public StoreHandler GetStoreHandler() { return new AppleStoreHandler(); }
+	public NativeMessageHandler GetMessageHandler() { return new AppleMessageHandler(); }
 #endif
 
 #if UNITY_ANDROID
@@ -30,6 +32,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 		{
 			isInitializing = true;
 			storeHandler = GetStoreHandler();
+			messageHandler = GetMessageHandler();
 			storeHandler.PurchaseAction = SetPurchasedProduct;
 			storeHandler.RestoreAction = FinalizeRestore;
 			backgroundImage.DeActivatePurchasedImages();
@@ -86,7 +89,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 				return;
 			}
 		}
-		storeHandler.DisplayNativeMessage("Error", "Could not load store.  Please try again later");
+		messageHandler.DisplayNativeMessage("Error", "Could not load store.  Please try again later");
 	}
 
 	public void RestorePurchases()
@@ -138,7 +141,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 		loadingPanel.Resume();
 		if (!result && !isInitializing)
 		{
-			storeHandler.DisplayNativeMessage("Error", "Could not restore purchases.  Please try again later");
+			messageHandler.DisplayNativeMessage("Error", "Could not restore purchases.  Please try again later");
 		}
 	}
 
@@ -155,7 +158,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	{
 		isPurchasing = false;
 		loadingPanel.Resume();
-		storeHandler.DisplayNativeMessage("Error", "Could not process purchase.  Please try again later");
+		messageHandler.DisplayNativeMessage("Error", "Could not process purchase.  Please try again later");
 		Debug.Log(string.Format("Purchase Failed: " + product.definition.storeSpecificId + ", " + failureReason));
 	}
 }

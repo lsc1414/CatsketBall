@@ -1,6 +1,6 @@
-﻿# import <Foundation/Foundation.h>
+# import <Foundation/Foundation.h>
 
-void showNativeAlert( const char* title, const char* message)
+void ShowNativeAlert( const char* title, const char* message)
 {
 	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithUTF8String: title]
 

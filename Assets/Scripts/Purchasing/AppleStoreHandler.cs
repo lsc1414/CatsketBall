@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Security;
-using System.Runtime.InteropServices;
 
 public class AppleStoreHandler : StoreHandler
 {
@@ -51,20 +50,4 @@ public class AppleStoreHandler : StoreHandler
 			RestoreAction(result);
 		});
 	}
-
-	public override void DisplayNativeMessage(string title, string message)
-	{
-		try
-		{
-			showNativeAlert(title, message);
-		}
-		catch (System.Exception e)
-		{
-			e.ToString();
-			Debug.Log("Cannot display native alerts");
-		}
-	}
-
-	[DllImport("__Internal")]
-	extern static public void showNativeAlert(string title, string message);
 }
