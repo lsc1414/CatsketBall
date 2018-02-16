@@ -53,7 +53,6 @@ public class TouchRadius : MonoBehaviour, IAudioPlayable, IToggleable, ISettable
 	public void Toggle(bool isActive)
 	{
 		gameObject.SetActive(isActive);
-		rb.constraints = isActive ? RigidbodyConstraints2D.None : RigidbodyConstraints2D.FreezeAll;
 	}
 
 	public void Set(Ball sentT)

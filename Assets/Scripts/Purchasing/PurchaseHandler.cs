@@ -3,14 +3,16 @@ using UnityEngine.Purchasing;
 
 public class PurchaseHandler : MonoBehaviour, IStoreListener
 {
-	private static IStoreController m_StoreController;
-	private static IExtensionProvider m_StoreExtensionProvider;
+	private IStoreController storeController;
+	private IExtensionProvider storeExtensionProvider;
 
 	private StoreHandler storeHandler;
 
 	[SerializeField] private ExtrasScreen extrasScreen;
 	[SerializeField] private BackgroundImage backgroundImage;
 	[SerializeField] private LoadingPanel loadingPanel;
+
+	private bool isInitializing;
 
 	private bool isPurchasing;
 
@@ -24,8 +26,9 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	private void Start()
 	{
-		if (m_StoreController == null)
+		if (storeController == null)
 		{
+			isInitializing = true;
 			storeHandler = GetStoreHandler();
 			storeHandler.PurchaseAction = SetPurchasedProduct;
 			storeHandler.RestoreAction = FinalizeRestore;
@@ -45,14 +48,14 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	private bool GetIsInitialized()
 	{
-		return m_StoreController != null && m_StoreExtensionProvider != null;
+		return storeController != null && storeExtensionProvider != null;
 	}
 
 	public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
 	{
 		Debug.Log("Purchase Handler initialized");
-		m_StoreController = controller;
-		m_StoreExtensionProvider = extensions;
+		storeController = controller;
+		storeExtensionProvider = extensions;
 		for (int i = 0; i < controller.products.all.Length; i++)
 		{
 			Product product = controller.products.all[i];
@@ -64,7 +67,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	public void OnInitializeFailed(InitializationFailureReason error)
 	{
 		Debug.Log("Purchase Handler initialize failed");
-		loadingPanel.Resume();
+		isInitializing = false;
 	}
 
 	public void BuyProductID(string productId)
@@ -74,16 +77,16 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 			if (isPurchasing == false)
 			{
 				isPurchasing = true;
-				Product product = m_StoreController.products.WithID(productId);
+				Product product = storeController.products.WithID(productId);
 				if (product != null && product.availableToPurchase)
 				{
 					loadingPanel.Suspend();
-					m_StoreController.InitiatePurchase(product);
+					storeController.InitiatePurchase(product);
 				}
 				return;
 			}
 		}
-		storeHandler.DisplayNativeMessage("Error", "Please try again later");
+		storeHandler.DisplayNativeMessage("Error", "Could not load store.  Please try again later");
 	}
 
 	public void RestorePurchases()
@@ -91,15 +94,16 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 		loadingPanel.Suspend();
 		if (GetIsInitialized())
 		{
-			for (int i = 0; i < m_StoreController.products.all.Length; i++)
+			for (int i = 0; i < storeController.products.all.Length; i++)
 			{
-				Product product = m_StoreController.products.all[i];
+				Product product = storeController.products.all[i];
 				if (product.hasReceipt == true)
 				{
 					SetPurchasedProduct(product.definition.storeSpecificId);
 				}
 			}
-			storeHandler.RestoreReciepts(m_StoreExtensionProvider);
+			storeHandler.RestoreReciepts(storeExtensionProvider);
+			return;
 		}
 		FinalizeRestore(false);
 	}
@@ -114,7 +118,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	private void FinalizeRestore(bool result)
 	{
 		Debug.Log("Finalizing Restore: " + result);
-		Product[] products = m_StoreController.products.all;
+		Product[] products = storeController.products.all;
 		for (int i = 0; i < products.Length; i++)
 		{
 			try
@@ -130,10 +134,11 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 				SetPurchasedProduct(products[i].definition.id);
 			}
 		}
+		isInitializing = false;
 		loadingPanel.Resume();
-		if (!result)
+		if (!result && !isInitializing)
 		{
-			storeHandler.DisplayNativeMessage("Error", "Please try again later");
+			storeHandler.DisplayNativeMessage("Error", "Could not restore purchases.  Please try again later");
 		}
 	}
 
@@ -150,7 +155,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	{
 		isPurchasing = false;
 		loadingPanel.Resume();
-		storeHandler.DisplayNativeMessage("Error", "Please try again later");
+		storeHandler.DisplayNativeMessage("Error", "Could not process purchase.  Please try again later");
 		Debug.Log(string.Format("Purchase Failed: " + product.definition.storeSpecificId + ", " + failureReason));
 	}
 }

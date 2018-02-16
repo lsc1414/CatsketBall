@@ -20,7 +20,9 @@ public class TopBanner : MonoBehaviour, IDependant<float>, ISettable<int>
 
 	public void UpdateGameUI()
 	{
-		timerText.text = "" + (int)GetVital();
+		int time = (int)GetVital();
+		if (time < 0) { time = 0; }
+		timerText.text = "" + time;
 	}
 
 	public void ToggleGamePlayUI(bool status)

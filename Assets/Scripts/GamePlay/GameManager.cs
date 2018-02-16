@@ -54,33 +54,59 @@ public class GameManager : MonoBehaviour, IToggleable, ISettable<LevelInfo>
 	{
 		if (gameHasStarted)
 		{
-			if (timeIsUp == false)
+			timer -= Time.deltaTime;
+			if (timeIsUp)
 			{
-				timer -= Time.deltaTime;
-				topBanner.UpdateGameUI();
-				if (timer < 4 && timer > 0)
+				if (timer > 0f)
 				{
-					countDownIsActive = true;
-					countDownScreen.Toggle(true);
-				}
-				else if (timer > 3)
-				{
-					if (countDownIsActive)
-					{
-						countDownIsActive = false;
-						countDownScreen.Toggle(false);
-					}
-				}
-				if (timeIsUp == false)
-				{
-					if (timer <= 0f)
-					{
-						timeIsUp = true;
-						BeginWaitForGameEnd(6F);
-					}
+					OnTimeIsUp(false);
+					ProcessGameTime();
+					return;
 				}
 			}
+			ProcessGameTime();
 		}
+	}
+
+	private void ProcessGameTime()
+	{
+		topBanner.UpdateGameUI();
+		if (timer < 4 && timer > 0)
+		{
+			OnCountDown(true);
+		}
+		else if (timer > 3)
+		{
+			if (countDownIsActive)
+			{
+				OnCountDown(false);
+			}
+		}
+		if (timer <= 0f)
+		{
+			OnTimeIsUp(true);
+		}
+	}
+
+	private void OnTimeIsUp(bool sentValue)
+	{
+		if (sentValue)
+		{
+			timeIsUp = true;
+			touchRadius.Toggle(false);
+			BeginWaitForGameEnd(6F);
+			return;
+		}
+		timeIsUp = false;
+		touchRadius.Toggle(true);
+		StopAllCoroutines();
+	}
+
+	private void OnCountDown(bool sentValue)
+	{
+		countDownIsActive = sentValue;
+		countDownScreen.Toggle(sentValue);
+		if (!sentValue) { countDownScreen.Reset(); }
 	}
 
 	private void ToggleGamePlayUI(bool status)
@@ -107,10 +133,7 @@ public class GameManager : MonoBehaviour, IToggleable, ISettable<LevelInfo>
 		score++;
 		string timeIncrementString = "+ " + timeIncrement.ToString() + " SECONDS";
 		ShowScoreString(levelInfo.GetScoreString(), timeIncrementString);
-		if (timeIsUp == false)
-		{
-			timer += timeIncrement;
-		}
+		timer += timeIncrement;
 		topBanner.Set(score);
 		highScoreManager.ProcessNewScore(score);
 	}
@@ -163,6 +186,7 @@ public class GameManager : MonoBehaviour, IToggleable, ISettable<LevelInfo>
 		timeIsUp = false;
 		timer = startingTime;
 		score = 0;
+		countDownScreen.Reset();
 		ToggleGamePlayUI(false);
 		ball.Toggle(false);
 	}
