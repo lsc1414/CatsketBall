@@ -14,7 +14,6 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	[SerializeField] private LoadingPanel loadingPanel;
 
 	private bool isInitializing;
-
 	private bool isPurchasing;
 
 #if UNITY_IOS
@@ -70,7 +69,7 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	public void OnInitializeFailed(InitializationFailureReason error)
 	{
 		Debug.Log("Purchase Handler initialize failed");
-		isInitializing = false;
+		FinalizeProcess();
 	}
 
 	public void BuyProductID(string productId)
@@ -89,12 +88,15 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 				return;
 			}
 		}
-		messageHandler.DisplayNativeMessage("Error", "Could not load store.  Please try again later");
+		if (!isInitializing) { messageHandler.DisplayNativeMessage("Error", "Could not load store.  Please try again later"); }
 	}
 
 	public void RestorePurchases()
 	{
-		loadingPanel.Suspend();
+		if (!isInitializing)
+		{
+			loadingPanel.Suspend();
+		}
 		if (GetIsInitialized())
 		{
 			for (int i = 0; i < storeController.products.all.Length; i++)
@@ -121,34 +123,30 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 	private void FinalizeRestore(bool result)
 	{
 		Debug.Log("Finalizing Restore: " + result);
-		Product[] products = storeController.products.all;
-		for (int i = 0; i < products.Length; i++)
+		if (!result)
 		{
-			try
+			ReStorePurchaseFromPlayerPrefs(storeHandler.PopCornProductID);
+			ReStorePurchaseFromPlayerPrefs(storeHandler.ThreeDeeGlassesID);
+			messageHandler.DisplayNativeMessage("Error", "Could not load store.  Please try again later");
+		}
+		FinalizeProcess();
+	}
+
+	private void ReStorePurchaseFromPlayerPrefs(string sentID)
+	{
+		try
+		{
+			if (PlayerPrefs.GetInt("has" + sentID) == 1)
 			{
-				if (PlayerPrefs.GetInt("has" + products[i].definition.id) == 1)
-				{
-					SetPurchasedProduct(products[i].definition.id);
-				}
-			}
-			catch (System.Exception e)
-			{
-				e.ToString();
-				SetPurchasedProduct(products[i].definition.id);
+				SetPurchasedProduct(sentID);
 			}
 		}
-		isInitializing = false;
-		loadingPanel.Resume();
-		if (!result && !isInitializing)
-		{
-			messageHandler.DisplayNativeMessage("Error", "Could not restore purchases.  Please try again later");
-		}
+		catch (System.Exception e) { Debug.Log("Purchase not stored in player prefs: " + sentID + ". " + e.ToString()); }
 	}
 
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
 	{
-		isPurchasing = false;
-		loadingPanel.Resume();
+		if (isPurchasing) { FinalizeProcess(); }
 		SetPurchasedProduct(args.purchasedProduct.definition.id);
 		Debug.Log("Purchase Successful");
 		return PurchaseProcessingResult.Complete;
@@ -156,9 +154,15 @@ public class PurchaseHandler : MonoBehaviour, IStoreListener
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 	{
-		isPurchasing = false;
-		loadingPanel.Resume();
-		messageHandler.DisplayNativeMessage("Error", "Could not process purchase.  Please try again later");
+		if (isPurchasing) { FinalizeProcess(); }
+		if (isInitializing) { messageHandler.DisplayNativeMessage("Error", "Could not process purchase.  Please try again later"); }
 		Debug.Log(string.Format("Purchase Failed: " + product.definition.storeSpecificId + ", " + failureReason));
+	}
+
+	private void FinalizeProcess()
+	{
+		loadingPanel.Resume();
+		isInitializing = false;
+		isPurchasing = false;
 	}
 }

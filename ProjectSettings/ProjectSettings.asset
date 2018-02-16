@@ -147,7 +147,7 @@ PlayerSettings:
     iOS: com.DSA.CatsketBallTest
     tvOS: com.DSA.CatsketBallTest
   buildNumber:
-    iOS: 001
+    iOS: 002
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
