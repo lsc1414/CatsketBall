@@ -200,6 +200,7 @@ public class GameManager : MonoBehaviour, IToggleable, ISettable<LevelInfo>
 		topBanner.Set(score);
 		ToggleGamePlayUI(true);
 		ball.Toggle(true);
+		touchRadius.Toggle(true);
 		ball.Reset();
 		gameHasStarted = true;
 	}
